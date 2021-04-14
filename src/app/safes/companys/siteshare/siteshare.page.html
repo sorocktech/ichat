@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>位置共享列表</ion-title>
+    <ion-icon class="oprate_icon" name="scan-outline" slot="end" (click)="notOpen()"></ion-icon>
+    <ion-icon class="oprate_icon" name="add-outline" slot="end" (click)="notOpen()"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <img class="site_img" src="assets/images/nomap.jpg" alt="" />
+  <h5 class="title">您还没有位置共享</h5>
+  <p class="prompt">点击右上角 + 号来创建位置共享。</p>
+</ion-content>

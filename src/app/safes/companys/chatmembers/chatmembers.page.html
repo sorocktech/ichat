@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>群信息</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label> 群聊名称 </ion-label>
+    <ion-text (click)="editAlertPrompt()">{{params.account_nick}}</ion-text>
+    <ion-icon slot="end" name="chevron-forward"></ion-icon>
+  </ion-item>
+
+  <h5 class="member_title" color="primary">群成员</h5>
+  <ion-list>
+    <ion-item *ngFor="let item of memberList">
+      <ion-thumbnail slot="start">
+        <img [src]="api.picurl+item?.account_info?.pic_url" />
+      </ion-thumbnail>
+      <ion-label> {{item.account_info?.account_nick}} </ion-label>
+    </ion-item>
+  </ion-list>
+  <h5 class="member_title" color="primary">群设置</h5>
+  <ion-list style="margin-bottom: 50px;">
+    <ion-item [routerLink]="['/group-qrcode']" [queryParams]="{ group_id: params.account_no }">
+      <ion-label>群二维码 </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

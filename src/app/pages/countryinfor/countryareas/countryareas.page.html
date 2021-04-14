@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{countrymsg?.countryName}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header (click)="goDetail()">
+      <img class="country_img" [src]="countrymsg.textPicture" alt="" />
+      <ion-card-title>{{countrymsg?.countryName}}</ion-card-title>
+    </ion-card-header>
+    <div *ngFor="let item of areasList">
+      <ion-item-divider color="light">
+        <ion-label>
+          {{item?.title}}
+        </ion-label>
+      </ion-item-divider>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let area of item.list">
+            <ion-label>{{area.regionName}}</ion-label>
+            <!-- 已关注 -->
+            <ion-icon
+              *ngIf="area.follow == '1'"
+              name="star"
+              slot="end"
+              (click)="isGoCare(area,0)"
+            ></ion-icon>
+            <!-- 未关注 -->
+            <ion-icon
+              *ngIf="area.follow == '0'"
+              name="star-outline"
+              slot="end"
+              (click)="isGoCare(area,1)"
+            ></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </div>
+  </ion-card>
+</ion-content>

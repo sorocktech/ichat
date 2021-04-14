@@ -1,0 +1,146 @@
+html,
+body {
+    height: 100%;
+}
+.segment-md .segment-button.segment-activated {
+    border-color: #003464;
+}
+li {
+    list-style: none;
+}
+ul,
+ol {
+    padding-inline-start: 0px !important;
+}
+input::-webkit-input-placeholder {
+    text-align: left !important;
+}
+.select-ios {
+    padding: 11px 8px 11px 5px;
+}
+.datetime-ios {
+    width: 70%;
+}
+ion-datetime {
+    width: 70%;
+}
+.datetime-ios .datetime-placeholder {
+    color: #000;
+}
+page-msg-count .select-ios {
+    padding: 11px 8px 11px 5px;
+}
+.text-input-md {
+    margin: 0px;
+}
+.item-cover {
+    width: auto;
+    height: auto;
+}
+ion-select {
+    width: 70%;
+}
+.formBlock {
+    border-bottom: 1px dashed #b5b5b5;
+    padding: 4px 10px;
+    .title_block {
+        width: 4px;
+        height: 18px;
+        border-radius: 15px;
+        background: #3f51b5;
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: -3px;
+        margin-right: 5px;
+    }
+    h2 {
+        display: inline-block;
+        font-size: 16px;
+    }
+    p {
+        float: left;
+        margin-right: 4px;
+        width: 18px;
+        height: 18px;
+        border: 1px solid #000;
+        line-height: 15px;
+        text-align: center;
+        font-size: 14px;
+        border-radius: 50%;
+        font-weight: bold;
+    }
+    ul {
+        margin: 6px 0px 0px 0px;
+        & > li {
+            border: 1px solid #cfcfcf;
+            margin-bottom: 4px;
+            border-radius: 3px;
+            overflow: hidden;
+            display: flex;
+            ion-select {
+                max-width: none;
+            }
+            ol {
+                width: 30%;
+                // display: inline-block;
+                float: left;
+                li {
+                    height: 100%;
+                    padding: 8px;
+                    border-radius: 0px;
+                    border-left: none;
+                    border-top: none;
+                    border-bottom: none;
+                    border-right: 1px solid #cfcfcf;
+                    margin-bottom: 0px;
+                }
+            }
+            .class_input {
+                width: 70%;
+                float: left;
+                // display: inline-block;
+                text-align: left !important;
+                text-indent: 4px;
+                input {
+                    text-align: left !important;
+                    text-rendering: none !important;
+                    height: 100%;
+                }
+            }
+            .input_area {
+                width: 70%;
+                float: left;
+                text-align: left;
+                textarea {
+                    display: block;
+                    height: 100%;
+                    text-indent: 4px;
+                }
+            }
+        }
+    }
+}
+.formBlock:last-child {
+    border-bottom: none;
+}
+.text-input-ios {
+    // padding: 11px 8px 11px 0 !important;
+    margin: 0px !important;
+}
+.text-input[disabled] {
+    opacity: 1;
+}
+.locates {
+    width: 70% !important;
+    display: flex;
+    flex-direction: column;
+    .mylocate {
+        width: 100%;
+        height: 3em;
+        line-height: 3em;
+        padding-left: 10px;
+    }
+    .myaddress {
+        border-top: 1px solid #cfcfcf;
+    }
+}

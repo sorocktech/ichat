@@ -1,0 +1,21 @@
+@import "src/theme/dark-blue";
+ion-header {
+  box-shadow: none;
+}
+ion-item {
+  //--border-color: #1e1e1e;
+  line-height: 2.4em;
+  ion-icon {
+    color: #bfbaba;
+    font-size: 2rem;
+  }
+}
+ion-thumbnail {
+  width: 2.6em;
+  height: 2.6em;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  img {
+    border-radius: 50%;
+  }
+}

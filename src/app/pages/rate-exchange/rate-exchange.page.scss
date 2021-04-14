@@ -1,0 +1,19 @@
+@import "src/theme/scss";
+@import "src/theme/dark-blue";
+.item.sc-ion-label-ios-h,
+.item .sc-ion-label-ios-h,
+ion-text {
+  font-size: 1.4rem;
+  color: var(--ion-text-color);
+}
+.rates {
+  margin-left: 3px;
+}
+ion-card-title {
+  font-size: 1.6rem;
+}
+.rate_btn {
+  width: 8em;
+  height: 2.4em;
+  @include flexLayout(center,space-between);
+}

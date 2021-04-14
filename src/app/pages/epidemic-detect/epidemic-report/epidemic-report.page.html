@@ -1,0 +1,269 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>新冠疫情上报</ion-title>
+  </ion-toolbar>
+  <ion-segment [(ngModel)]="reportValue" mode="md" style="background-color: #ffffff;">
+    <ion-segment-button *ngFor="let item of reportHeader" value="{{item.value}}" (ionSelect)="Select($event)"
+      style="color:#232323;font-weight:bold;">
+      {{item.value}}
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+
+<ion-content>
+  <div class="declarationForm" [hidden]="reportValue != reportHeader[0].value">
+    <ul>
+      <li>
+        <p style="line-height:40px;">单位名称</p>
+        <span style="height:40px;"></span>
+        <ion-input class="input_block" [(ngModel)]="declarationForm1.company_name"></ion-input>
+      </li>
+      <li>
+        <p style="line-height:40px;">单位地点</p>
+        <span style="height:40px;"></span>
+        <ion-input class="input_block" [(ngModel)]="declarationForm1.company_place"></ion-input>
+      </li>
+      <li>
+        <p style="line-height:80px;">单位概况</p>
+        <span></span>
+        <ion-textarea placeholder="说明单位负责人，机构或项目的基本情况、相关子企业中外方员工数量及构成。" class="input_area" style="text-indent:4px;"
+          [(ngModel)]="declarationForm1.company_survey"></ion-textarea>
+      </li>
+      <li>
+        <p>疑似/确诊病例发现经过及相关原因分析</p>
+        <span></span>
+        <ion-textarea class="input_area" style="text-indent:4px;" [(ngModel)]="declarationForm1.find"></ion-textarea>
+      </li>
+      <li>
+        <p>疑似/确诊病例发现后处置情况</p>
+        <span></span>
+        <ion-textarea placeholder="说明患者隔离、病例报告、患者送诊、密切接触者排查（14天内接触的人员）、消毒处置及工作情况等" class="input_area"
+          style="text-indent:4px;" [(ngModel)]="declarationForm1.management"></ion-textarea>
+      </li>
+      <li>
+        <p>存在的困难和需要协调解决的问题</p>
+        <span></span>
+        <ion-textarea class="input_area" style="text-indent:4px;" [(ngModel)]="declarationForm1.problem"></ion-textarea>
+      </li>
+    </ul>
+  </div>
+
+  <div class="msgTbale" [hidden]="reportValue != reportHeader[1].value">
+    <div class="formBlock">
+      <ul>
+        <li>
+          <ol>
+            <li>填报单位</li>
+          </ol>
+          <ion-input placeholder=" 请填写单位" class="class_input" [(ngModel)]="form.fill_company"></ion-input>
+        </li>
+        <li>
+          <ol>
+            <li>填报时间</li>
+          </ol>
+          <ion-datetime displayFormat="YYYY-MM-DD HH:mm:ss" [(ngModel)]="form.fill_date" cancelText="取消" doneText="确认"
+            (ionChange)="timeChange1($event)" class="font" max="2030" [placeholder]="form.fill_date"></ion-datetime>
+        </li>
+        <li>
+          <ol>
+            <li>填报人</li>
+          </ol>
+          <ion-input placeholder="请填写填报人姓名" class="class_input" [(ngModel)]="form.fill_people"></ion-input>
+        </li>
+        <li>
+          <ol>
+            <li>联系方式</li>
+          </ol>
+          <ion-input placeholder="请填写联系方式" class="class_input" [(ngModel)]="form.phone"></ion-input>
+        </li>
+        <li>
+          <ol>
+            <li>国别</li>
+          </ol>
+          <ion-select [(ngModel)]="form.country_id" placeholder="请选择国别" okText="确定" cancelText="取消">
+            <ion-select-option *ngFor="let item of countryList" [value]="item.id">{{item.title}}</ion-select-option>
+          </ion-select>
+
+        </li>
+        <li>
+          <ol>
+            <li>子企业名称</li>
+          </ol>
+          <ion-select [(ngModel)]="form.enterpris_id" placeholder="请选择子企业名称" okText="确定" cancelText="取消">
+            <ion-select-option *ngFor="let item of child_enterprise" [value]="item.id">{{item.title}}
+            </ion-select-option>
+          </ion-select>
+        </li>
+        <li>
+          <ol>
+            <li>境外机构/ 项目名称</li>
+          </ol>
+          <ion-input placeholder="请选择境外机构/项目名称" class="class_input" [(ngModel)]="form.project_name"></ion-input>
+        </li>
+        <li>
+          <ol>
+            <li>境外机构/ 项目地址</li>
+          </ol>
+          <ion-input placeholder="请填写联系境外机构/ 项目地址" class="class_input" [(ngModel)]="form.project_place"></ion-input>
+        </li>
+        <li>
+          <ol>
+            <li>确诊时间</li>
+          </ol>
+          <ion-datetime displayFormat="YYYY-MM-DD HH:mm:ss" [(ngModel)]="form.confirmed_time" cancelText="取消"
+            doneText="确认" max="2030" [placeholder]="form.confirmed_time"></ion-datetime>
+        </li>
+        <li>
+          <ol>
+            <li>治愈时间</li>
+          </ol>
+          <ion-datetime displayFormat="YYYY-MM-DD HH:mm:ss" [(ngModel)]="form.new_cure_time" cancelText="取消"
+            doneText="确认" max="2030" [placeholder]="form.new_cure_time"></ion-datetime>
+        </li>
+        <li>
+          <ol>
+            <li>备注</li>
+          </ol>
+          <ion-textarea style="height:60px;" class="class_input" placeholder="填写所在县 (市) 病例数" [(ngModel)]="form.remarks">
+          </ion-textarea>
+        </li>
+      </ul>
+    </div>
+    <div class="formBlock">
+      <span class="title_block"></span>
+      <h2>感染人员信息</h2>
+
+      <ul>
+        <div *ngFor="let item of peopleLength;let i = index">
+
+          <li style="border:none;display:block;">
+            <div style="float:right;">
+              <p (click)="reduce(i)" *ngIf="peopleLength.length > 1">-</p>
+              <p (click)="add()">+</p>
+            </div>
+          </li>
+          <li>
+            <ol>
+              <li>姓名</li>
+            </ol>
+            <ion-input class="class_input" [(ngModel)]="form.user_name[i]"></ion-input>
+          </li>
+          <li>
+            <ol>
+              <li>年龄</li>
+            </ol>
+            <ion-input class="class_input" [(ngModel)]="form.user_age[i]"></ion-input>
+          </li>
+          <li>
+            <ol>
+              <li>国籍</li>
+            </ol>
+            <ion-input class="class_input" [(ngModel)]="form.user_country[i]"></ion-input>
+          </li>
+          <li>
+            <ol>
+              <li>病例类型</li>
+            </ol>
+            <!-- <ion-select [(ngModel)]="form.case_type[i]" cancelText="取消" okText="确定">
+              <ion-option *ngFor="let item of caseTypeList" [value]="item.id">{{item.name}}</ion-option>
+            </ion-select> -->
+            <select style="width: 70%;border: 0;background: transparent;">
+              <option *ngFor="let item of caseTypeList" [value]="item.id">{{item.name}}</option>
+            </select>
+          </li>
+          <li>
+            <ol>
+              <li>确诊时间</li>
+            </ol>
+            <!-- <ion-input class="class_input" [(ngModel)] = "form.diagnosis_date[i]"></ion-input> -->
+            <ion-datetime displayFormat="YYYY-MM-DD HH:mm:ss" (ionChange)="timeChange($event,i)"
+              [(ngModel)]="form.diagnosis_date[i]" cancelText="取消" doneText="确认" max="2030"
+              [placeholder]="form.diagnosis_date[i]"></ion-datetime>
+          </li>
+          <li>
+            <ol>
+              <li>传染源</li>
+            </ol>
+            <ion-input placeholder="前14天内怀疑或确定可能接触的人或场所" class="class_input" [(ngModel)]="form.source_of_infection[i]">
+            </ion-input>
+          </li>
+          <li>
+            <ol>
+              <li>移动轨迹过程</li>
+            </ol>
+            <ion-input placeholder="疑似或确诊前14天内活动场所及交通工具等" class="class_input" [(ngModel)]="form.moving_trajectory[i]">
+            </ion-input>
+          </li>
+          <li>
+            <ol>
+              <li>治疗地点</li>
+            </ol>
+            <ion-input class="class_input" [(ngModel)]="form.treatment_place[i]"></ion-input>
+          </li>
+          <li>
+            <ol>
+              <li>身体状况</li>
+            </ol>
+            <ion-input placeholder="填写病人的症状，如发热、咳嗽等或填写无症状" class="class_input" [(ngModel)]="form.physical_condition[i]">
+            </ion-input>
+          </li>
+          <li>
+            <ol>
+              <li>精神状态</li>
+            </ol>
+            <ion-input class="class_input" [(ngModel)]="form.mentality[i]"></ion-input>
+          </li>
+          <li>
+            <ol>
+              <li>人员类型</li>
+            </ol>
+            <!-- <ion-select cancelText="取消" okText="确定" [(ngModel)]="form.user_type[i]">
+              <ion-option *ngFor="let item of popleTypeList" [value]="item.id">{{item.name}}</ion-option>
+            </ion-select> -->
+            <select style="width: 70%;border: 0;background: transparent;" [(ngModel)]="form.case_type[i]">
+              <option *ngFor="let item of popleTypeList" [value]="item.id">{{item.name}}</option>
+            </select>
+          </li>
+        </div>
+      </ul>
+    </div>
+    <div class="formBlock">
+      <span class="title_block"></span>
+      <h2>密切接触人员情况</h2>
+      <ul>
+        <li>
+          <ion-textarea class="input_area" style="width:100%;padding:15px 0px;" [(ngModel)]="form.close_contact">
+          </ion-textarea>
+        </li>
+      </ul>
+    </div>
+    <div class="formBlock">
+      <span class="title_block"></span>
+      <h2>生活场所处置情况</h2>
+      <ul>
+        <li>
+          <ion-textarea class="input_area" style="width:100%;padding:15px 0px;" [(ngModel)]="form.living_place">
+          </ion-textarea>
+        </li>
+      </ul>
+    </div>
+    <div class="formBlock">
+      <span class="title_block"></span>
+      <h2>所在单位日常防护情况</h2>
+      <ul>
+        <li>
+          <ion-textarea class="input_area" style="width:100%;padding:15px 0px;" [(ngModel)]="form.daily_protection">
+          </ion-textarea>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-button expand="full" (click)="ConfirmReport()">确认上报</ion-button>
+</ion-footer>

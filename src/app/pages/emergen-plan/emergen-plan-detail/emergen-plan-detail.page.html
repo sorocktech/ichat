@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="params.type == 'emergen'"
+      >{{params?.item?.title}}</ion-title
+    >
+    <ion-title *ngIf="params.type == 'shop'"
+      >{{params?.item?.textTitle}}</ion-title
+    >
+    <ion-title *ngIf="params.type == 'emergenplan'"
+      >{{params?.item?.name}}</ion-title
+    >
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <pdf-viewer *ngIf="params.type == 'emergen'"
+    [src]="params?.item?.path" [render-text]="true"
+    [show-all]="true"
+    [original-size]="false"
+    [zoom]="1"
+    (after-load-complete)="callBackFn($event)"
+    style="display: block;"
+    id="pdfdiv"
+  >
+  </pdf-viewer>
+  <pdf-viewer *ngIf="params.type == 'shop'"
+    [src]="params?.item?.resUrl" [render-text]="true"
+    [show-all]="true"
+    [original-size]="false"
+    [zoom]="1"
+    (after-load-complete)="callBackFn($event)"
+    style="display: block;"
+    id="pdfdiv"
+  >
+  </pdf-viewer>
+  <pdf-viewer *ngIf="params.type == 'emergenplan'"
+    [src]="params?.item?.oss_key" [render-text]="true"
+    [show-all]="true"
+    [original-size]="false"
+    [zoom]="1"
+    (after-load-complete)="callBackFn($event)"
+    style="display: block;"
+    id="pdfdiv"
+  >
+  </pdf-viewer>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="fangda()" class="scale">
+      <ion-icon name="add-circle"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button (click)="suoxiao()">
+      <ion-icon name="remove-circle"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

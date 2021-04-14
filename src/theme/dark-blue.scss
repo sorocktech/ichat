@@ -1,0 +1,19 @@
+ion-header{
+  ion-toolbar{
+    --background: var(--ion-toolbar-background);
+    ion-button{
+      --background: var(--ion-toolbar-background);
+    }
+    ion-icon{
+      color: var(--ion-backbutton-icon);
+    }
+
+    ion-title{
+      color:var(--ion-backbutton-icon);
+    }
+    ion-text{
+      color:var(--ion-backbutton-icon);
+    }
+  }
+  box-shadow: none;
+}

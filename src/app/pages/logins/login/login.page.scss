@@ -1,0 +1,107 @@
+@import "src/theme/scss";
+
+ion-label {
+  width: 56px;
+  img {
+    width: 1.2em;
+    margin: 5px;
+  }
+}
+.logo_img{
+  margin-top: 2.4em;
+}
+.sc-ion-label-ios-h,
+.sc-ion-label-ios-s {
+  @include flexLayout(center, flex-start);
+  margin: 0;
+  --color: #999999;
+  font-size: 1.6rem;
+}
+ion-ripple-effect {
+  width: 200%;
+  margin-left: -50%;
+}
+.footer {
+  position: absolute;
+  left: 0;
+  bottom: 2em;
+  width: 100%;
+  text-align: center;
+  color: #cfcfcf;
+}
+
+.login_btn {
+  width: 94%;
+  height: 3em;
+  margin: 1em 3%;
+  color: #888;
+  --background: #ddd;
+  --background-activated: #ddd;
+  --background-focused: #ddd;
+  font-size: 1.5rem;
+  opacity: 1;
+}
+.htitle {
+  font-size: 2.3rem;
+  color: var(--ion-text-color);
+  font-weight: bold;
+  text-align: center;
+  margin: 1.2em 0 1em;
+}
+.logo_img {
+  text-align: center;
+  img {
+    width: 8em;
+    height: 8em;
+    border-radius: 50%;
+  }
+}
+
+ion-list{
+  background: transparent;
+}
+ion-item{
+  --background: transparent;
+}
+
+.corect {
+  color: white;
+  --background: linear-gradient(-90deg, rgba(52, 69, 165, 1), rgba(63, 81, 181, 1));
+  --background-activated: linear-gradient(-90deg, rgba(52, 69, 165, 1), rgba(63, 81, 181, 1));
+}
+
+.text-input {
+  font-size: 16px;
+  --color: $scolor;
+}
+.states {
+  color: #999;
+  font-size: 1.2rem;
+  margin: 2em 5%;
+  @include flexLayout(center, flex-start);
+
+  ion-checkbox {
+    --size: 16px;
+    margin-right: 10px;
+  }
+  .cores {
+    color: #3f51b5;
+    font-weight: bold;
+    margin: 0 3px;
+  }
+}
+
+.forget_pwd {
+  width: 90px;
+  --background: #ffffff;
+  --background-activated: #ffffff;
+  --background-focused: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  --color: #999999;
+  position: absolute;
+  right: 0;
+  bottom: 6px;
+  z-index: 999;
+}

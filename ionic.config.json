@@ -1,0 +1,10 @@
+{
+  "name": "collect-app",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {
+      "enabled": false
+    }
+  },
+  "type": "angular"
+}

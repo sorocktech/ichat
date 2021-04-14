@@ -1,0 +1,22 @@
+.content{
+    padding: 15px;
+
+}
+.avatar{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+ion-chip{
+    margin-bottom: 15px;
+  --background: var(--ion-chip-background);
+  --color: var(--ion-chip-color);
+}
+.name{
+    display: flex;
+    font-size: 1.2em;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}

@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{type}}国家选择</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="type == '事发';else other_content">
+    <ion-card>
+      <ion-card-header *ngFor="let country of countryList" (click)="selectCountry(country)">
+        <ion-card-title>{{country?.countryName}}</ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div>
+  <ng-template #other_content>
+    <div *ngFor="let item of countryList">
+      <ion-item-divider color="light" *ngIf="item.list.length>0">
+        <ion-label>
+          {{item?.title}}
+        </ion-label>
+      </ion-item-divider>
+      <ion-card>
+        <ion-card-header *ngFor="let country of item.list" (click)="selectCountry(country)">
+          <img class="country_img" [src]="country.textPicture" alt="" />
+          <ion-card-title>{{country?.countryName}}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
+    </div>
+  </ng-template>
+</ion-content>

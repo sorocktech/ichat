@@ -1,0 +1,50 @@
+@import "src/theme/dark-blue";
+.headers {
+    padding: 2em;
+    ion-card {
+        text-align: center;
+        --background: var(--ion-card-background);
+        box-shadow: var(--ion-box-shadow);
+        margin: 0;
+        padding: 2.5em;
+        img {
+            width: 7em;
+        }
+        h5 {
+            line-height: 2em;
+            font-size: 1.6rem;
+        }
+        p {
+            font-size: 1.2rem;
+        }
+    }
+}
+.intro {
+    position: absolute;
+    left: 0;
+    bottom: 2em;
+    width: 100%;
+    text-align: center;
+    h5 {
+        color: #2aa2ea;
+        font-size: 1.2rem;
+        margin: 0;
+    }
+    h6 {
+        color: #333333;
+        font-size: 1.2rem;
+        margin: 5px 0;
+    }
+    p {
+        color: #999999;
+        font-size: 1.2rem;
+        margin: 5px 0;
+    }
+}
+img{
+    border-radius: 4em;
+}
+#progressnum{
+    text-align: center;
+    margin: 1.5em;
+}

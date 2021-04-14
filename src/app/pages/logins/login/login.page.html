@@ -1,0 +1,63 @@
+<ion-content color="primary-contrast">
+  <div *ngIf="showLogo" class="logo_img">
+    <img  src="../../../../assets/images/iconearth.png" alt="" />
+  </div>
+  <h5 class="htitle">风险地球</h5>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>用户名/手机号</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-input
+              class="text-input"
+              clearInput="false"
+              inputmode="text"
+              (ionFocus)="focus()"
+              (ionBlur)="blur()"
+              value="{{account}}"
+              [(ngModel)]="account"
+              (ionChange)="accountCerty(account)"
+      >
+      </ion-input>
+    </ion-item>
+    <ion-list-header>
+      <ion-label>密码</ion-label>
+    </ion-list-header>
+    <ion-item>
+      <ion-input
+              class="text-input"
+              clearInput="false"
+              inputmode="text"
+              (ionFocus)="focus()"
+              (ionBlur)="blur()"
+              type="password"
+              value="{{password}}"
+              [(ngModel)]="password"
+              (ionChange)="codeCerty(password)"
+      >
+      </ion-input>
+    </ion-item>
+    <!-- <p class="states cores" style="color: #3f51b5;font-weight: bold" (click)="presentModal()">选择已保存的账号</p> -->
+    <p class="states">
+      <ion-checkbox [(ngModel)]="clauseChecked"> </ion-checkbox>
+      <span (click)="changeClause()">点击同意</span>
+      <span class="cores" routerLink="/clause-state">免责条款</span><span>和</span><span class="cores" routerLink="/privacy-policy">隐私协议</span>
+    </p>
+    <ion-button
+      class="login_btn"
+      appDebounceClick
+      [debounceTime]="500"
+      (debounceClick)="goLogin()"
+      [ngClass]="{'corect':ajxaccount && ajxpwd && clauseChecked}"
+      >登 录
+      <ion-ripple-effect Description="unbounded"></ion-ripple-effect>
+    </ion-button>
+  </ion-list>
+
+
+<!--  <div class="footer">-->
+<!--    <p>Copyright © 2012-2022 All Rihgts Reserved</p>-->
+<!--    <p>{{version}}</p>-->
+<!--  </div>-->
+</ion-content>
+

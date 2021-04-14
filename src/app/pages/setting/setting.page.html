@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      应用设置
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+
+    <!-- <ion-item>
+      <ion-text>
+        <ion-label>清除缓存</ion-label>
+      </ion-text>
+    </ion-item> -->
+
+    <ion-item (click)="onPush()">
+      <ion-text>
+        <ion-label>推送设置</ion-label>
+      </ion-text>
+    </ion-item>
+
+    <ion-item (click)="onDing()">
+      <ion-text>
+        <ion-label>定位设置</ion-label>
+      </ion-text>
+    </ion-item>
+
+    <ion-item (click)="Feedback()">
+      <ion-text>
+        <ion-label>意见反馈</ion-label>
+      </ion-text>
+    </ion-item>
+    <ion-item routerLink="/darkmode">
+      <ion-label>深色模式</ion-label>
+      <ion-note slot="end">{{mode}}</ion-note>
+    </ion-item>
+    <ion-item routerLink="/about">
+      <ion-text>
+        <ion-label>关于</ion-label>
+      </ion-text>
+    </ion-item>
+
+    <ion-item (click)="isUpdate()" >
+      <ion-text>
+        <ion-label>检查新版本</ion-label>
+      </ion-text>
+    </ion-item>
+
+<!--    { icon: 'assets/images/profile_img5.png', name: "关于",url: 'about' },-->
+<!--    <ion-item (click)="Feedback()">-->
+<!--      <ion-text>-->
+<!--        <ion-label>关于</ion-label>-->
+<!--      </ion-text>-->
+<!--    </ion-item>-->
+
+  </ion-list>
+
+</ion-content>

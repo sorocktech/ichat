@@ -1,0 +1,23 @@
+ion-content {
+    --background: #E5E5E5;
+}
+ion-list{
+    padding: 10px 0;
+    .user_icon{
+        width: 1.5em;
+    }
+    ion-icon{
+        color: #d5d5d5;
+    }
+    ion-input{
+        text-align: right;
+    }
+
+}
+.logout_btn{
+    margin: 2em 1.2em;
+}
+
+.touxiang{
+    border-radius: 50%;
+}

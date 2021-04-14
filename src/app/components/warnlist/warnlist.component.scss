@@ -1,0 +1,78 @@
+.slide_contain {
+  position: relative;
+  ion-card-header {
+    padding: 10px 16px;
+  }
+  ion-card-title {
+    font-size: 1.6rem;
+    margin: 9px 0;
+  }
+  ul {
+    position: absolute;
+    top: 21px;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    li {
+      list-style: none;
+      width: 1em;
+      height: 1.8em;
+    }
+  }
+}
+ion-badge {
+  margin-right: 5px;
+  padding: 3px 15px;
+  font-size: 11px;
+}
+.red {
+  --background: #ef2a2a;
+}
+.orange {
+  --background: #ff7b1e;
+}
+.yellow {
+  --background: #e3c610;
+}
+.blue {
+  --background: #3f9cfb;
+}
+.none-color {
+  --background: grey;
+}
+
+.text_red {
+  color: #ef2a2a;
+}
+.text_orange {
+  color: #ff7b1e;
+}
+.text_yellow {
+  color: #e3c610;
+}
+.text_blue {
+  color: #3f9cfb;
+}
+.text_none-color {
+  color: grey;
+}
+
+
+ion-chip {
+  margin-left: 1em;
+  --background: var(--ion-chip-background);
+  --color: var(--ion-chip-color);
+}
+
+ion-card {
+  --background: var(--ion-card-background);
+  box-shadow: var(--ion-box-shadow);
+  margin: 12px 15px;
+}
+.risk_title{
+  line-height: 1.4em;
+}
+.desc2{
+  line-height: 1.5em;
+  margin: 10px 0;
+}

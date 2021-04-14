@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>{{item.created_at}} {{item.user_name}}</ion-card-subtitle>
+        <ion-card-title><h3>{{item.title}}</h3></ion-card-title>
+      </ion-card-header>
+      <ion-card-content [innerHTML]="item.content">
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+</ion-content>

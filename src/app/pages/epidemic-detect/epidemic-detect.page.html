@@ -1,0 +1,125 @@
+<ion-header>
+    <div class="covid">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="goBack()">
+            <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title>疫情监测</ion-title>
+      </ion-toolbar>
+    </div>
+</ion-header>
+
+<ion-content>
+  <div class="banner"></div>
+  <div class="main">
+    <h2>全球疫情</h2>
+    <p>截至{{endDate}}数据统计</p>
+    <div class="everydayCase" *ngIf="global">
+      <div>
+        <h3 style="color: #e20a0a;">{{global.confirmed_total}}</h3>
+        <p>累计确诊</p>
+        <p>
+          较昨日
+          <span style="color: #e20a0a;">{{global.incr_confirmed_incr}}</span>
+        </p>
+      </div>
+
+      <div>
+        <h3>{{global.deaths_total}}</h3>
+        <p>累计死亡</p>
+        <p>较昨日 <span>{{global.incr_deaths_incr}}</span></p>
+      </div>
+
+      <div>
+        <h3 style="color: #26b797;">{{global.cures_total}}</h3>
+        <p>累计治愈</p>
+        <p>
+          较昨日
+          <span style="color: #26b797;">{{global.incr_cures_incr}}</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="mapWarp" color="light"></div>
+    <div class="map-select">
+      <ion-button (click)="switchMap('current')" size="small" fill="outline" [class]="!isAllCovid ? 'selected' : ' '">现有确诊</ion-button>
+      <ion-button (click)="switchMap('all')"  size="small" fill="outline" [class]="isAllCovid ? 'selected' : ' '">累计确诊</ion-button>
+    </div>
+
+    <div class="covid-global">
+      <h2>各国疫情</h2>
+    <table width="100%">
+      <thead>
+        <th style="background: #f7f7f7;color: #1f1f1f">地区</th>
+        <th  style="background: #fff0e9; color: #bd642f" (click)="Sort('incr_confirmed_incr',0)">
+            <div class="covid-filter">
+              新增
+              <div class="arr">
+                <div class="arrUp"></div>
+                <div class="arrDown"></div>
+              </div>
+            </div>
+        </th>
+        <th  class="covid-filter" style="background: #F7E9E9;color: #A7333D" (click)="Sort('confirmed_total',1)">
+            <div  class="covid-filter">
+              累计
+              <div class="arr">
+                <div class="arrUp"></div>
+                <div class="arrDown"></div>
+              </div>
+            </div>
+        </th>
+        <th   style="background: #E8F1FF;color:#173045" (click)="Sort('deaths_total',2)">
+          <div  class="covid-filter">
+            死亡
+            <div class="arr">
+              <div class="arrUp"></div>
+              <div class="arrDown"></div>
+            </div>
+          </div>
+        </th>
+        <th  style="background: #E4F7F6;color:#59BABA" (click)="Sort('cures_total',3)">
+          <div  class="covid-filter">
+            治愈
+            <div class="arr">
+              <div class="arrUp"></div>
+              <div class="arrDown"></div>
+            </div>
+          </div>
+        </th>
+      </thead>
+      <tbody >
+        <tr *ngFor="let item of MapdataLite;let inx=index" (click)="monitorDetail(item)">
+          <td style="width: 100px;"> <ion-label>{{item.name}} <ion-icon name="chevron-forward-outline"></ion-icon></ion-label> </td>
+          <td  style="color: #bd642f;font-weight: bold">{{item.incr_confirmed_incr.split('+')[1]}}</td>
+          <td style="font-weight: bold">{{item.confirmed_total}}</td>
+          <td style="font-weight: bold">{{item.deaths_total}}</td>
+          <td style="font-weight: bold">{{item.cures_total}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+      <div *ngIf="isSeeMore" (click)="seeMore()" class="covid-more">
+        点击查看更多
+        <ion-icon name="chevron-down-outline"></ion-icon>
+      </div>
+    </div>
+
+    <div class="NewsBlock">
+      <h2>全球最新新闻</h2>
+      <ion-card *ngFor="let item of newsList" (click)="getDetail(item)">
+        <ion-card-header>
+          <ion-card-subtitle>{{item.created_at}} {{item.user_name}}</ion-card-subtitle>
+          <ion-card-title><h3>{{item.title}}</h3></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            {{item.targetText}}
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </div>
+</ion-content>
+
+

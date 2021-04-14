@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      区域总部
+    </ion-title>
+    <ion-text slot="end" (click)="selectArea()">确定</ion-text>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let user of areaList">
+      <ion-icon (click)="goChat(user)" *ngIf="!user.checked" class="uncheck_icon" slot="start" name="ellipse-outline">
+      </ion-icon>
+      <ion-icon (click)="goChat(user)" *ngIf="user.checked" class="check_icon" slot="start" name="checkmark-circle">
+      </ion-icon>
+      <ion-label (click)="goNext(user)">
+        {{user?.label}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

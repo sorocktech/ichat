@@ -1,0 +1,23 @@
+<ion-list *ngFor="let item of treeDataes">
+  <ion-item *ngIf="item.type == '0'" appDebounceClick [debounceTime]="500" (debounceClick)="transValueParent(item)">
+    <ion-icon name="add-outline" class="chevron" *ngIf="!item.open"></ion-icon>
+    <ion-icon name="remove-outline" class="chevron" *ngIf="item.open"></ion-icon>
+    <span>{{item.org_name}}</span>
+  </ion-item>
+  <ion-item *ngIf="item.type == '1'" (click)="goMessage(item)">
+    <ion-icon *ngIf="!item.checked && type== 'chatgroup'" class="check_icon" slot="start" name="ellipse-outline">
+    </ion-icon>
+    <ion-icon *ngIf="item.checked && type== 'chatgroup'" class="check_icon" slot="start"
+      name="checkmark-circle-outline"></ion-icon>
+
+    <img *ngIf="item.headimgurl == null || item.headimgurl == '' " class="user_img"
+      src="https://yjglpt-dh.oss-cn-beijing.aliyuncs.com/77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg" alt="">
+    <img *ngIf="item.headimgurl != null &&item.headimgurl != ''" class="user_img" [src]="item.headimgurl" alt="">
+    <span class="listTitleWords"
+      style="width: 85%;display: block;float: left;margin: 0;padding: 0;">{{item.text}}</span>
+  </ion-item>
+  <div class="childs">
+    <app-nolimits *ngIf="item.children && item.open" [treeDataes]="item.children"></app-nolimits>
+  </div>
+
+</ion-list>

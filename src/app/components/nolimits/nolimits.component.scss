@@ -1,0 +1,25 @@
+ion-list {
+    width: 100%;
+    overflow-x: scroll;
+    .childs {
+        padding-left: 20px;
+    }
+    .chevron {
+        width: 20px;
+        margin-right: 5px;
+    }
+
+    .user_img {
+        width: 2.2em;
+        height: 2.2em;
+        border-radius: 50%;
+        margin: 8px 8px 8px 0;
+        float: left;
+    }
+}
+// 选中框
+.check_icon {
+    font-size: 2.2rem;
+    color: #3f51b5;
+    margin-right: 6px;
+}

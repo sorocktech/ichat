@@ -1,0 +1,169 @@
+@import "src/theme/dark-blue";
+ion-content{
+    font-size: 1.3em;
+}
+.segment-md .segment-button.segment-activated {
+    border-color: #003464;
+}
+li {
+    list-style: none;
+}
+ul,
+ol {
+    padding-inline-start: 0px !important;
+}
+input::-webkit-input-placeholder {
+    text-align: left !important;
+}
+ion-select {
+    width: 70%;
+}
+ion-datetime {
+    width: 70%;
+}
+.item-cover {
+    width: auto;
+    height: auto;
+}
+.datetime-ios .datetime-placeholder {
+    color: #000;
+}
+.datetime-ios {
+    padding: 11px 8px 11px 3px;
+}
+.select-ios {
+    padding: 11px 7px 1px 3px;
+}
+.declarationForm {
+    padding: 10px;
+    ul {
+        li {
+            border: 1px solid #cfcfcf;
+            list-style: none;
+            overflow: hidden;
+            border-radius: 3px;
+            margin-bottom: 4px;
+            p {
+                width: 30%;
+                float: left;
+                font-size: 14px;
+                margin: 0px !important;
+                padding: 0px 5px;
+            }
+            span {
+                display: block;
+                background: #cfcfcf;
+                width: 1px;
+                height: 80px;
+                float: left;
+            }
+            .input_block {
+                display: block;
+                float: left;
+                width: 69%;
+                text-indent: 4px;
+            }
+            .input_area {
+                display: block;
+                float: left;
+                width: 69%;
+                height: 80px;
+                .text-input {
+                    display: inline;
+                    margin: 0px !important;
+                }
+            }
+        }
+    }
+}
+.msgTbale {
+    .formBlock {
+        border-bottom: 1px dashed #b5b5b5;
+        padding: 4px 10px;
+        .title_block {
+            width: 4px;
+            height: 20px;
+            margin-right: 6px;
+            border-radius: 15px;
+            background: #3f51b5;
+            display: inline-block;
+            vertical-align: middle;
+            margin-top: -3px;
+        }
+        h2 {
+            display: inline-block;
+            font-size: 16px;
+        }
+        p {
+            float: left;
+            margin-right: 4px;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #000;
+            line-height: 15px;
+            text-align: center;
+            font-size: 14px;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+        ul {
+            margin: 6px 0px 0px 0px;
+
+            li {
+                border: 1px solid #cfcfcf;
+                margin-bottom: 4px;
+                border-radius: 3px;
+                overflow: hidden;
+                display: flex;
+                ion-select {
+                    max-width: none;
+                }
+                ol {
+                    width: 30%;
+                    float: left;
+                    li {
+                        height: 100%;
+                        padding: 8px;
+                        border-radius: 0px;
+                        border-left: none;
+                        border-top: none;
+                        border-bottom: none;
+                        border-right: 1px solid #cfcfcf;
+                        margin-bottom: 0px;
+                    }
+                }
+                .class_input {
+                    width: 70%;
+                    float: left;
+                    text-align: left !important;
+                    text-indent: 4px;
+                    input {
+                        text-align: left !important;
+                        text-rendering: none !important;
+                    }
+                }
+                .input_area {
+                    width: 70%;
+                    float: left;
+                    text-align: left;
+                    textarea {
+                        display: block;
+                        height: 100%;
+                        text-indent: 4px;
+                    }
+                }
+                // textarea.text-input{
+                //     height:auto !important;
+                // }
+            }
+        }
+    }
+    .formBlock:last-child {
+        border-bottom: none;
+    }
+}
+ion-footer {
+    ion-button {
+        width: 100%;
+    }
+}

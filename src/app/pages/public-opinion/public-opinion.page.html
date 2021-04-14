@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>舆情报送</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <span class="require">*</span>
+        舆情标题</ion-label
+      >
+      <ion-input
+        placeholder="请输入舆情标题"
+        [(ngModel)]="formsdata.title"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label><span class="require">*</span> 舆情国家</ion-label>
+      <p class="countrymsg" (click)="selectCountry()">
+        <ion-text>{{countryname}}</ion-text>
+        <ion-icon name="chevron-forward-outline" class="jian_icon"></ion-icon>
+      </p>
+    </ion-item>
+    <ion-item>
+      <ion-label>舆情地点</ion-label>
+      <ion-input
+        placeholder="请输入具体地点"
+        [(ngModel)]="formsdata.address"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>舆情时间</ion-label>
+      <ion-datetime
+        [(ngModel)]="formsdata.time"
+        displayFormat="YYYY-MM-DD HH:mm"
+        cancelText="取消"
+        doneText="确认"
+      ></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>舆情来源</ion-label>
+      <ion-input
+        placeholder="请输入舆情来源"
+        [(ngModel)]="formsdata.sentimentSource"
+      ></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>舆情内容</ion-label>
+      <ion-textarea
+        rows="5"
+        placeholder="请输入舆情内容"
+        [(ngModel)]="formsdata.contents"
+      ></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>当地反应</ion-label>
+      <ion-textarea
+        rows="5"
+        placeholder="请输入当地反应"
+        [(ngModel)]="formsdata.sentimentReflection"
+      ></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>采取措施</ion-label>
+      <ion-textarea
+        rows="5"
+        placeholder="请输入采取措施"
+        [(ngModel)]="formsdata.takeSteps"
+      ></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>负面影响</ion-label>
+      <ion-textarea
+        rows="5"
+        placeholder="请输入负面影响"
+        [(ngModel)]="formsdata.negativeEffect"
+      ></ion-textarea>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goSubmit()">
+        立即上报
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

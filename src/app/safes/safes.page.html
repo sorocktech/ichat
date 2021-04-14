@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <!-- <img class="icon_logo" src="assets/images/icon.png" alt="" /> -->
+      <span>{{userinfo.app_title}}</span>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="allmodules">
+    <div class="modules" *ngFor="let item of modulesList">
+      <h5 class="title">{{item.title}}</h5>
+      <div class="modules_single">
+        <div class="modules_single_one" *ngFor="let one of item.module;let inx=index" (click)="goChange(item,one)">
+          <!-- <div
+            class="showchecked"
+            *ngIf="item.checked && inx<5"
+            [ngClass]='{"undevelop":one.undevelop}'
+          >
+            <ion-icon [name]="one.img"></ion-icon>
+            <span>{{one.name}}</span>
+          </div> -->
+          <!-- *ngIf="!item.checked" -->
+          <div class="showchecked">
+            <img [src]="one.img" alt="">
+            <span>{{one.name}}</span>
+            <ion-badge class="unread-badge" color="danger"  *ngIf="one.count > 0">{{one.count}}</ion-badge>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

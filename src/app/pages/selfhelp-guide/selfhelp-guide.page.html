@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>自救指南</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content  color="primary-contrast">
+  <ion-segment color="primary-contrast" (ionChange)="clicks(segmentModel)" mode="md" [(ngModel)]="segmentModel">
+    <ion-segment-button *ngFor="let item of text" class="segment" checked
+      value="{{item.orgId}}" [ngClass]="{'checkCurrent':segmentModel == item.orgId}">
+      <div class="dealto">
+        <span>{{item.orgName}}</span>
+      </div>
+    </ion-segment-button>
+  </ion-segment>
+
+  <ion-slides (ionSlideDidChange)="slideChange()">
+    <ion-slide *ngFor="let pp of text">
+      <ion-list *ngFor="let item of dataList | keyvalue">
+          <ion-group>
+            <ion-item-divider>
+              <ion-label>{{item.key}}</ion-label>
+            </ion-item-divider>
+        <ion-item *ngFor="let one of item.value" (click)="goDetail(one)">
+          <ion-label>
+            {{one.textTitle}}
+          </ion-label>
+        </ion-item>
+          </ion-group>
+      </ion-list>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

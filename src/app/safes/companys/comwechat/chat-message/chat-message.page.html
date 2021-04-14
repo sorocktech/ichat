@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+        <ion-badge *ngIf="unreadCount>0 " color="light" slot="start">{{unreadCount}}</ion-badge>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{params?.account_nick}}</ion-title>
+    <ion-icon (click)="goMembers()" *ngIf="params.account_no.includes('chat-')" slot="end" class="more_icon" name="ellipsis-horizontal"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" pullMin="30" pullMax="80" (ionRefresh)="getMoreMessage($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="下拉刷新" refreshingSpinner="circles"
+                           refreshingText="刷新中">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div *ngFor="let item of chatHistory" class="message-wrapper">
+    <!-- 判断消息是发送 -->
+    <div class="sends" *ngIf="item.site == 'right';else otherMessage">
+      <p  class="message-detail">
+        <span *ngIf="item.ChatItem.message.isShowTime">{{item.ChatItem.message.time | moment:"ago" | lowercase}}</span>
+      </p>
+      <div class="chat-bubble-right">
+        <div>
+          <div class="account-nick-left">{{item.ChatItem.message.member.member_nick}}</div>
+          <div *ngIf="item.ChatItem.message.msgType === 'text' || item.ChatItem.message.msgType === 'file' "  class="message chat-bubble-left_message isText" [innerHTML]="item.ChatItem.message.text" autolinker></div>
+          <div *ngIf="item.ChatItem.message.msgType === 'image'"  class="message">
+            <div (click)="presentModal(item.ChatItem.message)" class="noText-right" [innerHTML]="item.ChatItem.message.text"></div>
+          </div>
+          <div *ngIf="item.ChatItem.message.msgType === 'video'"  class="message">
+            <div  class="noText-right" [innerHTML]="item.ChatItem.message.text"></div>
+          </div>
+        </div>
+        <img  class="profile-pic right" [src]="item.ChatItem.pic_url" />
+      </div>
+    </div>
+    <!-- 判断消息是接收 -->
+    <ng-template #otherMessage>
+      <div class="resive">
+        <p  class="message-detail">
+
+          <span *ngIf="item.ChatItem.message.isShowTime">{{item.ChatItem.message.time | moment:"ago" | lowercase}}</span>
+        </p>
+        <div class="chat-bubble-left">
+          <img  class="profile-pic right" [src]="item.ChatItem.pic_url" />
+            <div>
+              <div class="account-nick-right">{{item.ChatItem.message.member.member_nick}}</div>
+              <div *ngIf="item.ChatItem.message.msgType === 'text' || item.ChatItem.message.msgType === 'file' " (click)="presentModal(item.ChatItem.message)" class="message chat-bubble-right_message isText" [innerHTML]="item.ChatItem.message.text" autolinker></div>
+
+              <div *ngIf="item.ChatItem.message.msgType === 'image'"  class="message">
+                <div (click)="presentModal(item.ChatItem.message)" class="noText-left" [innerHTML]="item.ChatItem.message.text"></div>
+              </div>
+
+              <div *ngIf="item.ChatItem.message.msgType === 'video'"  class="message">
+                <div  class="noText-left" [innerHTML]="item.ChatItem.message.text"></div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </ng-template>
+    <div class="cf"></div>
+  </div>
+
+</ion-content>
+
+<!-- 底部固定的输入框 -->
+<ion-footer>
+  <div class="wc__footToolbar">
+    <ion-item lines="none" class="chatinput">
+      <ion-textarea (click)="typeInput"  rows="1" [(ngModel)]="chatBox" placeholder="">
+      </ion-textarea>
+      <div>
+      <ion-button fill="clear" class="btn-panel btn-choose">
+        <i class="iconfont icon-choose"></i>
+      </ion-button>
+      <ion-button  (click)="sendMessage()" item-end>
+        <!-- <ion-icon class="footer-btn" name="send"></ion-icon> -->
+        <span class="footer-btn">发送</span>
+      </ion-button>
+      </div>
+    </ion-item>
+    <div class="wc__choose-panel wcim__borT" style="display: none;">
+      <div class="wrap-choose" style="display: none;">
+        <div class="choose__cells">
+          <ul class="clearfix">
+            <li>
+              <a (click)="openImagePicker()" class="J__wchatZp">
+                <span class="img">
+                  <img src="../../assets/img/wchat/icon__choose-zp.png" />
+                </span><em>图片</em></a>
+            </li>
+            <li (click)="openCamera()">
+              <a class="J__wchatDs" >
+                <span class="img">
+                  <img src="../../assets/img/wchat/icon__choose-sp.png" />
+                </span><em>拍照</em>
+              </a>
+            </li>
+            <li (click)="doVideo()">
+              <a class="J__wchatSp" href="javascript:;"><span class="img">
+                  <img src="../../assets/img/wchat/icon__choose-sp.png" />
+              </span><em>视频</em></a>
+            </li>
+
+            <li>
+              <a class="J__wchatWj" href="javascript:;">
+                <span class="img">
+                  <img src="../../assets/img/wchat/icon__choose-wj.png" />
+                  <!-- doc、docx、pdf、excel、json -->
+                  <input type="file" id="chooseFile"
+                    accept="application/json,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,application/vnd.ms-excel" />
+                </span><em>文件</em></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-footer>

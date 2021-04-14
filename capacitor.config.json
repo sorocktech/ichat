@@ -1,0 +1,27 @@
+{
+  "appId": "io.commonrisksystems.starter",
+  "appName": "risk",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {
+    "preferences": {
+      "ShowSplashScreenSpinner": "false",
+      "AutoHideSplashScreen": "true",
+      "FadeSplashScreen": "true",
+      "SplashScreenBackgroundColor": "false",
+      "SplashMaintainAspectRatio": "true",
+      "FadeSplashScreenDuration": "300",
+      "SplashShowOnlyFirstTime": "true",
+      "SplashScreen": "splash",
+      "AndroidXEnabled": "true",
+      "SplashScreenDelay": "300",
+      "auto-hide-splash-screen": "true"
+    }
+  }
+}

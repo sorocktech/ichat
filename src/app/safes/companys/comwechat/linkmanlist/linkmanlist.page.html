@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title [innerHTML]="dataService?.linkmanList[dataService?.linkmanList?.length-1].name"></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form action="javascript:return true;">
+    <ion-searchbar placeholder="搜索" [(ngModel)]="search" type="search" [ngModelOptions]="{standalone:true}"
+      (keypress)="goSearch($event)" (ionChange)="searchChange()">
+    </ion-searchbar>
+  </form>
+  <div class="navigate" *ngIf="dataService.linkmanList">
+    <p *ngFor="let title of dataService.linkmanList;let inx=index">
+      <ion-text (click)="goChange(title,inx)"
+        [ngStyle]="{'color':inx != dataService.linkmanList.length -1 ? '#3259c7' : '#5d5555' }" [innerHTML]="title.name">
+      </ion-text>
+      <ion-icon *ngIf="inx != dataService.linkmanList.length -1" name="chevron-forward-outline" slot="end"
+        class="jian_icon"></ion-icon>
+    </p>
+  </div>
+  <ion-list>
+    <ion-item *ngFor="let item of linkmanList.orgs" (click)="goNext(item)">
+      <ion-label class="hightText" [innerHTML]="item.name"></ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end" class="jian_icon"></ion-icon>
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-item *ngFor="let user of linkmanList.users" (click)="goChat(user)">
+      <ion-icon *ngIf="!user.checked && checktype" class="uncheck_icon" slot="start" name="ellipse-outline">
+      </ion-icon>
+      <ion-icon *ngIf="user.checked && checktype" class="check_icon" slot="start" name="checkmark-circle">
+      </ion-icon>
+      <ion-thumbnail slot="start">
+        <img *ngIf="user.pic_url" [src]="user.pic_url">
+        <img *ngIf="!user.pic_url" src="assets/images/xearth.jpeg">
+      </ion-thumbnail>
+      <ion-label class="hightText" [innerHTML]="user?.name">
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer *ngIf="checktype">
+  <app-create-group></app-create-group>
+</ion-footer>

@@ -1,0 +1,22 @@
+ion-header {
+    box-shadow: none;
+    ion-text {
+        font-size: 1.8rem;
+    }
+}
+ion-item {
+    line-height: 2.4em;
+    ion-icon {
+        color: #bfbaba;
+        font-size: 2rem;
+    }
+}
+ion-thumbnail {
+    width: 2.6em;
+    height: 2.6em;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    img {
+        border-radius: 50%;
+    }
+}

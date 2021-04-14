@@ -1,0 +1,75 @@
+<div style="margin-top: 1em" *ngFor="let risk of imgsList">
+  <ion-chip>
+    <ion-label>{{ risk.day }}</ion-label>
+  </ion-chip>
+  <!-- 我关注的 !filter && img.follow == '1'-->
+  <!-- <ion-card
+    class="slide_contain"
+    (click)="goDetail(img)"
+    *ngIf="!filter && img.follow == '1'"
+  >
+    <ion-card-header>
+      <ion-card-title>{{ img.textTitle }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="desc">{{ img.tagtext }}</p>
+      <p class="time">{{ img.createTime }}</p>
+    </ion-card-content>
+    <ul [ngSwitch]="img.warn">
+      <li [ngStyle]="{ 'background-color': img.color }"></li>
+    </ul>
+  </ion-card> -->
+  <ion-card
+    *ngFor="let img of risk.item"
+    class="slide_contain"
+    (click)="goDetail(img)"
+  >
+    <!-- 全部-->
+    <ion-card-header>
+      <ion-card-title>
+        <span *ngFor="let country of img.country">
+          {{ country.emoji }}
+          {{ country.country_name }}
+        </span>
+      </ion-card-title>
+
+      <ion-card-title>
+        预警级别：<span *ngIf="img.riskType && img.riskType.length > 0">
+          <span class="risk_level" [ngSwitch]="img.riskType[0].level">
+            <span *ngSwitchCase="1" class="text_blue">蓝色</span>
+            <span *ngSwitchCase="2" class="text_yellow">黄色</span>
+            <span *ngSwitchCase="3" class="text_orange">橙色</span>
+            <span *ngSwitchCase="4" class="text_red">红色</span>
+            <span *ngSwitchDefault class="text_none-color">待定</span>
+          </span>
+        </span>
+      </ion-card-title>
+      <ion-card-title>
+        预警类别：
+        <ion-badge *ngFor="let type of img.riskType" [class]="type.color">{{
+          type.type_name
+        }}</ion-badge>
+      </ion-card-title>
+
+      <ion-card-title>
+        <span *ngIf="img.riskType && img.riskType.length > 0">
+          <span class="risk_title" [ngSwitch]="img.riskType[0].level">
+            <span *ngSwitchCase="1" class="text_blue">{{ img.text.text_title }}</span>
+            <span *ngSwitchCase="2" class="text_yellow">{{ img.text.text_title }}</span>
+            <span *ngSwitchCase="3" class="text_orange">{{ img.text.text_title }}</span>
+            <span *ngSwitchCase="4" class="text_red">{{ img.text.text_title }}</span>
+            <span *ngSwitchDefault class="text_none-color">{{ img.text.text_title }}</span>
+          </span>
+        </span>
+        <span class="risk_title text_none-color" *ngIf="!img.riskType">
+          {{ img.text.text_title }}
+        </span>
+      </ion-card-title>
+      <p class="desc2">{{ img.targetText }}</p>
+      <ion-card-title>
+        有效时间：
+        {{img.risk_begin_date | moment: "YMD"}} —— {{img.risk_end_date | moment:"YMD"}}
+      </ion-card-title>
+    </ion-card-header>
+  </ion-card>
+</div>

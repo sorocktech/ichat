@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      版本信息
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="headers">
+    <ion-card>
+      <ion-card-content>
+        <!-- <img src="assets/images/icon.png" alt=""> -->
+        <img src="assets/images/iconearth.png" alt="" />
+        <h5>风险地球</h5>
+        <p>当前版本 {{appversion}}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div id="progressnum"></div>
+  <div class="intro">
+    <h5 routerLink="/clause-state">《免责条款》</h5>
+    <h5 routerLink="/privacy-policy">《隐私协议》</h5>
+    <p>中坤鼎昊 版权所有</p>
+    <p>Copyright © 2012-2022</p>
+    <p>All RihgtsReserved</p>
+  </div>
+</ion-content>

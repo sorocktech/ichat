@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>暗色模式</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item  (click)="darkmodeSelect(entry)"   *ngFor="let entry of form">
+      <ion-label>{{entry.text}}</ion-label>
+      <ion-checkbox slot="end" [(ngModel)]="entry.isChecked"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

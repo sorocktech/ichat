@@ -1,0 +1,72 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+@import "./theme/common.scss";
+@import "./theme/main.scss";
+@import "./theme/scss.scss";
+@import "~leaflet/dist/leaflet.css";
+@import '~angular-tree-component/dist/angular-tree-component.css';
+
+//.in-toolbar{
+//    --background:#063D91;
+//    color: white;
+//}
+.swiper-pagination {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: auto !important;
+	left: auto !important;
+	margin: 0;
+}
+.chat-image-modal{
+  img{
+    width: 100%;
+  }
+  .chat-image-modal_image {
+    width: 100%;
+  }
+}
+
+.header-ios ion-toolbar:last-of-type {
+  --border-width: 0;
+}
+.home-popover{
+}
+.popover-arrow.sc-ion-popover-ios:after {
+  background: var(--ion-item-background,var(--ion-background-color,#fff)) !important;
+}
+.popover-arrow.sc-ion-popover-md:after {
+  background: var(--ion-item-background,var(--ion-background-color,#fff)) !important;
+}
+ion-app.cameraView, ion-app.cameraView ion-content, ion-app.cameraView .nav-decor {
+  background: transparent none !important;
+  .tabbar.show-tabbar{
+    opacity: 0;
+  }
+}
+

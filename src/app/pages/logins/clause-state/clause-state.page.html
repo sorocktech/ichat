@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>免责条款</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- <div class="myheader">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="goBack()">
+          <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>免费条款</ion-title>
+    </ion-toolbar>
+  </div> -->
+  <div class="content" *ngFor="let item of clauseList">
+    <h5>{{item.title}}</h5>
+    <p *ngFor="let cont of item.desc">
+      {{cont}}
+    </p>
+  </div>
+</ion-content>

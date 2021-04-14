@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>安全周报</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher
+    slot="fixed"
+    pullMin="100"
+    pullMax="120"
+    (ionRefresh)="doRefresh($event)"
+  >
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="下拉刷新"
+      refreshingSpinner="circles"
+      refreshingText="刷新中"
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ion-item *ngFor="let item of dataList" (click)="goDetail(item)">
+      <ion-label>{{item.title}}</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end" class="jian_icon"></ion-icon>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="getList($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="加载更多数据..."
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

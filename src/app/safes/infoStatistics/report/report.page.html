@@ -1,0 +1,456 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goBack()">
+                <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+            信息统计
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div class="Contract">
+        <form #forma="ngForm">
+            <div class="formBlock">
+                <span class="title_block"></span>
+                <h2>境外承包项目信息表</h2>
+                <ul>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 区域总部</li>
+                        </ol>
+                        <!-- <ion-select class="class_input" [(ngModel)]="Contract.country_id" name="country_id"
+                            placeholder="请选择区域" okText="确定" cancelText="取消" required="true" (ionChange)="areaFn($event)"
+                            [disabled]="is_project == 0">
+                            <ion-option *ngFor="let item of areaList" [value]="item.id">{{item.title}}</ion-option>
+                        </ion-select> -->
+                        <ion-input class="class_input" [(ngModel)]="areaname" name="country_id"
+                        placeholder="请选择区域" disabled (click)="goArea()"></ion-input>
+                    </li>
+
+                    <!-- <li [hidden]="!Country.length">
+                        <ol>
+                            <li><span style="color:red;">*</span> 国家(地区)</li>
+                        </ol>
+                        <ion-select name="area_id" [(ngModel)]="Contract.area_id" class="class_input"
+                            placeholder="请选择国家" okText="确定" cancelText="取消" required="true"
+                            [disabled]="is_project == 0"> -->
+                            <!-- <ion-option *ngFor="let item of Country" [value]="item.id">{{item.title}}</ion-option> -->
+                        <!-- </ion-select>
+                    </li> -->
+
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span>项目名称</li>
+                        </ol>
+                        <ion-input class="class_input" [(ngModel)]="Contract.title" name="title" required="true"
+                            [disabled]="is_project == 0" placeholder="项目对外的中文名称"></ion-input>
+                    </li>
+                    <li>
+                        <ol>
+                            <li>项目地理位置</li>
+                        </ol>
+                        <ol class="locates">
+                            <ion-input class="class_input mylocate" [(ngModel)]="latLon" (click)="modifyPoint()"
+                                name="latLon" disabled></ion-input>
+                            <div id="myMap" style="display: none;"></div>
+
+                            <div class="mylocate myaddress">{{location}}</div>
+                        </ol>
+
+                    </li>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 行业类别</li>
+                        </ol>
+                        <!-- <ion-select name="cat_id" [(ngModel)]="Contract.cat_id" placeholder="请选择行业类别"
+                            [disabled]="is_project == 0" (ionChange)="selectCat($event)" okText="确定" cancelText="取消"
+                            required="true">
+                            <ion-option *ngFor="let item of industryType" [value]="item.id">{{item.name}}</ion-option>
+                        </ion-select> -->
+                        <ion-input class="class_input" [(ngModel)]="industryname" name="cat_id"
+                        placeholder="请选择行业类别" disabled (click)="goIndustry()"></ion-input>
+                    </li>
+                    <li *ngIf="!Catname">
+                        <ol>
+                            <li><span style="color:red;">*</span>其它类别</li>
+                        </ol>
+                        <ion-input class="class_input" [(ngModel)]="Contract.cat_name" placeholder="请输入其它类别"
+                            name="cat_name" required="true" [disabled]="is_project == 0"></ion-input>
+                    </li>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 项目状态</li>
+                        </ol>
+                        <ion-select name="project_status" [(ngModel)]="Contract.project_status" placeholder="请选择项目状态"
+                            [disabled]="is_project == 0" okText="确定" cancelText="取消" required="true">
+                            <ion-select-option *ngFor="let item of projectStatus" [value]="item.id">{{item.name}}
+                            </ion-select-option>
+                        </ion-select>
+                    </li>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span>业主名称</li>
+                        </ol>
+                        <ion-input class="class_input" [(ngModel)]="Contract.first_party" name="first_party"
+                            required="true" [disabled]="is_project == 0" placeholder="投资方名称"></ion-input>
+                    </li>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 承包模式</li>
+                        </ol>
+                        <ion-select name="contract_id" [(ngModel)]="Contract.contract_id"
+                            (ionChange)="contractId($event)" [disabled]="is_project == 0" placeholder="请选择承包模式"
+                            okText="确定" cancelText="取消" required="true">
+                            <ion-select-option *ngFor="let item of contract_pattern" [value]="item.id">{{item.name}}
+                            </ion-select-option>
+                        </ion-select>
+                    </li>
+                    <li *ngIf="!joint_venture">
+                        <ol>
+                            <li><span style="color:red;">*</span>联营单位名称</li>
+                        </ol>
+                        <ion-input class="class_input" [(ngModel)]="Contract.joint_venture" placeholder="请输入联营单位名称"
+                            [disabled]="is_project == 0" name="joint_venture" required="true"></ion-input>
+                    </li>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 签约品牌</li>
+                        </ol>
+                        <ion-select name="signing_id" [(ngModel)]="Contract.signing_id" placeholder="请选择签约品牌"
+                            okText="确定" cancelText="取消" required="true" [disabled]="is_project == 0">
+                            <ion-select-option *ngFor="let item of child_signing_company" [value]="item.id">
+                                {{item.name}}
+                            </ion-select-option>
+                        </ion-select>
+                    </li>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 项目开工日期</li>
+                        </ol>
+                        <ion-datetime displayFormat="YYYY-MM-DD HH:mm:ss" required="true" name="start_at_info"
+                            cancelText="取消" doneText="确认" max="2060" (ionChange)="timeChange($event)"
+                            [(ngModel)]="Contract.start_at_info" [placeholder]="Contract.start_at_info"
+                            [disabled]="is_project == 0"></ion-datetime>
+                    </li>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 项目峻工日期</li>
+                        </ol>
+                        <ion-datetime displayFormat="YYYY-MM-DD HH:mm:ss" required="true" name="makespan_info"
+                            cancelText="取消" doneText="确认" max="2060" (ionChange)="timeChange1($event)"
+                            [(ngModel)]="Contract.makespan_info" [placeholder]="Contract.makespan_info"
+                            [disabled]="is_project == 0"></ion-datetime>
+                    </li>
+                    <!-- <li>
+                    <ol>
+                        <li>项目工期(天)</li>
+                    </ol>
+                    <ion-input class="class_input" [(ngModel)] = "Contract.quality_assurance_type"></ion-input>
+                </li> -->
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 合同金额 (万美元)</li>
+                        </ol>
+                        <ion-input class="class_input" type="number" [disabled]="is_project == 0"
+                            [(ngModel)]="Contract.contract_price" name="contract_price" required="true"></ion-input>
+                    </li>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 项目进度 (百分比)</li>
+                        </ol>
+                        <ion-input class="class_input" type="number" [disabled]="is_project == 0"
+                            [(ngModel)]="Contract.output_value_info" name="output_value_info" required="true">
+                        </ion-input>
+                    </li>
+                    <li>
+                        <ol>
+                            <li><span style="color:red;">*</span> 项目简要说明</li>
+                        </ol>
+                        <ion-textarea rows="6" class="class_input" [disabled]="is_project == 0"
+                            [(ngModel)]="Contract.content" name="content" required="true" placeholder="请输入建设内容，不超过30字">
+                        </ion-textarea>
+                    </li>
+                    <li>
+                        <ol>
+                            <li> 备注</li>
+                        </ol>
+                        <ion-textarea style="height:60px;" class="class_input" placeholder="填写所在县 (市) 病例数"
+                            [disabled]="is_project == 0" [(ngModel)]="Contract.remarks" name="remarks"></ion-textarea>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div *ngFor=" let item of projectLength;let index = index">
+
+                <div class="formBlock">
+                    <span class="title_block"></span>
+                    <h2>项目人员情况</h2>
+
+                    <div style="float:right;">
+                        <p (click)="reduce(index)" *ngIf="projectLength.length > 1">-</p>
+                    </div>
+
+                    <ul>
+                        <li style="position: relative;">
+                            <ol>
+                                <li style="height:100%">参建子企业</li>
+                            </ol>
+                            <div class="class_input">
+                                <div style="overflow:hidden;border-bottom:1px solid #CFCFCF;height:30px;">
+                                    <ol style="height:100%;width:40%;">
+                                        <li style="padding:0px;height:100%;line-height:30px;">合同甲方名称</li>
+                                    </ol>
+                                    <ion-input class="class_input" [(ngModel)]="form.child_first_party[ index]"
+                                        style="line-height:30px;width:60%;" name="form.child_first_party{{index}}"
+                                        [disabled]="is_project == 0"></ion-input>
+                                </div>
+                                <div style="overflow:hidden;height:30px;">
+                                    <ol style="height:100%;width:40%;">
+                                        <li style="padding:0px;height:100%;line-height:30px;">子企业名称</li>
+                                    </ol>
+                                    <ion-select name="form.join_enterpris{{index}}" #join_enterpris="ngModel"
+                                        [(ngModel)]="form.join_enterpris[index]" placeholder="请选择子企业" okText="确定"
+                                        cancelText="取消" style="width:60%;" [disabled]="is_project == 0">
+                                        <ion-select-option *ngFor="let item of child_join_company" [value]="item.id">
+                                            {{item.name}}</ion-select-option>
+                                    </ion-select>
+                                </div>
+                                <div style="overflow:hidden;border-top:1px solid #CFCFCF;height:30px;">
+                                    <ol style="height:100%;width:40%;">
+                                        <li style="padding:0px;height:100%;line-height:30px;">项目别名</li>
+                                    </ol>
+                                    <ion-input class="class_input" [(ngModel)]="form.child_name[ index]"
+                                        style="line-height:30px;width:60%;" name="form.child_name{{index}}"
+                                        [disabled]="is_project == 0"></ion-input>
+                                </div>
+                            </div>
+                        </li>
+                        <li style="position: relative;">
+                            <ol>
+                                <li style="height:100%">中方人员数</li>
+                            </ol>
+                            <div class="class_input">
+                                <div style="overflow:hidden;border-bottom:1px solid #CFCFCF;height:30px;">
+                                    <ol style="height:100%;width:40%;">
+                                        <li style="padding:0px;height:100%;line-height:30px;">正式员工</li>
+                                    </ol>
+                                    <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                        [(ngModel)]="form.formal[ index]" style="line-height:30px;width:60%;"
+                                        name="form.formal{{ index}}"></ion-input>
+                                </div>
+                                <div style="overflow:hidden;height:30px;">
+                                    <ol style="height:100%;width:40%;">
+                                        <li style="padding:0px;height:100%;line-height:30px;">分包员工</li>
+                                    </ol>
+                                    <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                        [(ngModel)]="form.informal[ index]" style="line-height:30px;width:60%;"
+                                        name="form.informal{{ index}}"></ion-input>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>当地人员数</li>
+                            </ol>
+                            <ion-input class="class_input" type="number" [disabled]="is_project == 0"
+                                [(ngModel)]="form.local[ index]" name="form.local{{ index}}"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>第三国人员数</li>
+                            </ol>
+                            <ion-input class="class_input" type="number" [disabled]="is_project == 0"
+                                [(ngModel)]="form.third[ index]" name="form.third{{index}}"></ion-input>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="formBlock">
+                    <span class="title_block"></span>
+                    <h2>项目主要负责人</h2>
+                    <ul>
+                        <li>
+                            <ol>
+                                <li><span style="color:red;">*</span> 项目经理</li>
+                            </ol>
+                            <ion-input class="class_input" [disabled]="is_project == 0"
+                                [(ngModel)]="form.project_manager_a.value[index]"
+                                name="project_manager_a.value{{index}}" required="true"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li><span style="color:red;">*</span> 生产副经理</li>
+                            </ol>
+                            <ion-input class="class_input" [disabled]="is_project == 0"
+                                [(ngModel)]="form.project_manager_b.value[index]"
+                                name="project_manager_b.value{{index}}" required="true"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li><span style="color:red;">*</span> 总工程师</li>
+                            </ol>
+                            <ion-input class="class_input" [disabled]="is_project == 0"
+                                [(ngModel)]="form.project_manager_c.value[index]"
+                                name="project_manager_c.value{{index}}" required="true"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li><span style="color:red;">*</span> 安全总监</li>
+                            </ol>
+                            <ion-input class="class_input" [disabled]="is_project == 0"
+                                [(ngModel)]="form.project_manager_d.value[index]"
+                                name="project_manager_d.value{{index}}" required="true"></ion-input>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="formBlock">
+                    <span class="title_block"></span>
+                    <h2>项目联络人</h2>
+                    <ul>
+                        <li>
+                            <ol>
+                                <li>姓名</li>
+                            </ol>
+                            <ion-input class="class_input" [disabled]="is_project == 0"
+                                name="project_liaison_person_name{{index}}"
+                                [(ngModel)]="form.project_liaison_person_name[index]"></ion-input>
+
+                        </li>
+                        <li>
+                            <ol>
+                                <li>电话</li>
+                            </ol>
+                            <ion-input class="class_input" [disabled]="is_project == 0"
+                                name="project_liaison_person_phone{{index}}"
+                                [(ngModel)]="form.project_liaison_person_phone[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>卫星电话</li>
+                            </ol>
+                            <ion-input class="class_input" [disabled]="is_project == 0" name="satellite_phone{{index}}"
+                                [(ngModel)]="form.satellite_phone[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>微信号</li>
+                            </ol>
+                            <ion-input class="class_input" [disabled]="is_project == 0" name="wechat_number{{index}}"
+                                [(ngModel)]="form.wechat_number[index]"></ion-input>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="formBlock">
+                    <span class="title_block"></span>
+                    <h2>疫情防控物资配置情况</h2>
+                    <ul>
+                        <li>
+                            <ol>
+                                <li>防护口罩 (个)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="mask{{index}}" [(ngModel)]="form.mask[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>N95口罩 (个)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="n95_mask{{index}}" [(ngModel)]="form.n95_mask[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>防护服 (件)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="protective_clothing{{index}}" [(ngModel)]="form.protective_clothing[index]">
+                            </ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>护目镜 (副)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="goggles{{index}}" [(ngModel)]="form.goggles[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>检查手套(副)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="glove{{index}}" [(ngModel)]="form.glove[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>消毒水 (kg)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="aq_steril{{index}}" [(ngModel)]="form.aq_steril[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>酒精消毒液 (kg)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="alcohol_disinfectant{{index}}" [(ngModel)]="form.alcohol_disinfectant[index]">
+                            </ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>消毒洗手液 (kg)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="liquid_soap{{index}}" [(ngModel)]="form.liquid_soap[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>新冠肺炎试剂盒</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="test_kit{{index}}" [(ngModel)]="form.test_kit[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>防护面罩 (个)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="protective_mask{{index}}" [(ngModel)]="form.protective_mask[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>手持测温枪 (个)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="thermometer_gun{{index}}" [(ngModel)]="form.thermometer_gun[index]"></ion-input>
+                        </li>
+
+                        <li>
+                            <ol>
+                                <li>测温安检门 (套)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="safety_check{{index}}" [(ngModel)]="form.safety_check[index]"></ion-input>
+                        </li>
+                        <li>
+                            <ol>
+                                <li>其它 (个)</li>
+                            </ol>
+                            <ion-input type="number" class="class_input" [disabled]="is_project == 0"
+                                name="other{{index}}" [(ngModel)]="form.other[index]"></ion-input>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</ion-content>
+<ion-footer>
+    <ion-button color="success" expand="full" (click)="add()">新增参与子企业</ion-button>
+    <ion-button color="primary" expand="full" (click)="ConfirmReport()">确定上报</ion-button>
+</ion-footer>

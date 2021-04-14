@@ -1,0 +1,23 @@
+ion-list{
+    padding: 10px 0;
+    .user_icon{
+        width: 1.5em;
+    }
+    ion-icon{
+        color: #d5d5d5;
+    }
+    ion-item:not(:last-child){
+        border-bottom: 1px solid var(--ion-item-border-color);
+    }
+    
+}
+.bord_btm{
+    border-bottom: 1px solid var(--ion-item-border-color);
+}
+.logout_btn{
+    margin: 2em 1.2em;
+}
+
+.touxiang{
+    border-radius: 50%;
+}

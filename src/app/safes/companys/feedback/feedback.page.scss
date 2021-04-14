@@ -1,0 +1,18 @@
+ion-content {
+    --background: #E5E5E5;
+}
+ion-list{
+    padding: 10px 0;
+    .user_icon{
+        width: 1.5em;
+    }
+    ion-icon{
+        color: #d5d5d5;
+    }    
+}
+.bord_btm{
+    border-bottom: 10px solid #e5e5e5;
+}
+.logout_btn{
+    margin: 2em 1.2em;
+}

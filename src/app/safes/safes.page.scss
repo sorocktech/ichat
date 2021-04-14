@@ -1,0 +1,95 @@
+@import "../../theme/scss.scss";
+ion-toolbar{
+  --background:#063D91;
+}
+ion-header {
+  ion-title {
+    padding: 0;
+    color: #ffffff;
+    margin-left: 10px;
+  }
+  ion-icon {
+    margin-left: 8px;
+    font-size: 2.4rem;
+    color: #ffffff;
+  }
+  .icon_logo {
+    width: 1.2em;
+    margin-bottom: -4px;
+  }
+}
+.unread-badge {
+  position: relative;
+    top: -68px;
+    right: -13px;
+}
+
+ion-list {
+  ion-avatar {
+    width: auto;
+    @include flexLayout(center, flex-start);
+
+    ion-text {
+      color: #999999;
+      font-size: 1.3rem;
+    }
+  }
+
+  .certy_bg {
+    width: 94%;
+    margin: 0 3% 10px;
+  }
+
+  ion-icon {
+    color: #dddddd;
+    font-size: 2.2rem;
+  }
+
+  .traintitle {
+    font-size: 1.5rem;
+  }
+
+  ion-label {
+    color: $scolor;
+  }
+}
+
+.allmodules {
+  .modules {
+    .title {
+      background: #063D91 ;
+      color: #ffffff;
+      margin: 0;
+      font-size: 1.2rem;
+      padding: 10px 8px;
+    }
+    &_single {
+      display: flex;
+      flex-wrap: wrap;
+      &_one {
+        width: 20%;
+
+        .showchecked {
+          display: flex;
+          align-items: center;
+          flex-direction: column;
+          padding: 15px 0;
+          span{
+            font-size: 1.4rem;
+          }
+        }
+        img {
+          width: 3.2em;
+          color: #3f51b5;
+          margin-bottom: 10px;
+        }
+        .undevelop {
+          color: #666666;
+          ion-icon {
+            color: #666;
+          }
+        }
+      }
+    }
+  }
+}

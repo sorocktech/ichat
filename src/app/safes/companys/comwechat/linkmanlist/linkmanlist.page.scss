@@ -1,0 +1,50 @@
+@import "src/theme/dark-blue";
+ion-header{
+    box-shadow: none;
+}
+
+ion-item {
+    //--border-color: #efefef;
+    line-height: 2.4em;
+    .jian_icon {
+        color: #bfbaba;
+        font-size: 2rem;
+    }
+}
+ion-thumbnail {
+    width: 2.6em;
+    height: 2.6em;
+    margin-top: 6px;
+    margin-bottom: 13px;
+    img {
+        border-radius: 50%;
+    }
+}
+.navigate {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 1.2em;
+    font-size: 1.6rem;
+    border-bottom: 1px solid var(--ion-item-border-color);
+    padding-bottom: 1em;
+    p {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0;
+    }
+    ion-icon {
+        color: #bfbaba;
+    }
+}
+.user-name {
+   span {
+   }
+}
+.check_icon {
+    font-size: 2.2rem;
+    color: #1d2ce8;
+}
+.uncheck_icon {
+    font-size: 2.2rem;
+    color: #bfbaba;
+}
