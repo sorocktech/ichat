@@ -42,9 +42,9 @@ export class AppComponent extends BaseUI {
   customBackActionSubscription: Subscription;
   url;
   public appPages = [
-    { title: 'Inbox', url: '/folder/Inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/Outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/Favorites', icon: 'heart' },
+    { title: '消息', url: '/home', icon: 'mail' },
+    { title: '联系人', url: '/contacts', icon: 'paper-plane' },
+    { title: '发消息', url: '/send', icon: 'heart' },
     { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
     { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },

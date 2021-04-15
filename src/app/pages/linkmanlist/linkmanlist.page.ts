@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { BaseUI } from "../../../../api/baseui";
+import { BaseUI } from "../../api/baseui";
 import { NavController, LoadingController } from "@ionic/angular";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { HttpService } from "../../../../sevices/http.service";
-import { apiList } from "../../../../api/app.api"; // 引入
-import { DataService } from "../../../../sevices/data.service";
+import { HttpService } from "../../sevices/http.service";
+import { apiList } from "../../api/app.api"; // 引入
+import { DataService } from "../../sevices/data.service";
 
 @Component({
   selector: 'app-linkmanlist',

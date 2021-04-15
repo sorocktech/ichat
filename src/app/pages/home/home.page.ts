@@ -90,8 +90,8 @@ export class HomePage extends BaseUI {
         close: '未连接',
         disconnecting: '未连接',
         disconnect: '未连接',
-        online: '企业微信',
-        offline: '企业微信(未连接)',
+        online: 'iChat',
+        offline: 'iChat(未连接)',
       }
     
 

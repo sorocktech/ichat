@@ -816,7 +816,7 @@ export class Chat  implements OnInit,OnDestroy{
             this.netReady.next(true)
 
             await this.xmpp.send(xml("presence"));
-            await this.getGroupChatList(true) //强制出席
+            // await this.getGroupChatList(true) //强制出席
 
             this.getGroupPresenceStatus().subscribe(async (_)=>{
                 if(_){

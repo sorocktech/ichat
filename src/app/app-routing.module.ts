@@ -9,9 +9,9 @@ const routes: Routes = [
       pathMatch: 'full'
   },
   {
-    path: "chat",
+    path: "contacts",
     loadChildren: () =>
-      import("./safes/companys/comwechat/comwechat.module").then((m) => m.ComwechatPageModule),
+      import("./pages/linkmanlist/linkmanlist.module").then((m) => m.LinkmanlistPageModule),
       pathMatch: 'full'
   },
   {

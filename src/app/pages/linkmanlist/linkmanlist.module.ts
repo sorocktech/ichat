@@ -7,8 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { LinkmanlistPageRoutingModule } from './linkmanlist-routing.module';
 
 import { LinkmanlistPage } from './linkmanlist.page';
-import { CreateGroupComponentModule } from '../../../../components/create-group/create-group.module';
-import { ShareModule } from '../../../../modules/share/share.module';
+import { CreateGroupComponentModule } from '../../components/create-group/create-group.module';
+import { ShareModule } from '../../modules/share/share.module';
 @NgModule({
   imports: [
     CommonModule,
