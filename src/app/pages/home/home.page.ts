@@ -16,7 +16,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx'
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { Device } from "@ionic-native/device/ngx";
 import { JPush } from '@jiguang-ionic/jpush/ngx';
-import {MessageItem, ChatItem, GroupMember, GROUPCHAT, GroupItem, GROUPCHAT_HOST} from '../../interfaces/chat'
+import {MessageItem, ChatItem, GroupMember, GROUPCHAT, GroupItem, GROUPCHAT_HOST,CHATLIST,CHAT_HOST} from '../../interfaces/chat'
 import {DbService} from "../../sevices/db.service";
 import {Observable} from "rxjs";
 import {BADGE, INDEX_BANNER} from "../../interfaces/storage";
@@ -25,7 +25,6 @@ import {Badge} from "@ionic-native/badge/ngx";
 import { PopoverController } from '@ionic/angular';
 import { PopoverPage } from 'src/app/components/popover/popover.page';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
-import * as $ from "jquery";
 
 
 
@@ -33,7 +32,6 @@ const { client, xml, jid } = require("@xmpp/client");
 
 var _ = require('lodash')
 
-declare var Microsoft: any;
 
 @Component({
   selector: "app-home",
@@ -68,9 +66,37 @@ export class HomePage extends BaseUI {
 
     public messageWaitAlert = []
 
+    public ChatList:Array<ChatItem> = []
+  
+    public userinfo: any = JSON.parse(localStorage.getItem("userinfo"));
+  
+    chatAddress = "";
+    public showOperAreaFlg: Boolean = false;
+  
+    public isShowInfo: Boolean = false //通讯录/消息标示
+    public noMessage:Boolean = false
+    public messageRaw :any = [];
+    public netStat:Boolean = true
+    private  newMessageSub
+    private netReadySub
+    public  chatState
+    public  chatStateSub
+    public  chatStateList:object = {
+        connecting: '连接中',
+        connect: '连接中',
+        opening: '连接中',
+        open: '连接中',
+        closing: '未连接',
+        close: '未连接',
+        disconnecting: '未连接',
+        disconnect: '未连接',
+        online: '企业微信',
+        offline: '企业微信(未连接)',
+      }
+    
+
     public groupList:Array<GroupItem> = []
     public messages = [];//消息记录
-    public userinfo: any = JSON.parse(localStorage.getItem("userinfo"));
     public userMessage: any = {};//聊天用户信息
     constructor(
         private qrScanner: QRScanner,
@@ -95,7 +121,8 @@ export class HomePage extends BaseUI {
         private statusBar: StatusBar,
         public device: Device,
         public jPush: JPush,
-        public badge: Badge
+        public badge: Badge,
+        public mainFun: Chat,
 ) {
     super();
   }
@@ -108,16 +135,26 @@ export class HomePage extends BaseUI {
         this.dataService.userinfo =this.userinfo
         this.platform.ready().then(async ()=>{
             await this.getDeviceMessage()
-            await this.initSetting()
         })
 
-        await this.getBannerList();
-        await this.isUpdate();
         await this.db.createDb(this.userinfo.openfire_no.toLowerCase())
         this.dataService.CHATLIST = this.userinfo.openfire_no.toLowerCase() +'-chatList'
-        await this.newMessageToast()
         await this.mainFunc.startChat()
-        await this.checkPassword()
+
+
+        this.dataService.isShowNewMessageTotast = false
+    await this.mainFun.initChatList()
+    this.newMessageSub = this.mainFun.getChatList().subscribe((ChatList:Array<ChatItem>)=>{
+      this.ChatList = ChatList
+    })
+
+    this.chatStateSub = this.mainFun.getChatState().subscribe((state)=>{
+      this.chatState = this.chatStateList[state]
+    })
+
+   this.netReadySub =  this.mainFun.netReady.subscribe(res=>{
+      this.netStat = res
+    })
 
     }
 
@@ -125,325 +162,157 @@ export class HomePage extends BaseUI {
         console.log('销毁了')
         this.storage.set('online',false);
         this.mainFunc.xmpp.stop();
+            console.log('销毁了')
+             this.newMessageSub.unsubscribe()
+             this.netReadySub.unsubscribe()
+             this.chatStateSub.unsubscribe()
     }
 
-
-
-    async presentPopover(ev: any) {
-       ev = {
-            target : {
-                getBoundingClientRect : () => {
-                    return {
-                        top: 47,
-                        left:document.documentElement.clientWidth - 28
-                    };
-                }
-            }
-        };
-        const popover = await this.popoverController.create({
-            component: PopoverPage,
-            cssClass: 'home-popover',
-            event: ev,
-            translucent: true
-        });
-        return await popover.present();
-    }
-
-    // 初始化配置
-    async initSetting(){
-        // 角标逻辑
-        let badgeNum = await this.badge.get()
-        if(!badgeNum){
-            badgeNum =0
-        }
-        let intBadge:badge={risk:badgeNum,chat:0}
-        console.log(intBadge)
-        await this.storage.set(BADGE,intBadge)
-        this.dataService.unreadRiskCount.next(intBadge.risk)
-    }
 
     // 获取设备信息
     async getDeviceMessage() {
         let arr = this.userinfo.chat_jid.split("@")
         console.log(this.userinfo)
-        try {
-            if (arr[0] !== undefined) {
-                let alias = arr[0].replaceAll('-', '').toLowerCase()
-                this.jPush.setAlias({ sequence: 1, alias: alias }).then((res) => {
-                    console.log('设置别名 ' + res)
-                }).catch((e) => {
-                    console.log(e)
-                }
-                )
-            }
-        } catch (err) {
-            console.log(err)
-        }
-
-        //this.dataService.deviceMsg.uuid = this.mainFunc.randomString(13);
         this.dataService.deviceMsg.uuid = this.device.uuid;
-
-        console.log('设置uuid')
-        this.jPush.getRegistrationID().then((res)=>{
-            this.dataService.deviceMsg.uuid = res;
-            console.log('uuid',res)
-        }).catch((e)=>{
-            console.log(e)
-        })
         this.dataService.deviceMsg.os_version = this.device.version;
         this.dataService.deviceMsg.platform = this.device.platform;
         return ;
     }
 
-    async newMessageToast() {
-        this.mainFunc.getNewMessageAlert().subscribe(async (ChatItem:ChatItem)=>{
-            return  true
-            if(!this.dataService.isShowNewMessageTotast){
-               return true
-            }
-
-            this.dataService.curClickMessage = ChatItem
-
-            this.messageWaitAlert.push(ChatItem)
-
-            setTimeout(async ()=>{
-
-                let header = ChatItem.account_nick
-                let message = ChatItem.message.text
-                let router = '/tabs/safes/comwechat/chat-message'
-
-                if(this.messageWaitAlert.length>2){
-                    header = '企业微信'
-                    message = '收到'+this.messageWaitAlert.length+'条新消息'
-                    router = '/tabs/safes/comwechat/'
-                }else{
-                    if(ChatItem.message.text.includes('<img')){
-                        message = '发来一张图片'
-                    }
-                    if(ChatItem.message.text.includes('<video')){
-                        message = '发来一个视频'
-                    }
-                }
-
-
-                const toast = await this.toast.create({
-                    header: header,
-                    message: message,
-                    position: 'top',
-                    duration: 2500,
-                    buttons: [
-                        {
-                            text: '查看',
-                            handler: () => {
-                                this.router.navigate([router]);
-                            }
-                        }
-                    ]
-                });
-
-                await toast.present()
-
-            },5000)
-
-        })
-    }
-
-
-
-  // 我的
-  goPage(url) {
-    this.router.navigateByUrl(url);
-  }
-
-  async checkPassword(){
-           this.http.post(this.api.userList.checkPassword,
-             {}, res => {
-                 if (res.retcode == 0) {
-                    if(!res.resp.result){
-                        console.log('为初始密码')
-                        this.presentPasswordChange()
-                    }
-                 }else {
-                     super.showToast(this.toast, res.message);
-                 }
-             });
-  }
-
-  async presentPasswordChange() {
-    const toast = await this.toast.create({
-      message: '检测到您的密码为系统初始密码，为了您的账号安全，建议修改。',
-      duration: 5000
-    });
-    toast.present()
-    this.nav.navigateForward(['/resetpwd'])
-
-
-  }
-  // 获取首页banner图
-  async  getBannerList() {
-    let req = {
-      "tenant_id": this.userinfo.tenantId
-    };
-
-      let bannerList = await this.storage.get(INDEX_BANNER)
-      if(bannerList){
-          this.bannerList = bannerList
+    async  retryConnect(){
+        await this.mainFun.xmpp.stop()
+        await this.mainFun.startChat(true)
       }
-
-      this.http.post(this.api.homeList.getBanners,req ,async (res:any)=>{
-          if(res.retcode ==0){
-              let bannerList = res.resp.ictureList;
-
-              bannerList.map((i)=>{
-                 i.textContent = i.textContent.replace(i.textTitle,'');
-              })
-              this.bannerList = bannerList
-
-              await this.storage.set(INDEX_BANNER,res.resp.ictureList)
+    
+      ionViewWillEnter() {
+        // this.getChatList();
+      }
+    
+    
+    
+      ionViewDidEnter() {
+        this.showOperAreaFlg = false;
+      }
+    
+      /**
+       * 从消息列表中删除一个聊天
+       */
+      async  deleteChat(item){
+          await this.mainFun.deleteChat(item)
+      }
+    
+      /**
+       *
+       * @param account_no
+       * @param type 群聊 单聊
+       */
+      getLastMessageFromXmpp(account_no,type) {
+        /**
+         原始查询xml
+          <iq type='set' id='juliet1'>
+         <query xmlns='urn:xmpp:mam:2'>
+         <x xmlns='jabber:x:data' type='submit'>
+         <field var='with'>
+        <value>chat-262@conference.dhchatdev.tihal.cn</value>
+         </field>
+        </x>
+         <set xmlns=’http://jabber.org/protocol/rsm’>
+        <max>1</max>
+         </set>
+         </query> </iq>
+        */
+        let jid = account_no + CHAT_HOST
+    
+         if(type === GROUPCHAT) {
+           jid = account_no + GROUPCHAT_HOST
+         }
+    
+    
+        const message = xml(
+          "iq",
+          { type: "set", id: account_no },
+          xml(
+            "query",
+            { xmlns: "urn:xmpp:mam:2" },
+            xml(
+              "x",
+              { xmlns: "jabber:x:data", type: "submit" },
+              xml("field", { var: "with" }, xml("value", {}, jid))
+            ),
+            xml(
+              "set",
+              { xmlns: "http://jabber.org/protocol/rsm" },
+              xml("max", {}, 1),
+              xml("before")
+            )
+          )
+        );
+        this.mainFun.xmpp.send(message);
+      }
+    
+    
+      randomChatId(){
+        return Math.random().toString(36).slice(-12)
+      }
+    
+      // 获取聊天列表
+      // getChatList() {
+      //   super.show(this.loadingCtrl);
+      //   this.storage.get("chatList").then((value) => {
+      //     super.hide(this.loadingCtrl);
+      //     this.messages = value;
+      //     this.messages = value === null ? [] : value;
+      //     if (this.messages.length == 0) {
+      //       return;
+      //     }
+      //   });
+      // }
+      // 返回安全系统页面
+      goBack() {
+        this.dataService.isShowNewMessageTotast = true
+        this.nav.navigateRoot(["/tabs/safes"]);
+      }
+    
+      // 界面跳转并且传值
+      async viewMessages(chat) {
+    
+        this.dataService.curClickMessage = chat
+        if(chat.type === GROUPCHAT){
+          let groups = await this.storage.get('groups')
+          let groupItem = _.find(groups, {'group_id': chat.account_no});
+          if(groupItem){
+            this.dataService.memberList = groupItem.members;
+          }else{
+            await this.getGroupChatMembers(chat.account_no);
           }
-      },async (err)=>{
-          this.bannerList = await this.storage.get(INDEX_BANNER)
-          console.log('net error')
-      })
-  }
-  // 去详情
-  goDetail(img) {
-    this.router.navigate(['home/viewinfo'], {
-      queryParams: {
-        body: img.textContent,
-        backHome:true
+        }
+          await this.router.navigate(["/tabs/safes/comwechat/chat-message"]);
       }
-    });
-  }
-  goTop(){
-      console.log('scroll','top')
-      $('.swiper-container').css('scrollTop', '0');
-  }
-
- async isUpdate() {
-      console.log('检查更新')
- 
-       let version ='100'
-       try{
-        if(this.platform.is('android') || this.platform.is('ios')){
-            version = await this.appVersion.getVersionNumber();
-            console.log(version)
-           this.dataService.deviceMsg.app_version = version;
-       }
-       }catch(e){
-            console.log('get version error',e)
-       }
-  
-
-
-     if(this.platform.is('android')){
-         this.http.post(this.api.common.appUpgrade,
-             {req:{type:1,version:version}}, res => {
-                 if (res.retcode == 0) {
-                     if (res.resp) {
-                         let response:Version;
-                         response = res.resp
-                         if(response.update){
-                             this.showAlert(response);
-                         }
-                     }
-                 }else {
-                     super.showToast(this.toast, res.message);
-                 }
-             });
-     }
-
-  }
-  async showAlert(version:Version) {
-    const alert = await this.alertController.create({
-      header: '检测到新版本',
-      message: '最新版'+version.version + '<br/>更新内容:'+version.context+'<br/>是否更新？',
-      buttons: [
+      // 弹框建群
+      showToggle() {
+        this.showOperAreaFlg = !this.showOperAreaFlg;
+      }
+      // 新建群聊页面
+      groupChatPage() {
+        this.router.navigate(["/tabs/safes/comwechat/creat-group-chat"]);
+      }
+      // 获取群成员信息
+      async getGroupChatMembers(roomid) {
+        this.http.post(
+          `${this.api.safesList.getGroupMembersMessage}`,
           {
-              text: '确定',
-              handler: () => {
-                  this.nav.navigateForward(['/about'],{queryParams: {
-                          version : JSON.stringify(version)
-                      },
-                  });
-              }
-          },{
-              text:'关闭'
+            room_name:
+              roomid.indexOf("@") === -1
+                ? roomid
+                : roomid.substring(0, roomid.indexOf("@")),
+          },
+          (res) => {
+            if (res.retcode == 0) {
+              this.dataService.memberList = res.resp.data.members;
+              this.router.navigate(["/tabs/safes/comwechat/chat-message"]);
+            }
           }
-      ]
-    });
-    await alert.present();
-  }
-
-    async noPermission () {
-        const alert = await this.alertController.create({
-            header: '您已拒绝定位权限',
-            message: '一键报警功能无法正常使用',
-            buttons: ['确认']
-        });
-        await alert.present();
-    }
-
-    async geoAlert() {
-        const alert = await this.alertController.create({
-            header: '打开定位开关',
-            message: '定位服务未开启，请进入系统【设置】> 【隐私】>【定位服务】中打开开关，并允许风险地球使用定位服务',
-            buttons: [
-                {
-                    text: '关闭',
-                },
-                {
-                    text: '重新获取位置',
-                    handler: () => {
-                    },
-                }
-            ]
-        });
-        await alert.present();
-    }
-
-    setJpushConfiguration() {
-        // this.jPush.setDebugMode(true)
-        this.jPush.init()
-        this.jPush.getRegistrationID().then((res)=>{
-            this.dataService.deviceMsg.uuid = res;
-            console.log('设备ID' +res)
-        }).catch(e=>{
-            console.error(e)
-        })
-
-        // 推送监听
-        var router = this.router
-
-        document.addEventListener("jpush.openNotification",  (event:any) =>{
-            console.log(event.extras)
-            router.navigate(['tabs/home/viewinfo'],{ queryParams:{ title:'预警详情',body: event.extras['cn.jpush.android.EXTRA'].risk_html }})
-        }, false)
-
-        // 透传消息
-        document.addEventListener("jpush.receiveMessage", async (event:any) => {
-            console.log('收到透传')
-            await this.newRiskToast(event,router)
-        }, false)
-
-    }
-    async newRiskToast(event,router) {
-        const toast = await this.toast.create({
-            header: event.title,
-            message: event.message.substr(0,30) + '...',
-            position: 'top',
-            duration: 10000,
-            buttons: [
-                {
-                    text: '查看',
-                    handler: () => {
-                        router.navigate(['tabs/home/viewinfo'],{ queryParams:{ title:'预警详情',body: event.extras['cn.jpush.android.EXTRA'].risk_html }})
-                    }
-                }
-            ]
-        });
-        await toast.present()
-    }
-
+        );
+      }
 
 }
