@@ -1,12 +1,13 @@
 import { NgModule } from "@angular/core";
 import { PreloadAllModules, RouterModule, Routes } from "@angular/router";
-
+import { AuthGuard } from './auth/auth.guard';
 const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
       import("./pages/home/home.module").then((m) => m.HomePageModule),
-      pathMatch: 'full'
+      pathMatch: 'full',
+      canActivate: [AuthGuard], // 添加针对当前路由的 canActivate 路由守卫
   },
   {
     path: "contacts",
@@ -26,7 +27,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/logins/login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
 
   {
