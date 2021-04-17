@@ -101,37 +101,14 @@ export class HttpService extends BaseUI {
     this.msg(url);
     const vm = this;
     // 文件上传单独处理
-    let params:any = {
-    };
-    const commondata = { public: this.dataService.deviceMsg };
-    if (!url.includes("file/file/upload")) {
-      params = Object.assign(commondata, data);
-    } else {
-      params = data;
-    }
-    if (url != this.api.loginList.gologin) {
-      if (!params.common) {
-        params.common = {}
-      }
-      params.common.token = this.dataService.userinfo.token
-      params.common.uid = this.dataService.userinfo.uid
-    }
-
-    vm.http.post(url, params, options).subscribe(
+    vm.http.post(url, data, options).subscribe(
         async (res) => {
-          if(res.retcode==0){
-            this.retry =0
-          }
-          if (res.retcode == 1102) {
-            console.log(this.retry)
-          this.refreshToken(url,data,cb)
-          }
+          console.log('res',res)
           cb(res);
         },
         async (err) => {
-          if (err.status == 401) {
-            console.log('尝试次数',this.retry)
-             this.refreshToken(url,data,cb)
+          if (err.status == 400) {
+            cb(err)
           }
         }
     );

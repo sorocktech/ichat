@@ -101,39 +101,28 @@ export class LoginPage extends BaseUI  implements OnInit{
       this.ajxpwd = true;
     }
   }
-  // 免费条款
-  goClause() {
-    this.nav.navigateForward(["/clause-state"]);
-  }
+
   // 登录
   goLogin() {
 
     let req = {
-      pwd: this.crypto.md5(this.password + "_3t&6u18"),
-      userAccount: this.account,
+      identifier: this.account + '@strapi.io',
+      password: this.password,
     };
 
-    this.http.post(this.api.loginList.gologin, {req}, res=>{
-      if (res.retcode == 0 && res.retmsg.includes('成功')) {
-        localStorage.setItem(USERINFO, JSON.stringify(res.resp));
-        localStorage.setItem("access_token", res.resp.token);
-        this.data.userinfo = res.resp
-        this.storage.set(USERINFO, res.resp).then(async()=>{
-          console.log('登录成功')
-          await this.storage.set('login_info',{account:this.account,password:this.password})
-          let loginList =  await this.storage.get('loginList')
-          let loginItem:loginItem = {account:this.account,password:this.password,avatar:this.data.userinfo.picture,tenant:this.data.userinfo.tenant_name}
-          if(!loginList){
-              loginList = []
-          }
-          loginList.push(loginItem);
-          let loginListUni = _.uniqBy(loginList, 'account');
-          await this.storage.set('loginList',loginListUni)
-          await this.nav.navigateRoot(["/home"]);
-        });
-      }else {
-        super.showToast(this.toast, res.retmsg);
+    this.http.post(this.api.loginList.gologin, req, res => {
+      console.log('res2', res)
+      if (res.status) {
+        return super.showToast(this.toast, '密码或账号错误');
       }
+
+      localStorage.setItem("access_token", res.jwt);
+      this.data.userinfo = res.user
+      this.storage.set(USERINFO, res.user).then(async () => {
+        console.log('登录成功')
+        await this.storage.set('login_info', { account: this.account, password: this.password })
+        await this.nav.navigateRoot(["/home"]);
+      });
     })
 
   }
