@@ -20,11 +20,15 @@ const routes: Routes = [
       import("./pages/home/home.module").then((m) => m.HomePageModule),
   },
   {
+    path: "send-message",
+    loadChildren: () =>
+      import("./pages/send-message/send-message.module").then((m) => m.SendMessagePageModule),
+  },
+  {
     path: "warnmap",
     loadChildren: () =>
       import("./pages/warnmap/warnmap.module").then((m) => m.WarnmapPageModule),
   },
-
   {
     path: 'login',
     loadChildren: () => import('./pages/logins/login/login.module').then(m => m.LoginPageModule)
@@ -36,17 +40,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/logins/clause-state/clause-state.module').then(m => m.ClauseStatePageModule)
   },
 
-  {
-    path: 'privacy-policy',
-    loadChildren: () => import('./pages/privacy-policy/privacy-policy.module').then(m => m.PrivacyPolicyPageModule)
-  },
+  ,
   {
     path: 'userinfo',
     loadChildren: () => import('./pages/userinfo/userinfo.module').then(m => m.UserinfoPageModule)
-  },
-  {
-    path: 'resetpwd',
-    loadChildren: () => import('./users/resetpwd/resetpwd.module').then(m => m.ResetpwdPageModule)
   },
   {
     path: 'userdetail',
@@ -60,24 +57,10 @@ const routes: Routes = [
     path: 'about',
     loadChildren: () => import('./pages/appversion/appversion.module').then(m => m.AppversionPageModule)
   },
-  //  风险预警
-  {
-    path: 'riskwarn',
-    loadChildren: () => import('./pages/riskwarn/riskwarn.module').then(m => m.RiskwarnPageModule)
-  },
   // 群成员
   {
     path: 'chatmembers',
     loadChildren: () => import('./safes/companys/chatmembers/chatmembers.module').then( m => m.ChatmembersPageModule)
-  },
-  // 意见反馈
-  {
-    path: 'feedbacklist',
-    loadChildren: () => import('./users/feedbacklist/feedbacklist.module').then( m => m.FeedbacklistPageModule)
-  },
-  {
-    path: 'privacy-policy',
-    loadChildren: () => import('./pages/privacy-policy/privacy-policy.module').then( m => m.PrivacyPolicyPageModule)
   },
   {
     path: 'image-modal',
@@ -102,26 +85,6 @@ const routes: Routes = [
   {
     path: 'login-confirm',
     loadChildren: () => import('./pages/login-confirm/login-confirm.module').then( m => m.LoginConfirmPageModule)
-  },
-  {
-    path: 'safeshoptype',
-    loadChildren: () => import('./pages/safeshoptype/safeshoptype.module').then( m => m.SafeshoptypePageModule)
-  },
-  {
-    path: 'emergen-plan',
-    loadChildren: () => import('./pages/emergen-plan/emergen-plan.module').then( m => m.EmergenPlanPageModule)
-  },
-  {
-    path: 'event-report',
-    loadChildren: () => import('./pages/event-report/event-report.module').then(m => m.EventReportPageModule)
-  },
-  {
-    path: 'countryinfor',
-    loadChildren: () => import('./pages/countryinfor/countryinfor.module').then(m => m.CountryinforPageModule)
-  },
-  {
-    path: 'countrydetail',
-    loadChildren: () => import('./pages/countrydetail/countrydetail.module').then(m => m.CountrydetailPageModule)
   },
   {
     path: 'account-select',

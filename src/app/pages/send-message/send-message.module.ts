@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { WechatlistPageRoutingModule } from './wechatlist-routing.module';
+import { SendMessagePageRoutingModule } from './send-message-routing.module';
 
-import { WechatlistPage } from './wechatlist.page';
+import { SendMessagePage } from './send-message.page';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    WechatlistPageRoutingModule,
+    SendMessagePageRoutingModule
   ],
-  declarations: [WechatlistPage],
-  exports :[WechatlistPage]
+  declarations: [SendMessagePage]
 })
-export class WechatlistPageModule { }
+export class SendMessagePageModule {}

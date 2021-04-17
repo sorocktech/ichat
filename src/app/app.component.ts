@@ -44,7 +44,7 @@ export class AppComponent extends BaseUI {
   public appPages = [
     { title: '消息', url: '/home', icon: 'mail' },
     { title: '联系人', url: '/contacts', icon: 'paper-plane' },
-    { title: '发消息', url: '/send', icon: 'heart' },
+    { title: '发消息', url: '/send-message', icon: 'heart' },
     { title: 'Archived', url: '/folder/Archived', icon: 'archive' },
     { title: 'Trash', url: '/folder/Trash', icon: 'trash' },
     { title: 'Spam', url: '/folder/Spam', icon: 'warning' },
