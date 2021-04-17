@@ -8,7 +8,7 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 // 防抖指令
-import { ShareModule } from '../../../modules/share/share.module';
+import { ShareModule } from '../../modules/share/share.module';
 @NgModule({
   imports: [
     CommonModule,
