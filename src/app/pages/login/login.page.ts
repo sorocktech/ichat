@@ -111,14 +111,14 @@ export class LoginPage extends BaseUI  implements OnInit{
     };
 
     this.http.post(this.api.loginList.gologin, req, res => {
-      console.log('res2', res)
       if (res.status) {
         return super.showToast(this.toast, '密码或账号错误');
       }
 
       localStorage.setItem("access_token", res.jwt);
       this.data.userinfo = res.user
-      this.storage.set(USERINFO, res.user).then(async () => {
+      console.log('userinfo',res.user)
+       this.storage.set(USERINFO, res.user).then(async () => {
         console.log('登录成功')
         await this.storage.set('login_info', { account: this.account, password: this.password })
         await this.nav.navigateRoot(["/home"]);

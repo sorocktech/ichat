@@ -19,7 +19,7 @@ import { JPush } from '@jiguang-ionic/jpush/ngx';
 import {MessageItem, ChatItem, GroupMember, GROUPCHAT, GroupItem, GROUPCHAT_HOST,CHATLIST,CHAT_HOST} from '../../interfaces/chat'
 import {DbService} from "../../sevices/db.service";
 import {Observable} from "rxjs";
-import {BADGE, INDEX_BANNER} from "../../interfaces/storage";
+import {BADGE, INDEX_BANNER, USERINFO} from "../../interfaces/storage";
 import {badge, Version} from "../../interfaces/app";
 import {Badge} from "@ionic-native/badge/ngx";
 import { PopoverController } from '@ionic/angular';
@@ -43,7 +43,6 @@ export class HomePage extends BaseUI {
     public searchManager: any;
     public map: any = null;
     public locationCompleted = false
-    public langsite = []; //经纬度
     public permissionName = this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION
 
     public bannerList: any = [];
@@ -68,7 +67,7 @@ export class HomePage extends BaseUI {
 
     public ChatList:Array<ChatItem> = []
   
-    public userinfo: any = JSON.parse(localStorage.getItem("userinfo"));
+    public userinfo: any ;
   
     chatAddress = "";
     public showOperAreaFlg: Boolean = false;
@@ -128,17 +127,13 @@ export class HomePage extends BaseUI {
   }
 
     async ngOnInit() {
-        if(!this.userinfo){
-            console.log('用户退出')
-            return false
-        }
-        this.dataService.userinfo =this.userinfo
+      console.log(this.dataService)
+      this.userinfo = await this.storage.get(USERINFO)
+        console.log('testUser',this.userinfo)
         this.platform.ready().then(async ()=>{
-            await this.getDeviceMessage()
         })
-
-        await this.db.createDb(this.userinfo.openfire_no.toLowerCase())
-        this.dataService.CHATLIST = this.userinfo.openfire_no.toLowerCase() +'-chatList'
+        await this.db.createDb(this.userinfo.jid.toLowerCase())
+        this.dataService.CHATLIST = this.userinfo.jid.toLowerCase() +'-chatList'
         await this.mainFunc.startChat()
 
 
@@ -169,15 +164,6 @@ export class HomePage extends BaseUI {
     }
 
 
-    // 获取设备信息
-    async getDeviceMessage() {
-        let arr = this.userinfo.chat_jid.split("@")
-        console.log(this.userinfo)
-        this.dataService.deviceMsg.uuid = this.device.uuid;
-        this.dataService.deviceMsg.os_version = this.device.version;
-        this.dataService.deviceMsg.platform = this.device.platform;
-        return ;
-    }
 
     async  retryConnect(){
         await this.mainFun.xmpp.stop()
