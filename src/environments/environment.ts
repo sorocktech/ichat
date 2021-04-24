@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://silkroad.tihal.cn:6012/'
+  apiUrl: 'http://localhost:9100/'
 };
 
 /*

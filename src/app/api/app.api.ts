@@ -33,7 +33,7 @@ export class apiList implements OnInit {
       appAdress: `${this.baseurl}answer/app-down/android`, //app线上地址
     };
     this.loginList = {
-      gologin: `${this.baseurl}auth/local`,
+      gologin: `${this.baseurl}user/login`,
       loginForToken: `${this.baseurl}tihal/user/login-for-token`,
       pcQrcodeLogin: `${this.baseurl}tihal/user/scan-code-login`,
     };

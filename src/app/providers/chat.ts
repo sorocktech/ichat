@@ -696,10 +696,17 @@ export class Chat  implements OnInit,OnDestroy{
     }
 
     async startChat(force=false) {
+        console.log(this.dataService.userinfo)
+        if (!this.dataService.userinfo) { 
+            alert('no user info object ')
+            return false;
+        }
+        let chat_jid = this.dataService.userinfo.chat_jid + '@dhchatdev.tihal.cn'
+        console.log(chat_jid)
         this.xmpp = client({
             service: "wss://dhchatdev.tihal.cn:7070/ws",
             //resource: "risk-app",
-            username: this.dataService.userinfo.chat_jid,
+            username: chat_jid,
             password: this.dataService.userinfo.chat_password,
         })
         this.xmpp.start()
@@ -711,6 +718,7 @@ export class Chat  implements OnInit,OnDestroy{
                     console.log(stanza.getChild('fin').getChild('set').attrs.last)
                     this.dataService.isShowNewMessageTotast = true
                     return true
+                
                 }
             }
 

@@ -106,7 +106,7 @@ export class LoginPage extends BaseUI  implements OnInit{
   goLogin() {
 
     let req = {
-      identifier: this.account + '@strapi.io',
+      name: this.account,
       password: this.password,
     };
 
@@ -115,10 +115,10 @@ export class LoginPage extends BaseUI  implements OnInit{
         return super.showToast(this.toast, '密码或账号错误');
       }
 
-      localStorage.setItem("access_token", res.jwt);
-      this.data.userinfo = res.user
-      console.log('userinfo',res.user)
-       this.storage.set(USERINFO, res.user).then(async () => {
+      localStorage.setItem("access_token", res.data.access_token);
+      this.data.userinfo = res.data
+      console.log('userinfo',res.data)
+       this.storage.set(USERINFO, res.data).then(async () => {
         console.log('登录成功')
         await this.storage.set('login_info', { account: this.account, password: this.password })
         await this.nav.navigateRoot(["/home"]);

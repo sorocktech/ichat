@@ -132,8 +132,8 @@ export class HomePage extends BaseUI {
         console.log('testUser',this.userinfo)
         this.platform.ready().then(async ()=>{
         })
-        await this.db.createDb(this.userinfo.jid.toLowerCase())
-        this.dataService.CHATLIST = this.userinfo.jid.toLowerCase() +'-chatList'
+        await this.db.createDb(this.userinfo.chat_jid.toLowerCase())
+        this.dataService.CHATLIST = this.userinfo.chat_jid.toLowerCase() +'-chatList'
         await this.mainFunc.startChat()
 
 

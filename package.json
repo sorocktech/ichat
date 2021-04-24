@@ -67,7 +67,6 @@
     "@xmpp/xml": "^0.11.0",
     "angular": "^1.8.2",
     "angular-tree-component": "^8.5.6",
-    "code-push": "^3.0.1",
     "cordova-browser": "^5.0.4",
     "cordova-open-native-settings": "^1.5.2",
     "cordova-plugin-advanced-http": "^3.1.0",
@@ -141,6 +140,7 @@
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.12.47",
+    "code-push": "^3.0.1",
     "codelyzer": "^5.1.2",
     "cordova-android": "^9.0.0",
     "cordova-plugin-add-swift-support": "^2.0.2",
@@ -189,7 +189,9 @@
       "cordova-plugin-media-capture": {},
       "cordova-plugin-filechooser": {},
       "cordova-open-native-settings": {},
-      "cordova-plugin-geolocation": {},
+      "cordova-plugin-geolocation": {
+        "GPS_REQUIRED": "true"
+      },
       "cordova-plugin-code-push": {},
       "cordova-plugin-android-permissions": {},
       "cordova-plugin-app-version": {},
