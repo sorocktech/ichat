@@ -105,7 +105,7 @@ export class apiList implements OnInit {
       getContactsList: `${this.baseurl}tihal/im/get-i-m-contacts1`, //通讯录
 
       // 联系人列表
-      linkmanList: `${this.baseurl}tihal/im/contcats`,
+      linkmanList: `${this.baseurl}contacts`,
       groupQrcode: `${this.baseurl}tihal/im/add-group-qrcode`,
       groupInfoFromQrcode: `${this.baseurl}tihal/im/get-group-info`,
       addToGroup: `${this.baseurl}tihal/im/user-add-group`,

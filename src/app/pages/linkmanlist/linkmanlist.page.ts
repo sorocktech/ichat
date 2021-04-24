@@ -44,17 +44,10 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
   // 获取列表
   getLinkmanList() {
     this.linkmanList = [];
-    const userinfo = JSON.parse(localStorage.getItem("userinfo"));
-    let params = {
-      uid: userinfo.uid,
-      id: this.orgid,
-      nick: this.search,
-      jid:''
-    };
-
-    this.http.post(this.api.safesList.linkmanList, params, (res) => {
+    this.http.get(this.api.safesList.linkmanList, {}, (res) => {
       // super.hide(this.loadingCtrl);
-      if (res.retcode == 0) {
+      console.log(res)
+      if (res.code == 0) {
         this.linkmanList = res.resp.list;
         this.dataService.mancheckList.forEach(pp => {
           this.linkmanList.users.forEach(gg => {
