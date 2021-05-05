@@ -28,11 +28,10 @@ export class LoginPage extends BaseUI  implements OnInit{
   public account: any = "";
   public password: any = "";
   public showLogo: boolean = true;
-  public clauseChecked: boolean = false;
   public  appversion =''
-  ajxaccount = false; //密码登录-手机验证
-  ajxpwd = false; //密码验证
-  ajxtrue = false; //验证码-手机验证
+  ajxaccount = true //密码登录-手机验证
+  ajxpwd = true //密码验证
+  ajxtrue = true //验证码-手机验证
   constructor(
     public toast: ToastController,
     public modalController: ModalController,
@@ -61,17 +60,6 @@ export class LoginPage extends BaseUI  implements OnInit{
       this.password = loginInfo.password
       this.account = loginInfo.account
     }
-
-
-    this.appVersion.getVersionNumber().then((value: any) => {
-      console.log('获取版本中')
-      console.log(value)
-      this.appversion = value
-      // this.showAlert();
-
-    }).catch(err => {
-      console.log('getVersionNumber:' + err);
-    });
   }
 
   ngOnDestroy() {
@@ -125,9 +113,5 @@ export class LoginPage extends BaseUI  implements OnInit{
       });
     })
 
-  }
-  // checkbox
-  changeClause() {
-    this.clauseChecked = !this.clauseChecked;
   }
 }
