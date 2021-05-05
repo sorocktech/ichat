@@ -154,7 +154,7 @@ export class Chat  implements OnInit,OnDestroy{
 
     async sendLocation(latLon:string,groupName:string){
         let groupJid = groupName.split("@")[0].toLowerCase() + GROUPCHAT_HOST
-        let userBareJid = this.dataService.userinfo.openfire_no.split("@")[0].toLowerCase()
+        let userBareJid = this.dataService.userinfo.chat_jid
         const pre = xml(
             "presence",
             {
@@ -202,7 +202,7 @@ export class Chat  implements OnInit,OnDestroy{
     MessageItem.to = MessageItem.to.toLowerCase();
 
     let account_no=MessageItem.from // 对方的openfire账户
-    let i:string = this.dataService.userinfo.openfire_no.split('@')[0].toLowerCase()
+    let i:string = this.dataService.userinfo.chat_jid
     if(MessageItem.from == i ){
       // 我发出的
       account_no = MessageItem.to
@@ -222,9 +222,8 @@ export class Chat  implements OnInit,OnDestroy{
    * @param MessageItem
    */
   async messageTransChat(MessageItem: MessageItem) {
-      let i = this.dataService.userinfo.openfire_no.split('@')[0].toLowerCase()
+      let i = this.dataService.userinfo.chat_jid
       let account_no = this.getChatAccountNo(MessageItem)
-
       let ChatItem:ChatItem
 
       let val = await this.storage.get(this.dataService.CHATLIST)
