@@ -19,7 +19,7 @@ import { JPush } from '@jiguang-ionic/jpush/ngx';
 import {MessageItem, ChatItem, GroupMember, GROUPCHAT, GroupItem, GROUPCHAT_HOST,CHATLIST,CHAT_HOST} from '../../interfaces/chat'
 import {DbService} from "../../sevices/db.service";
 import {Observable} from "rxjs";
-import {BADGE, INDEX_BANNER, USERINFO} from "../../interfaces/storage";
+import {USERINFO} from "../../interfaces/storage";
 import {badge, Version} from "../../interfaces/app";
 import {Badge} from "@ionic-native/badge/ngx";
 import { PopoverController } from '@ionic/angular';
@@ -45,19 +45,6 @@ export class HomePage extends BaseUI {
     public locationCompleted = false
     public permissionName = this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION
 
-    public bannerList: any = [];
-
-    slideOpts = {
-        initialSlide: 0,
-        speed: 400,
-        loop:true,
-        scrollbar: {
-            container :'.swiper-scrollbar',
-            hide: true,
-            draggable: false
-          },
-        watchOverfl:true
-    };
 
     public  isPresence:Boolean = false
 
@@ -97,78 +84,76 @@ export class HomePage extends BaseUI {
     public groupList:Array<GroupItem> = []
     public messages = [];//消息记录
     public userMessage: any = {};//聊天用户信息
-    constructor(
-        private qrScanner: QRScanner,
-        public popoverController: PopoverController,
-        public platform: Platform,
-        public dataService: DataService,
-        public http: HttpService,
-        private db: DbService,
-        public api: apiList,
-        public loadingCtrl: LoadingController,
-        public toast: ToastController,
-        public mainFunc: Chat,
-        private notice: NoticeService,
-        public storage: Storage,
-        public androidPermissions: AndroidPermissions,
-        public geolocation: Geolocation,
-        public alertController: AlertController,
-        public router: Router,
-        private appVersion: AppVersion,
-        private nav: NavController,
-        public jsonUtil: JsonUtil,
-        private statusBar: StatusBar,
-        public device: Device,
-        public jPush: JPush,
-        public badge: Badge,
-        public mainFun: Chat,
-) {
+  constructor(
+    private qrScanner: QRScanner,
+    public popoverController: PopoverController,
+    public platform: Platform,
+    public dataService: DataService,
+    public http: HttpService,
+    private db: DbService,
+    public api: apiList,
+    public loadingCtrl: LoadingController,
+    public toast: ToastController,
+    public mainFunc: Chat,
+    private notice: NoticeService,
+    public storage: Storage,
+    public androidPermissions: AndroidPermissions,
+    public geolocation: Geolocation,
+    public alertController: AlertController,
+    public router: Router,
+    private appVersion: AppVersion,
+    private nav: NavController,
+    public jsonUtil: JsonUtil,
+    private statusBar: StatusBar,
+    public device: Device,
+    public jPush: JPush,
+    public badge: Badge,
+    public mainFun: Chat,
+  ) {
     super();
   }
 
-    async ngOnInit() {
-      console.log(this.dataService)
-      this.userinfo = await this.storage.get(USERINFO)
-        console.log('testUser',this.userinfo)
-        this.platform.ready().then(async ()=>{
-        })
-        await this.db.createDb(this.userinfo.chat_jid.toLowerCase())
-        this.dataService.CHATLIST = this.userinfo.chat_jid.toLowerCase() +'-chatList'
-        await this.mainFunc.startChat()
+  async ngOnInit() {
+    this.userinfo = await this.storage.get(USERINFO)
+    console.log('testUser', this.userinfo)
+    if(!this.userinfo){
+          return this.nav.navigateRoot(["/login"]);
+    }
+    this.platform.ready().then(async () => {
+    })
+    await this.db.createDb(this.userinfo.chat_jid)
+    this.dataService.CHATLIST = this.userinfo.chat_jid + '-chatList'
+    await this.mainFunc.startChat()
 
 
-        this.dataService.isShowNewMessageTotast = false
+    this.dataService.isShowNewMessageTotast = false
     await this.mainFun.initChatList()
-    this.newMessageSub = this.mainFun.getChatList().subscribe((ChatList:Array<ChatItem>)=>{
+    this.newMessageSub = this.mainFun.getChatList().subscribe((ChatList: Array<ChatItem>) => {
       this.ChatList = ChatList
     })
 
-    this.chatStateSub = this.mainFun.getChatState().subscribe((state)=>{
+    this.chatStateSub = this.mainFun.getChatState().subscribe((state) => {
       this.chatState = this.chatStateList[state]
     })
 
-   this.netReadySub =  this.mainFun.netReady.subscribe(res=>{
+    this.netReadySub = this.mainFun.netReady.subscribe(res => {
       this.netStat = res
     })
 
+  }
+
+  ngOnDestroy() {
+    console.log('销毁了')
+    this.storage.set('online', false);
+    if(this.mainFunc.xmpp){
+        this.mainFunc.xmpp.stop()
     }
+    console.log('销毁了')
+    this.newMessageSub.unsubscribe()
+    this.netReadySub.unsubscribe()
+    this.chatStateSub.unsubscribe()
+  }
 
-    ngOnDestroy() {
-        console.log('销毁了')
-        this.storage.set('online',false);
-        this.mainFunc.xmpp.stop();
-            console.log('销毁了')
-             this.newMessageSub.unsubscribe()
-             this.netReadySub.unsubscribe()
-             this.chatStateSub.unsubscribe()
-    }
-
-
-
-    async  retryConnect(){
-        await this.mainFun.xmpp.stop()
-        await this.mainFun.startChat(true)
-      }
     
       ionViewWillEnter() {
         // this.getChatList();
@@ -280,7 +265,7 @@ export class HomePage extends BaseUI {
       }
       // 新建群聊页面
       groupChatPage() {
-        this.router.navigate(["/tabs/safes/comwechat/creat-group-chat"]);
+        this.router.navigate(["/creat-group-chat"]);
       }
       // 获取群成员信息
       async getGroupChatMembers(roomid) {
