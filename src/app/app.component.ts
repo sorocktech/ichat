@@ -28,7 +28,7 @@ import { JPush } from '@jiguang-ionic/jpush/ngx';
 import { JPushService } from './sevices/jpush.service';
 import {computeStartOfLinePositions} from "@angular/compiler-cli/ngcc/src/sourcemaps/source_file";
 import {Setting} from "./interfaces/setting";
-import {SETTING} from "./interfaces/storage";
+import {SETTING, USERINFO} from "./interfaces/storage";
 import {THEME_DARK, THEME_DARK_STATUS_BAR_COLOR, THEME_LIGHT, THEME_LIGHT_STATUS_BAR_COLOR} from "./interfaces/app";
 
 declare var codePush;
@@ -80,7 +80,9 @@ private nav: NavController,
   }
 
   async initializeApp() {
-    this.platform.ready().then(() => {
+    this.platform.ready().then(async() => {
+      this.dataService.userinfo = await this.storage.get(USERINFO)
+      console.log('userinfo',this.dataService.userinfo)
         this.router.events.subscribe(async (event: Event) => {
             if (event instanceof NavigationStart) {
                 if(event.url != 'home' && event.url != 'tabs/safes'){

@@ -26,6 +26,16 @@ const routes: Routes = [
       import("./pages/send-message/send-message.module").then((m) => m.SendMessagePageModule),
   },
   {
+    path: "chat-message",
+    loadChildren: () =>
+      import("./pages/chat-message/chat-message.module").then((m) => m.ChatMessagePageModule),
+  },
+  {
+    path: "contact",
+    loadChildren: () =>
+      import("./pages/linkmancard/linkmancard.module").then((m) => m.LinkmancardPageModule),
+  },
+  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },

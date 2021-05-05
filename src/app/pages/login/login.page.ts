@@ -114,8 +114,8 @@ export class LoginPage extends BaseUI  implements OnInit{
       if (res.status) {
         return super.showToast(this.toast, '密码或账号错误');
       }
-
       localStorage.setItem("access_token", res.data.access_token);
+
       this.data.userinfo = res.data
       console.log('userinfo',res.data)
        this.storage.set(USERINFO, res.data).then(async () => {

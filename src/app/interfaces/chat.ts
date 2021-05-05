@@ -91,15 +91,24 @@ export interface contactsOrg{
   name:string
 }
 
-export interface contactsItem{
-  id:string
-  name:string
-  openfire_no: string
-  org_name: string
-  pic_url: string
+export interface contactsItem
+{
+  info:contactsItemPerson
+  remark:string
+  craeted_at: string
 }
 
-export interface contacts{
+export interface contactsItemPerson
+{
+  id:number
+  name:string
+  chat_jid:string
+  created_at:string
+}
+
+export interface contacts
+{
   orgs:Array<contactsOrg> | []
   users:Array<contactsItem> | []
 }
+

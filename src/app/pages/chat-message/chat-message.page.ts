@@ -56,6 +56,7 @@ import Swiper from "swiper";
 import {debounce} from "rxjs/operators";
 import {DbService} from "../../sevices/db.service";
 import {AndroidPermissions} from "@ionic-native/android-permissions/ngx";
+import { USERINFO } from "src/app/interfaces/storage";
 var _ = require('lodash')
 
 
@@ -66,7 +67,7 @@ var _ = require('lodash')
 })
 
 export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
-  public userinfo: any = JSON.parse(localStorage.getItem("userinfo"));
+  public userinfo: any;
 
 
   public type: string = ""; //区分图片还是音频
@@ -85,11 +86,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     username: "Venkman",
   };
 
-  user = {
-    _id: "534b8fb2aa5e7afc1b23e69c",
-    pic: this.api.picurl + this.userinfo.picture,
-    username: this.userinfo.nick,
-  };
+  user = null
 
   doneLoading = false;
 
@@ -150,6 +147,101 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     //     this.chatList = message.messages;
     //   }
     // });
+  }
+
+
+  async ngOnInit() {
+    this.userinfo= await this.storage.get(USERINFO) 
+    console.log(this.userinfo)
+
+  this.user = {
+    _id: "534b8fb2aa5e7afc1b23e69c",
+    pic: this.api.picurl + '',
+    username: this.userinfo.nick,
+  };
+    this.params.account_no = this.params.account_no
+    this.dataService.isShowNewMessageTotast = false
+    this.dataService.currentChatAccountNo = this.params.account_no
+    this.currentChatType = this.params.type
+    this.jid = this.params.account_no + CHAT_HOST;
+    if(this.params.type === GROUPCHAT){
+      this.jid = this.params.account_no +  GROUPCHAT_HOST;
+    }
+
+    this._unreadCount = this.mainFunc.getUnreadCount().subscribe((count:number)=>{
+        this.unreadCount = count
+      })
+
+    this.getChatMessageFromDb();
+
+    this.newMessageSub = this.mainFunc.getNewMessageAlert().subscribe((ChatItem:ChatItem)=>{
+      console.log('~~~~~get new message~~~~~~')
+      console.log(ChatItem)
+      console.log('~~~~~get new message~~~~~~')
+        if(!ChatItem){
+          return  true
+        }
+      if(ChatItem.type === GROUPCHAT && this.currentChatType === GROUPCHAT) {
+        this.groupMessageRender(ChatItem)
+        return true
+
+      }
+
+      if(ChatItem.type === CHAT && this.currentChatType === CHAT) {
+        this.singleMessageRender(ChatItem)
+        return true
+      }
+    })
+
+
+    let _that = this;
+
+      var lock =false 
+    function wchat_ToBottom() {
+      $(".wcim__innerScroll").animate(
+        { scrollTop: $("#J__chatMsgList").height() },
+        0
+      );
+    }
+
+    $("body").on("click", ".btn-panel", function () {
+      _that.keyboard.hide();
+
+      var that = $(this);
+      $(".wc__choose-panel").show();
+      if (that.hasClass("btn-choose")) {
+        $(".wc__choose-panel .wrap-choose").show();
+      }
+      wchat_ToBottom();
+    });
+
+
+    // 文件
+    let fileInput = document.getElementById('chooseFile');
+    fileInput.onchange = () => {
+      console.log('点击上传文件')
+      let file = (<HTMLInputElement>(fileInput)).files[0];
+      console.log(file)
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function (e) {
+        var _img = this.result;
+        _that.base64Img = _img;
+        let sub = _that.base64Img.substring(
+            _that.base64Img.indexOf("/") + 1,
+            _that.base64Img.indexOf(";")
+        );
+        _that.blob = _that.dataURLtoBlob(_that.base64Img); //这里一定要加上data:image/jpeg;base64,
+        _that.type = "file";
+        _that.file = _that.blobToFile(_that.blob, `chat.${sub}`); //这里一定要加上文件的名字，看你自己的后台设置
+        let param = new FormData(); //以表单的形式上传，这里一定要这样才能传过去
+        param.append("file", _that.file, _that.file.name);
+        _that.goLoad(param)
+        console.log(file);
+      }
+    }
+
+    this.scrollToBottom()
   }
 
   getChatMessageFromDb(start=100000,limit=30){
@@ -273,116 +365,6 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     this.dataService.currentChatAccountNo = null
   }
 
-  ngOnInit() {
-    this.params.account_no = this.params.account_no.toLowerCase()
-    this.dataService.isShowNewMessageTotast = false
-    this.dataService.currentChatAccountNo = this.params.account_no
-    this.currentChatType = this.params.type
-    this.jid = this.params.account_no + CHAT_HOST;
-    if(this.params.type === GROUPCHAT){
-      this.jid = this.params.account_no +  GROUPCHAT_HOST;
-    }
-
-    this._unreadCount = this.mainFunc.getUnreadCount().subscribe((count:number)=>{
-        this.unreadCount = count
-      })
-
-    this.getChatMessageFromDb();
-
-    this.newMessageSub = this.mainFunc.getNewMessageAlert().subscribe((ChatItem:ChatItem)=>{
-      console.log('~~~~~get new message~~~~~~')
-      console.log(ChatItem)
-      console.log('~~~~~get new message~~~~~~')
-        if(!ChatItem){
-          return  true
-        }
-      if(ChatItem.type === GROUPCHAT && this.currentChatType === GROUPCHAT) {
-        this.groupMessageRender(ChatItem)
-        return true
-
-      }
-
-      if(ChatItem.type === CHAT && this.currentChatType === CHAT) {
-        this.singleMessageRender(ChatItem)
-        return true
-      }
-    })
-
-
-    let _that = this;
-
-      var lock =false 
-    function wchat_ToBottom() {
-      $(".wcim__innerScroll").animate(
-        { scrollTop: $("#J__chatMsgList").height() },
-        0
-      );
-    }
-
-    $("body").on("click", ".btn-panel", function () {
-      _that.keyboard.hide();
-
-      var that = $(this);
-      $(".wc__choose-panel").show();
-      if (that.hasClass("btn-choose")) {
-        $(".wc__choose-panel .wrap-choose").show();
-      }
-      wchat_ToBottom();
-    });
-
-    // ...选择图片
-    // let pictureUpload = document.getElementById('choosePicture')
-    //
-    // pictureUpload.onchange =()=> {
-    //   console.log('监听图片上传')
-    //   var file = (<HTMLInputElement>(pictureUpload)).files[0];
-    //   var reader = new FileReader();
-    //   reader.readAsDataURL(file);
-    //   reader.onload = function (e) {
-    //     var _img = this.result;
-    //     _that.base64Img = _img;
-    //     _that.blob = _that.dataURLtoBlob(_that.base64Img); //这里一定要加上data:image/jpeg;base64,
-    //     if (_that.base64Img.includes("video")) {
-    //       _that.file = _that.blobToFile(_that.blob, "chat.mp4"); //这里一定要加上文件的名字，看你自己的后台设置
-    //       _that.type = "video";
-    //     } else if (_that.base64Img.includes("image")) {
-    //       _that.file = _that.blobToFile(_that.blob, "chat.jpeg"); //这里一定要加上文件的名字，看你自己的后台设置
-    //       _that.type = "image";
-    //     }
-    //
-    //     let param = new FormData(); //以表单的形式上传，这里一定要这样才能传过去
-    //     param.append("file", _that.file, _that.file.name);
-    //     _that.goLoad(param);
-    //   }
-    // }
-
-    // 文件
-    let fileInput = document.getElementById('chooseFile');
-    fileInput.onchange = () => {
-      console.log('点击上传文件')
-      let file = (<HTMLInputElement>(fileInput)).files[0];
-      console.log(file)
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function (e) {
-        var _img = this.result;
-        _that.base64Img = _img;
-        let sub = _that.base64Img.substring(
-            _that.base64Img.indexOf("/") + 1,
-            _that.base64Img.indexOf(";")
-        );
-        _that.blob = _that.dataURLtoBlob(_that.base64Img); //这里一定要加上data:image/jpeg;base64,
-        _that.type = "file";
-        _that.file = _that.blobToFile(_that.blob, `chat.${sub}`); //这里一定要加上文件的名字，看你自己的后台设置
-        let param = new FormData(); //以表单的形式上传，这里一定要这样才能传过去
-        param.append("file", _that.file, _that.file.name);
-        _that.goLoad(param)
-        console.log(file);
-      }
-    }
-
-    this.scrollToBottom()
-  }
 
   openImagePicker() {
     this.openCameraPicker(this.camera.PictureSourceType.PHOTOLIBRARY)

@@ -666,7 +666,7 @@ export class Chat  implements OnInit,OnDestroy{
     receiveMessageProcess() {
         this.receiveNewMessage
             .pipe(concatMap(async (MessageItem: MessageItem) => {
-                if (MessageItem.member.member_no === this.dataService.userinfo.openfire_no.toLowerCase() || MessageItem.from === this.dataService.userinfo.openfire_no.toLowerCase()) {
+                if (MessageItem.member.member_no === this.dataService.userinfo.chat_jid || MessageItem.from === this.dataService.userinfo.chat_jid) {
                     console.log('收到自己在发出消息 什么也不做')
                 } else {
                       await this.messageTransChat(MessageItem)

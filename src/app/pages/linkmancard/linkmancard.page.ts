@@ -36,11 +36,11 @@ export class LinkmancardPage extends BaseUI implements OnInit {
   }
 
   getManMsg() {
-    this.http.post(this.api.safesList.getLinkManMsg, {}, (res) => {
-      if (res.retcode == 0) {
-        this.manMsg = res.resp.userInfo;
-      }
-    });
+        this.manMsg ={
+          name:'萌',
+          openfire_na:'萌',
+          pic_url:'',
+        }
   }
   // 发消息
   goChat() {
