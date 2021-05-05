@@ -1,7 +1,6 @@
 @import "src/theme/dark-blue";
 ion-header {
   ion-toolbar {
-    padding: 0 10px;
     font-weight: bold;
     font-size: 1.7rem;
   }
@@ -17,49 +16,3 @@ ion-header {
 
 }
 
-.swiper-paginatio{
-  top:10px
-}
-.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
-  top: 10px;
-}
-
-ion-slides {
-  overflow: auto;
-  .news-block{
-    text-align: left;
-    h2 {
-    padding-left: 3px;
-    padding-right: 3px;
-    }
-    p{
-      padding: 10px;
-    }
-    .banner{
-      position: relative;
-      .news-label{
-        --color:white;
-        --background:#ef2a2a;
-      }
-      ion-img {
-        height: 24em;
-        object-fit: cover;
-      }
-      .news-title{
-        background: linear-gradient(rgba(0, 0, 0, 0.23), rgba(0, 0, 0, 1));
-        padding: 10px;
-        position: absolute;
-        color: white;
-        bottom: 0;
-        width: 100%;
-      
-      }
-      
-    }
-  }
-
- .contents{
-   padding: 10px
-
- };
-}
