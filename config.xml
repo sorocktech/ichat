@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.sorocktech.ichat" version="3.2.22" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.sorocktech.ichat" version="1.2105.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>iChat</name>
     <description>chat with friends</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -79,10 +79,10 @@
             <string>App需要您的同意，才能访问麦克风</string>
         </config-file>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
-            <string>风险地球将在一键报警等服务中使用您的位置信息。</string>
+            <string>App将在等服务中使用您的位置信息。</string>
         </edit-config>
         <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription">
-            <string>风险地球将在一键报警等服务中使用您的位置信息。</string>
+            <string>App将在一键报警等服务中使用您的位置信息。</string>
         </edit-config>
         <config-file parent="NSAppleMusicUsageDescription" target="*-Info.plist">
             <string>App需要您的同意，才能访问媒体资料库</string>
