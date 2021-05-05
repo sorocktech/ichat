@@ -8,17 +8,17 @@ import {
   ToastController,
 } from "@ionic/angular";
 import { ActivatedRoute, Params } from "@angular/router";
-import { BaseUI } from "../../../../api/baseui";
+import { BaseUI } from "../../api/baseui";
 import { Storage } from "@ionic/storage";
-import { HttpService } from "../../../../sevices/http.service";
-import { apiList } from "../../../../api/app.api"; // 引入
+import { HttpService } from "../../sevices/http.service";
+import { apiList } from "../../api/app.api"; // 引入
 import { FileOpener } from "@ionic-native/file-opener/ngx";
-import {ImageModalPage} from "../../../../pages/image-modal/image-modal.page"
-import { DataService } from "../../../../sevices/data.service";
-import { NoticeService } from "../../../../sevices/notice.service";
+import {ImageModalPage} from "../image-modal/image-modal.page"
+import { DataService } from "../../sevices/data.service";
+import { NoticeService } from "../../sevices/notice.service";
 const { client, xml, jid } = require("@xmpp/client");
 
-import { Chat } from "../../../../providers/chat";
+import { Chat } from "../../providers/chat";
 import { Router } from "@angular/router";
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 import {
@@ -35,7 +35,7 @@ import {
 import { Keyboard } from "@ionic-native/keyboard/ngx";
 import * as $ from "jquery";
 declare var wcPop: any;
-import "../../../../../assets/js/previewImage.js";
+import "../../../assets/js/previewImage.js";
 import {
   CHAT,
   GROUPCHAT,
@@ -49,12 +49,12 @@ import {
   ChatItem,
   CHAT_TYPE_FILE,
   CHAT_TYPE_VIDEO
-} from "../../../../interfaces/chat";
+} from "../../interfaces/chat";
 
 declare var previewImage: any;
 import Swiper from "swiper";
 import {debounce} from "rxjs/operators";
-import {DbService} from "../../../../sevices/db.service";
+import {DbService} from "../../sevices/db.service";
 import {AndroidPermissions} from "@ionic-native/android-permissions/ngx";
 var _ = require('lodash')
 

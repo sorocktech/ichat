@@ -8,7 +8,7 @@ import { ChatMessagePageRoutingModule } from './chat-message-routing.module';
 
 
 import { ChatMessagePage } from './chat-message.page';
-import { ShareModule } from "../../../../modules/share/share.module";
+import { ShareModule } from "../../modules/share/share.module";
 
 
 @NgModule({

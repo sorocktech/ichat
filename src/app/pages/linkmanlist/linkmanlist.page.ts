@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { HttpService } from "../../sevices/http.service";
 import { apiList } from "../../api/app.api"; // 引入
 import { DataService } from "../../sevices/data.service";
+import { contactsItem } from 'src/app/interfaces/chat';
 
 @Component({
   selector: 'app-linkmanlist',
@@ -20,7 +21,7 @@ import { DataService } from "../../sevices/data.service";
   ]
 })
 export class LinkmanlistPage extends BaseUI implements OnInit {
-  public linkmanList: any = {};
+  public linkmanList: Array<contactsItem> = [];
   public orgid: string = "";
   public search: string = "";//搜索
   public checktype: string = "";//区分是建群
@@ -39,30 +40,24 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
   }
 
   ngOnInit() {
-    this.getLinkmanList();
+    this.getList();
   }
-  // 获取列表
-  getLinkmanList() {
-    this.linkmanList = [];
+  
+  /**
+   * 获取联系人列表
+   */
+  getList() {
     this.http.get(this.api.safesList.linkmanList, {}, (res) => {
-      // super.hide(this.loadingCtrl);
-      console.log(res)
-      if (res.code == 0) {
-        this.linkmanList = res.resp.list;
-        this.dataService.mancheckList.forEach(pp => {
-          this.linkmanList.users.forEach(gg => {
-            if (pp.id == gg.id) {
-              gg.checked = true;
-            }
-          })
-        });
+      if (res.code == 200) {
+        this.linkmanList = res.data.items
       }
     });
   }
+
   // 点击到下一级
   goNext(item) {
     this.orgid = item.id;
-    this.getLinkmanList();
+    this.getList();
     this.dataService.linkmanList.push(item);
   }
   goChange(title, inx) {
@@ -71,26 +66,17 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
     }
     this.dataService.linkmanList.splice(inx + 1, this.dataService.linkmanList.length - 1);
     this.orgid = title.id;
-    this.getLinkmanList();
+    this.getList();
   }
   // 聊天页
-  goChat(user) {
-    if (this.checktype) {
-      user.checked = !user.checked;
-      if (user.checked && (this.dataService.mancheckList.filter(ll => ll.id == user.id).length == 0)) {
-        this.dataService.mancheckList.push(user);
-      }
-      else if (!user.checked) {
-        this.dataService.mancheckList.splice(this.dataService.mancheckList.findIndex(item => item.id === user.id), 1);
-      }
-    }
-    else {
-      this.router.navigate(['/tabs/safes/comwechat/linkmancard'], {
+  viewContact(user) {
+    
+      this.router.navigate(['/contact'], {
         queryParams: {
           uid: user.id
         }
       });
-    }
+    
   }
   // 返回上一页
   goBack() {
@@ -100,17 +86,17 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
     else {
       this.dataService.linkmanList.splice(this.dataService.linkmanList.length - 1, this.dataService.linkmanList.length - 1);
       this.orgid = this.dataService.linkmanList[this.dataService.linkmanList.length - 2].id;
-      this.getLinkmanList();
+      this.getList();
     }
   }
   // 搜索
   goSearch(event) {
     if ("Enter" == event.key) {
-      this.getLinkmanList();
+      this.getList();
     }
   }
   // 搜索
   searchChange() {
-    this.getLinkmanList();
+    this.getList();
   }
 }

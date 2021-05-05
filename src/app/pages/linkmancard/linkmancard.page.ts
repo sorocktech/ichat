@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { HttpService } from "../../../../sevices/http.service";
-import { apiList } from "../../../../api/app.api"; // 引入
+import { HttpService } from "../../sevices/http.service";
+import { apiList } from "../../api/app.api"; // 引入
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { BaseUI } from "../../../../api/baseui";
+import { BaseUI } from "../../api/baseui";
 import { NavController, LoadingController } from "@ionic/angular";
-import { DataService } from "../../../../sevices/data.service";
+import { DataService } from "../../sevices/data.service";
 
 @Component({
   selector: "app-linkmancard",
@@ -36,12 +36,7 @@ export class LinkmancardPage extends BaseUI implements OnInit {
   }
 
   getManMsg() {
-    const userinfo = JSON.parse(localStorage.getItem("userinfo"));
-    let params = {
-      "access-token": userinfo.token,
-      uid: this.uid,
-    };
-    this.http.post(this.api.safesList.getLinkManMsg, params, (res) => {
+    this.http.post(this.api.safesList.getLinkManMsg, {}, (res) => {
       if (res.retcode == 0) {
         this.manMsg = res.resp.userInfo;
       }
@@ -55,6 +50,6 @@ export class LinkmancardPage extends BaseUI implements OnInit {
       pic_url: this.manMsg.pic_url,
       type: 'chat',
     };
-    this.router.navigate(["/tabs/safes/comwechat/chat-message"]);
+    this.router.navigate(["/chat-message"]);
   }
 }
