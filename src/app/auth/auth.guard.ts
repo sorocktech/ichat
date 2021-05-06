@@ -16,21 +16,15 @@ export class AuthGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     // 判断是否有 token 信息
-    let token = localStorage.getItem('auth-token') || '';
-    if (token === '') {
+    console.log('run','we are running!')
+    let token = localStorage.getItem('access_token') || '';
+    if (!token) {
+      console.log('token not exist')
       this.router.navigate(['/login']);
       return false;
     }
 
-    // 判断是否可以访问当前连接
-    let url: string = state.url;
-    if (token === 'admin' && url === '/crisis-center') {
       return true;
-    }
-
-    this.router.navigate(['/login']);
-    return false;
-
   }
   
 }
