@@ -117,7 +117,7 @@ export class HomePage extends BaseUI {
     this.userinfo = await this.storage.get(USERINFO)
     console.log('testUser', this.userinfo)
     if(!this.userinfo){
-          return this.nav.navigateRoot(["/login"]);
+      console.log('user','登录问题')
     }
     this.platform.ready().then(async () => {
     })

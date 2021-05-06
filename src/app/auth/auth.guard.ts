@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DataService } from "../sevices/data.service";``
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree,Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -6,7 +7,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    public dataService: DataService,
+    ) { }
 
   canActivate(
     // next: ActivatedRouteSnapshot,
@@ -24,7 +28,15 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-      return true;
+    let userinfo = localStorage.getItem('userinfo') || '';
+    if (!userinfo) {
+      console.log('token not exist')
+      this.router.navigate(['/login']);
+      return false;
+    }
+    this.dataService.userinfo = JSON.parse(userinfo)
+
+    return true;
   }
   
 }

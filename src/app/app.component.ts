@@ -58,8 +58,7 @@ export class AppComponent extends BaseUI {
     public dataService: DataService,
     private statusBar: StatusBar,
     private storage: Storage,
-
-private nav: NavController,
+    private nav: NavController,
     public chatService: ChatService,
     private minimize: AppMinimize,
     public toastController: ToastController,
@@ -78,25 +77,29 @@ private nav: NavController,
   }
 
   async initializeApp() {
-    this.platform.ready().then(async() => {
-      this.dataService.userinfo = await this.storage.get(USERINFO)
-      console.log('userinfo',this.dataService.userinfo)
-        this.router.events.subscribe(async (event: Event) => {
-            if (event instanceof NavigationStart) {
-                if(event.url != 'home' && event.url != 'tabs/safes'){
+    this.platform.ready().then(async () => {
+      let userinfo = localStorage.getItem("userinfo") || ""
+      if (!userinfo) {
+        this.nav.navigateRoot('/login')
+      }
+      this.dataService.userinfo = JSON.parse(userinfo)
+      console.log('userinfo', userinfo)
+      this.router.events.subscribe(async (event: Event) => {
+        if (event instanceof NavigationStart) {
+          if (event.url != 'home' && event.url != 'tabs/safes') {
 
-                }
+          }
 
-            }
+        }
 
-            if (event instanceof NavigationEnd) {
-                // Hide loading indicator
-            }
+        if (event instanceof NavigationEnd) {
+          // Hide loading indicator
+        }
 
-        });
-        this.registerBackButtonAction();
-        this.darkMode()
-        this.initRouterListen();
+      });
+      this.registerBackButtonAction();
+      this.darkMode()
+      this.initRouterListen();
 
     });
   }
