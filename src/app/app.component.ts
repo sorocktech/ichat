@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 
 import { Platform, NavController, ToastController, AlertController } from "@ionic/angular";
-import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { File } from "@ionic-native/file/ngx";
 import { AppVersion } from "@ionic-native/app-version/ngx";
@@ -57,7 +56,6 @@ export class AppComponent extends BaseUI {
     private platform: Platform,
     public device: Device,
     public dataService: DataService,
-    private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private storage: Storage,
 
@@ -96,19 +94,11 @@ private nav: NavController,
             }
 
         });
-        this.splashScreen.hide();
         this.registerBackButtonAction();
-        // this.isCodePush();
-        this.getPermission();
-
         this.darkMode()
         this.initRouterListen();
 
     });
-
-
-    // this.getBlankTime();
-    this.isToken();
   }
 
     /**
@@ -163,73 +153,7 @@ private nav: NavController,
             });
     }
 
-  isGPS() {
-    // only android
-    // this.diagnostic.isGpsLocationEnabled().then((success) => {
-    //   alert(JSON.stringify(success));
-    // }, (error) => {
-    //   alert(JSON.stringify(error));
-    // });
-  }
 
-  // 热更新
-  isCodePush() {
-    // window.document.addEventListener('deviceready', function () {
-    //   codePush.checkForUpdate(function (update) {
-    //     if (!update) {
-    //       alert("The app is up to date.");
-    //     } else {
-    //       alert("An update is available! Should we download it?");
-    //     }
-    //   });
-    //   codePush.sync(null, {
-    //     updateDialog: {
-    //       appendReleaseDescription: true,
-    //     },
-    //     installMode: 0
-    //   });
-    // })
-  }
-
-
-  getPermission() {
-    // 订阅实时位置
-    // let watch = this.geolocation.watchPosition();
-    // watch.subscribe((data) => {
-    //   // data can be a set of coordinates, or an error (if an error occurred).
-    //   // data.coords.latitude
-    //   // data.coords.longitude
-    // });
-    // 检查定位权限
-    console.log('检查权限');
-    this.androidPermissions.checkPermission(this.permissionName).then(
-        result => {
-          console.log('Has permission?' + result.hasPermission);
-
-          // 如果没有权限
-          if (!result.hasPermission) {
-            // 请求权限
-            this.androidPermissions.requestPermissions([this.permissionName])
-                .then(requestResult => {
-                  if (!requestResult.hasPermission) {
-                    console.log('用户拒绝定位')
-                    this.noPermission()
-                  } else {
-                    console.log(requestResult)
-                    console.log('允许定位')
-                  }
-                }),
-                err => {
-                  console.log(err.error)
-                  console.log(err.message)
-                }
-          }
-        },
-    ),
-        err => {
-          console.log(err)
-        }
-  }
   initRouterListen() {
     this.router.events.subscribe(event => { // 需要放到最后一个执行
       if (event instanceof NavigationEnd) {
@@ -279,6 +203,7 @@ private nav: NavController,
         }
     );
   }
+
   async miniApp() {
     const toast = await this.toastController.create({
       message: "再按一次退出应用",
@@ -287,63 +212,4 @@ private nav: NavController,
     });
     await toast.present();
   }
-
-  isToken() {
-      const token = localStorage.getItem("access_token")
-       if(!token){
-        return this.nav.navigateForward(["/login"]);
-       }
-  }
-
-  getBlankTime() {
-    let isStartByHand: boolean = true; // 是否手动关闭启动
-    if (!isStartByHand) {
-      // 自动关闭
-      this.platform.ready().then(() => {
-        this.splashScreen.hide();
-      });
-    } else {
-      // 手动关闭
-
-      let startTime = new Date().getMilliseconds(); // 调试用
-      var isCleared: boolean = false;
-      let timeOut = 2000,
-        count = 0; // 记录自动检测的次数，不断地寻找合适的时间节点
-      let interval = setInterval(() => {
-        if (
-          SplashScreen.installed() &&
-          File.installed() &&
-          AppVersion.installed()
-        ) {
-          // console.log("SplashScreen已经安装完毕=====interval=====" + "时间差毫秒值：" + (new Date().getMilliseconds() - startTime));
-          // 防止出现1~2秒钟的白屏，再次延迟隐藏启动页
-          setTimeout(() => {
-            clearInterval(interval);
-            this.splashScreen.hide();
-            isCleared = true;
-          }, timeOut + 1000 + count++ * 1000); // 加1000错开定时任务延时
-        }
-      }, timeOut);
-
-      // 防止启动时间不够出现闪屏（在首页与启动页之间频繁切换）
-      setTimeout(() => {
-        if (isCleared) {
-          clearInterval(interval);
-        }
-      }, timeOut);
-    }
-  }
-
-  async noPermission () {
-    const alert = await this.alertController.create({
-      header: '您已拒绝定位权限',
-      message: '一键报警功能无法正常使用',
-      buttons: ['确认']
-    });
-    await alert.present();
-  }
-
-
-
-
 }
