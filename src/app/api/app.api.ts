@@ -56,12 +56,12 @@ export class apiList implements OnInit {
 
       // 联系人列表
       linkmanList: `${this.baseurl}contacts`,
+      linkmanCard: `${this.baseurl}contacts`,
       groupQrcode: `${this.baseurl}tihal/im/add-group-qrcode`,
       groupInfoFromQrcode: `${this.baseurl}tihal/im/get-group-info`,
       addToGroup: `${this.baseurl}tihal/im/user-add-group`,
 
       // 查询联系人信息
-      getLinkManMsg: `${this.baseurl}tihal/user/personal-information`,
       // 新建群聊
       createGroupChat: `${this.baseurl}tihal/im/create-group-chat`, //群聊
       // 接收消息--根据JID查询用户信息

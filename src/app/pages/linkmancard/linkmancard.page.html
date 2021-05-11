@@ -12,11 +12,10 @@
   <ion-list class="bord_btm">
     <ion-item >
       <ion-thumbnail slot="start">
-        <ion-img class="touxiang" *ngIf="manMsg.pic_url" [src]="api.picurl+manMsg?.pic_url"></ion-img>
-        <ion-img class="touxiang" *ngIf="!manMsg.pic_url" src="assets/images/xearth.jpeg"></ion-img>
+        <ion-img class="touxiang"  src="assets/images/xearth.jpeg"></ion-img>
       </ion-thumbnail>
       <ion-text>
-        <ion-label>{{manMsg?.name}}</ion-label>
+        <ion-label>{{manMsg?.remark}}</ion-label>
       </ion-text>
     </ion-item>
   <ion-item>
