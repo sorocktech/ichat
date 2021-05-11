@@ -17,30 +17,16 @@ export class LinkmancardPage extends BaseUI implements OnInit {
   constructor(
     public http: HttpService,
     public api: apiList,
-    public activeRoute: ActivatedRoute,
+    public route: ActivatedRoute,
     public nav: NavController,
     public router: Router,
     public dataService: DataService
   ) {
     super();
-    this.activeRoute.queryParams.subscribe((params: Params) => {
-      this.uid = params.uid;
-    });
   }
 
   ngOnInit() {
-    this.getManMsg();
-  }
-  goBack() {
-    super.backLastPage(this.nav);
-  }
-
-  getManMsg() {
-        this.manMsg ={
-          name:'萌',
-          openfire_na:'萌',
-          pic_url:'',
-        }
+    this.uid= this.route.snapshot.params['id'];
   }
   // 发消息
   goChat() {

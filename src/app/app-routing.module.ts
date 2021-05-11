@@ -31,7 +31,7 @@ const routes: Routes = [
   },
 
   {
-    path: "contact",
+    path: "contact/:id",
     loadChildren: () =>import("./pages/linkmancard/linkmancard.module").then((m) => m.LinkmancardPageModule),
     canActivate: [AuthGuard]
   },

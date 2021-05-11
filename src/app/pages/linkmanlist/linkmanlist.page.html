@@ -12,17 +12,8 @@
       (keypress)="goSearch($event)" (ionChange)="searchChange()">
     </ion-searchbar>
   </form>
-  <div class="navigate" *ngIf="dataService.linkmanList">
-    <p *ngFor="let title of dataService.linkmanList;let inx=index">
-      <ion-text (click)="goChange(title,inx)"
-        [ngStyle]="{'color':inx != dataService.linkmanList.length -1 ? '#3259c7' : '#5d5555' }" [innerHTML]="title.name">
-      </ion-text>
-      <ion-icon *ngIf="inx != dataService.linkmanList.length -1" name="chevron-forward-outline" slot="end"
-        class="jian_icon"></ion-icon>
-    </p>
-  </div>
   <ion-list>
-    <ion-item *ngFor="let user of linkmanList" (click)="viewContact(user)">
+    <ion-item *ngFor="let user of linkmanList" [routerLink]="['/contact',user.info.id]">
       <ion-thumbnail slot="start">
         <img  src="assets/images/xearth.jpeg">
       </ion-thumbnail>
@@ -31,6 +22,3 @@
     </ion-item>
   </ion-list>
 </ion-content>
-<ion-footer *ngIf="checktype">
-  <app-create-group></app-create-group>
-</ion-footer>

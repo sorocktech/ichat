@@ -54,12 +54,6 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
     });
   }
 
-  // 点击到下一级
-  goNext(item) {
-    this.orgid = item.id;
-    this.getList();
-    this.dataService.linkmanList.push(item);
-  }
   goChange(title, inx) {
     if (title.id == '0') {
       super.backLastPage(this.nav);
@@ -68,16 +62,7 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
     this.orgid = title.id;
     this.getList();
   }
-  // 聊天页
-  viewContact(user) {
-    
-      this.router.navigate(['/contact'], {
-        queryParams: {
-          uid: user.id
-        }
-      });
-    
-  }
+
   // 返回上一页
   goBack() {
     if (this.dataService.linkmanList.length == 2) {
