@@ -151,7 +151,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
 
   async ngOnInit() {
-    this.userinfo= await this.storage.get(USERINFO) 
+    this.userinfo= await this.dataService.userinfo 
     console.log(this.userinfo)
 
   this.user = {
@@ -466,7 +466,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     }
 
     let MessageItem:MessageItem= {
-      from:this.userinfo.openfire_no.split('@')[0].toLowerCase(),
+      from:this.userinfo.chat_jid,
       to:this.jid.split('@')[0],
       time:new Date(),
       msgType:messagegType,
@@ -474,7 +474,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
       id:this.mainFunc.genID(10),
       text:this.chatBox,
       member:{
-        member_no:this.userinfo.openfire_no.split('@')[0].toLowerCase(),
+        member_no:this.userinfo.chat_jid,
         member_nick:this.userinfo.nick,
         member_avatar:this.userinfo.picture,
       }

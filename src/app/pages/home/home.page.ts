@@ -114,7 +114,7 @@ export class HomePage extends BaseUI {
   }
 
   async ngOnInit() {
-    this.userinfo = await this.storage.get(USERINFO)
+    this.userinfo = await this.dataService.userinfo
     console.log('testUser', this.userinfo)
     if(!this.userinfo){
       console.log('user','登录问题')
@@ -143,6 +143,7 @@ export class HomePage extends BaseUI {
   }
 
   ngOnDestroy() {
+    return
     console.log('销毁了')
     this.storage.set('online', false);
     if(this.mainFunc.xmpp){
