@@ -1,15 +1,15 @@
 import { Component, OnInit } from "@angular/core";
-import { BaseUI } from "../../../api/baseui";
+import { BaseUI } from "../../api/baseui";
 import {
   NavController,
   LoadingController,
   AlertController,
 } from "@ionic/angular";
 import { Router, ActivatedRoute, Params } from "@angular/router";
-import { HttpService } from "../../../sevices/http.service";
-import { apiList } from "../../../api/app.api"; // 引入
-import { Chat } from "../../../providers/chat"; // 引入
-import { DataService } from "../../../sevices/data.service";
+import { HttpService } from "../../sevices/http.service";
+import { apiList } from "../../api/app.api"; // 引入
+import { Chat } from "../../providers/chat"; // 引入
+import { DataService } from "../../sevices/data.service";
 
 @Component({
   selector: "app-chatmembers",
@@ -94,7 +94,7 @@ export class ChatmembersPage extends BaseUI implements OnInit {
               if (res.retcode == 0) {
                let groupItem =  await this.chat.saveGroup(res.resp.data)
                await this.chat.updateChatItemForGroup(groupItem)
-               this.dataService.curClickMessage.account_nick = groupItem.group_name
+               this.dataService.curClickMessage.name = groupItem.group_name
                this.goBack()
               }
             })

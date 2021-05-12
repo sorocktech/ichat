@@ -90,8 +90,9 @@ export class CreateGroupComponent extends BaseUI implements OnInit {
         console.log(this.messagesList);
 
         this.dataService.curClickMessage = {
-          account_nick: nicklist,
-          account_no: this.chatroom.roomJid.split('@')[0],
+          id:1,
+          name: nicklist,
+          chat_jid: this.chatroom.roomJid.split('@')[0],
           type:'groupchat',
           pic_url:
             "https://yjglpt-dh.oss-cn-beijing.aliyuncs.com/77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",

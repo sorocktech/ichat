@@ -1,16 +1,25 @@
 import { Component, OnInit, ViewEncapsulation } from "@angular/core";
-import { BaseUI } from "../../../../api/baseui";
-import { NavController, LoadingController } from "@ionic/angular";
+import { BaseUI } from "../../api/baseui";
+import {
+  NavController,
+  LoadingController,
+  AlertController,
+  ToastController,
+} from "@ionic/angular";
 import { Router } from "@angular/router";
-import { HttpService } from "../../../../sevices/http.service";
-import { apiList } from "../../../../api/app.api"; // 引入
-import { DataService } from "../../../../sevices/data.service";
-import { NoticeService } from "../../../../sevices/notice.service";
+import { HttpService } from "../../sevices/http.service";
+import { apiList } from "../../api/app.api"; // 引入
+import { DataService } from "../../sevices/data.service";
+import { NoticeService } from "../../sevices/notice.service";
+import { Storage } from "@ionic/storage";
 import { contacts } from "src/app/interfaces/chat";
+
+const { client, xml, jid } = require("@xmpp/client");
+
 @Component({
-  selector: "app-wechatlist",
-  templateUrl: "./wechatlist.page.html",
-  styleUrls: ["./wechatlist.page.scss"],
+  selector: "app-creat-group-chat",
+  templateUrl: "./creat-group-chat.page.html",
+  styleUrls: ["./creat-group-chat.page.scss"],
   encapsulation:ViewEncapsulation.None,
   styles:[
     `
@@ -20,7 +29,13 @@ import { contacts } from "src/app/interfaces/chat";
     `
   ]
 })
-export class WechatlistPage extends BaseUI implements OnInit {
+export class CreatGroupChatPage extends BaseUI implements OnInit {
+
+  public checkList: Array<any> = []; //已选人员
+  public type: string = "chatgroup"; //区分创建群聊页面
+  
+  public messages: Array<any> = [];
+  public chatroom: any = {};
   public linkmanList: contacts = null;
   public search: string = "";//搜索
   constructor(
@@ -30,7 +45,10 @@ export class WechatlistPage extends BaseUI implements OnInit {
     public api: apiList,
     public loadingCtrl: LoadingController,
     public dataService: DataService,
-    public notice: NoticeService
+    public notice: NoticeService,
+    public alertController: AlertController,
+    public toast: ToastController,
+    public storage: Storage,
   ) {
     super();
   }
@@ -39,10 +57,12 @@ export class WechatlistPage extends BaseUI implements OnInit {
     this.getLinkmanList();
   }
 
-  // 返回安全系统页面
   goBack() {
-    this.nav.navigateRoot(["/tabs/safes"]);
+    super.backLastPage(this.nav);
   }
+  ngOnDestroy() {
+  }
+
   // 获取列表
   getLinkmanList() {
     const userinfo = JSON.parse(localStorage.getItem("userinfo"));
@@ -57,13 +77,18 @@ export class WechatlistPage extends BaseUI implements OnInit {
       // super.hide(this.loadingCtrl);
       if (res.retcode == 0) {
         this.linkmanList = res.resp.list;
+        console.log(this.linkmanList)
       }
     });
+  }
+  goChat(user){
+    console.log(user)
   }
   goNext(item) {
     this.router.navigate(['/tabs/safes/comwechat/wechatlist/linkmanlist'], {
       queryParams: {
-        orgid: item.id
+        orgid: item.id,
+        checktype: 'chat',//区分是建群
       }
     });
     this.dataService.linkmanList = [];
@@ -78,12 +103,5 @@ export class WechatlistPage extends BaseUI implements OnInit {
   // 搜索
   searchChange() {
     this.getLinkmanList();
-  }
-  goChat(user) {
-      this.router.navigate(['/tabs/safes/comwechat/linkmancard'], {
-        queryParams: {
-          uid: user.id
-        }
-      });
   }
 }
