@@ -103,7 +103,9 @@ export interface contactsItemPerson
   id:number
   name:string
   chat_jid:string
-  created_at:string
+  created_at?:string
+  type?:ChatType
+  pic_url?:string
 }
 
 export interface contacts

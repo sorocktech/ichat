@@ -48,7 +48,8 @@ import {
   MessageItem,
   ChatItem,
   CHAT_TYPE_FILE,
-  CHAT_TYPE_VIDEO
+  CHAT_TYPE_VIDEO,
+  contactsItemPerson
 } from "../../interfaces/chat";
 
 declare var previewImage: any;
@@ -79,12 +80,6 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
   public files: any;
   private  newMessageSub;
   private chatStateSub
-  toUser = {
-    _id: "534b8e5aaa5e7afc1b23e69b",
-    pic:
-      "https://yjglpt-dh.oss-cn-beijing.aliyuncs.com/77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",
-    username: "Venkman",
-  };
 
   user = null
 
@@ -92,7 +87,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
   public messages: Array<any> = [];
 
-  public params: any = {};
+  public params: contactsItemPerson = null;
 
   public modelData: string = ""
   public curChatPerson: any = {}
@@ -137,11 +132,6 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
   ) {
     super();
 
-    this.params = this.dataService.curClickMessage;
-    console.log(this.params);
-    if (this.params.pic_url) {
-      this.toUser.pic = this.api.picurl + this.params.pic_url;
-    }
     // this.notice.get().subscribe((message) => {
     //   if (message.messages) {
     //     this.chatList = message.messages;
@@ -151,21 +141,21 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
 
   async ngOnInit() {
-    this.userinfo= await this.dataService.userinfo 
-    console.log(this.userinfo)
+    this.params = this.dataService.curClickMessage;
+    this.userinfo = await this.dataService.userinfo
 
-  this.user = {
-    _id: "534b8fb2aa5e7afc1b23e69c",
-    pic: this.api.picurl + '',
-    username: this.userinfo.nick,
-  };
-    this.params.account_no = this.params.account_no
+    this.user = {
+      _id: "534b8fb2aa5e7afc1b23e69c",
+      pic: this.api.picurl + '',
+      username: this.userinfo.nick,
+    };
+    this.params.chat_jid = this.params.chat_jid
     this.dataService.isShowNewMessageTotast = false
-    this.dataService.currentChatAccountNo = this.params.account_no
+    this.dataService.currentChatAccountNo = this.params.chat_jid
     this.currentChatType = this.params.type
-    this.jid = this.params.account_no + CHAT_HOST;
+    this.jid = this.params.chat_jid + CHAT_HOST;
     if(this.params.type === GROUPCHAT){
-      this.jid = this.params.account_no +  GROUPCHAT_HOST;
+      this.jid = this.params.chat_jid +  GROUPCHAT_HOST;
     }
 
     this._unreadCount = this.mainFunc.getUnreadCount().subscribe((count:number)=>{
@@ -245,23 +235,23 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
   }
 
   getChatMessageFromDb(start=100000,limit=30){
-    this.db.loadMessages(this.params.account_no,start, limit)
+    this.db.loadMessages(this.params.chat_jid,start, limit)
         .then(res => {
           console.log(res)
           if (res.length > 0) {
             res.map((ChatItem) => {
-              if (this.params.account_no === ChatItem.account_no) {
+              if (this.params.chat_jid === ChatItem.account_no) {
                 if (ChatItem.type === CHAT) {
                   // 单聊
-                  let chatMessageitem ={ChatItem:ChatItem,site:this.params.account_no === ChatItem.message.from ? 'left' : 'right'}
+                  let chatMessageitem ={ChatItem:ChatItem,site:this.params.chat_jid === ChatItem.message.from ? 'left' : 'right'}
                   chatMessageitem.ChatItem.count = 0
-                  chatMessageitem.ChatItem.pic_url = this.params.account_no === ChatItem.message.from ? ChatItem.pic_url : this.api.picurl + this.userinfo.picture;
+                  chatMessageitem.ChatItem.pic_url = this.params.chat_jid === ChatItem.message.from ? ChatItem.pic_url : this.api.picurl + this.userinfo.picture;
                   this.chatHistory.unshift(chatMessageitem)
                 } else {
                   // 群聊
                   let chatMessageitem ={ChatItem:ChatItem,site:this.userinfo.openfire_no.split('@')[0].toLowerCase() === ChatItem.message.member.member_no ? 'right' : 'left'}
                   chatMessageitem.ChatItem.count = 0
-                  chatMessageitem.ChatItem.pic_url = this.params.account_no === ChatItem.message.member.member_no ? this.api.picurl + this.userinfo.picture : this.api.picurl + ChatItem.message.member.member_avatar
+                  chatMessageitem.ChatItem.pic_url = this.params.chat_jid === ChatItem.message.member.member_no ? this.api.picurl + this.userinfo.picture : this.api.picurl + ChatItem.message.member.member_avatar
                   this.chatHistory.unshift(chatMessageitem)
                 }
               }
@@ -295,7 +285,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
    */
    groupMessageRender(ChatItem:ChatItem){
 
-    if(ChatItem.account_no !=this.params.account_no){
+    if(ChatItem.account_no !=this.params.chat_jid){
       console.log('非当前群消息 什么也不做')
       return  true
     }
@@ -320,12 +310,12 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
       return true
     }
 
-    if(ChatItem.account_no != this.params.account_no){
+    if(ChatItem.account_no != this.params.chat_jid){
       return  true
     }
 
     let site = "right";
-    if (this.params.account_no.split('@')[0].toLowerCase() == (ChatItem.message.from.split('@')[0].toLowerCase())) {
+    if (this.params.chat_jid.split('@')[0].toLowerCase() == (ChatItem.message.from.split('@')[0].toLowerCase())) {
       site = "left";
     }
     console.log('渲染单聊')
@@ -360,7 +350,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     }
 
     this.dataService.openedDb = _.remove(this.dataService.openedDb, (o) =>{
-      return o.account_no === this.params.account_no;
+      return o.account_no === this.params.chat_jid;
     })
     this.dataService.currentChatAccountNo = null
   }
@@ -375,7 +365,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
   }
 
   ionViewWillEnter() {
-    this.mainFunc.clearUnreadChat(this.params.account_no)
+    this.mainFunc.clearUnreadChat(this.params.chat_jid)
   }
 
   goBack() {

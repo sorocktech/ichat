@@ -41,10 +41,9 @@ export class LinkmancardPage extends BaseUI implements OnInit {
   // 发消息
   goChat() {
     this.dataService.curClickMessage = {
-      account_nick: this.manMsg.name,
-      account_no: this.manMsg.chat_jid,
-      pic_url: '',
-      type: 'chat',
+      name: this.manMsg.name,
+      id: this.manMsg.id,
+      chat_jid: this.manMsg.chat_jid,
     };
     this.router.navigate(["/chat-message"]);
   }

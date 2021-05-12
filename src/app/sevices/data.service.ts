@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import {BehaviorSubject} from "rxjs";
 import {userInfo} from "../interfaces/app";
+import { contactsItemPerson } from "../interfaces/chat";
 @Injectable({
   providedIn: "root",
 })
@@ -31,7 +32,8 @@ export class DataService {
   public linkmanList: any = [];
   public mancheckList: any = []; //建群选中的联系人列表
 
-  public curClickMessage: any = {}; //点击的消息信息
+  public curClickMessage: contactsItemPerson = null
+
   public memberList: any = []; //群成员列表
 
   public curPreventlog: any = {}; //防控日报详情
