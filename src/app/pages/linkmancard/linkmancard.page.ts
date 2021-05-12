@@ -20,7 +20,6 @@ export class LinkmancardPage extends BaseUI implements OnInit {
     public api: apiList,
     public route: ActivatedRoute,
     public nav: NavController,
-    public router: Router,
     public dataService: DataService
   ) {
     super();
@@ -37,14 +36,5 @@ export class LinkmancardPage extends BaseUI implements OnInit {
       this.manMsg = res.data
       console.log(this.manMsg)
     });
-  }
-  // 发消息
-  goChat() {
-    this.dataService.curClickMessage = {
-      name: this.manMsg.name,
-      id: this.manMsg.id,
-      chat_jid: this.manMsg.chat_jid,
-    };
-    this.router.navigate(["/chat-message"]);
   }
 }

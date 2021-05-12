@@ -89,6 +89,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
   public params: contactsItemPerson = null;
 
+  public uid:number = null
   public modelData: string = ""
   public curChatPerson: any = {}
   public currentChatType :ChatType = null
@@ -116,6 +117,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     public formBuilder: FormBuilder,
     public activeRoute: ActivatedRoute,
     public storage: Storage,
+    public route: ActivatedRoute,
     public dataService: DataService,
     public mainFunc: Chat,
     public router: Router,
@@ -139,100 +141,56 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     // });
   }
 
-
   async ngOnInit() {
-    this.params = this.dataService.curClickMessage;
-    this.userinfo = await this.dataService.userinfo
 
-    this.user = {
-      _id: "534b8fb2aa5e7afc1b23e69c",
-      pic: this.api.picurl + '',
-      username: this.userinfo.nick,
-    };
-    this.params.chat_jid = this.params.chat_jid
-    this.dataService.isShowNewMessageTotast = false
-    this.dataService.currentChatAccountNo = this.params.chat_jid
-    this.currentChatType = this.params.type
-    this.jid = this.params.chat_jid + CHAT_HOST;
-    if(this.params.type === GROUPCHAT){
-      this.jid = this.params.chat_jid +  GROUPCHAT_HOST;
-    }
+    this.uid = this.route.snapshot.params['id'];
 
-    this._unreadCount = this.mainFunc.getUnreadCount().subscribe((count:number)=>{
-        this.unreadCount = count
-      })
+    this.http.get(this.api.safesList.linkmanCard + '/' + this.uid, {}, (res) => {
+      console.log(res)
+      this.params = res.data
+      console.log('params', this.params)
+      this.userinfo = this.dataService.userinfo
 
-    this.getChatMessageFromDb();
+      this.params.chat_jid = this.params.chat_jid
+      this.dataService.isShowNewMessageTotast = false
+      this.dataService.currentChatAccountNo = this.params.chat_jid
+      this.currentChatType = this.params.type
+      this.jid = this.params.chat_jid + CHAT_HOST;
+      console.log('jid',this.jid)
+      if (this.params.type === GROUPCHAT) {
+        this.jid = this.params.chat_jid + GROUPCHAT_HOST;
+      }
 
-    this.newMessageSub = this.mainFunc.getNewMessageAlert().subscribe((ChatItem:ChatItem)=>{
-      console.log('~~~~~get new message~~~~~~')
-      console.log(ChatItem)
-      console.log('~~~~~get new message~~~~~~')
-        if(!ChatItem){
-          return  true
-        }
-      if(ChatItem.type === GROUPCHAT && this.currentChatType === GROUPCHAT) {
+      this.getChatMessageFromDb();
+
+      this.mainFunc.clearUnreadChat(this.params.chat_jid)
+
+    });
+
+    this._unreadCount = this.mainFunc.getUnreadCount().subscribe((count: number) => {
+      this.unreadCount = count
+    })
+
+
+    this.newMessageSub = this.mainFunc.getNewMessageAlert().subscribe((ChatItem: ChatItem) => {
+      if (!ChatItem) {
+        return true
+      }
+      if (ChatItem.type === GROUPCHAT && this.currentChatType === GROUPCHAT) {
         this.groupMessageRender(ChatItem)
         return true
 
       }
 
-      if(ChatItem.type === CHAT && this.currentChatType === CHAT) {
+      if (ChatItem.type === CHAT && this.currentChatType === CHAT) {
         this.singleMessageRender(ChatItem)
         return true
       }
     })
 
-
-    let _that = this;
-
-      var lock =false 
-    function wchat_ToBottom() {
-      $(".wcim__innerScroll").animate(
-        { scrollTop: $("#J__chatMsgList").height() },
-        0
-      );
-    }
-
-    $("body").on("click", ".btn-panel", function () {
-      _that.keyboard.hide();
-
-      var that = $(this);
-      $(".wc__choose-panel").show();
-      if (that.hasClass("btn-choose")) {
-        $(".wc__choose-panel .wrap-choose").show();
-      }
-      wchat_ToBottom();
-    });
-
-
-    // 文件
-    let fileInput = document.getElementById('chooseFile');
-    fileInput.onchange = () => {
-      console.log('点击上传文件')
-      let file = (<HTMLInputElement>(fileInput)).files[0];
-      console.log(file)
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function (e) {
-        var _img = this.result;
-        _that.base64Img = _img;
-        let sub = _that.base64Img.substring(
-            _that.base64Img.indexOf("/") + 1,
-            _that.base64Img.indexOf(";")
-        );
-        _that.blob = _that.dataURLtoBlob(_that.base64Img); //这里一定要加上data:image/jpeg;base64,
-        _that.type = "file";
-        _that.file = _that.blobToFile(_that.blob, `chat.${sub}`); //这里一定要加上文件的名字，看你自己的后台设置
-        let param = new FormData(); //以表单的形式上传，这里一定要这样才能传过去
-        param.append("file", _that.file, _that.file.name);
-        _that.goLoad(param)
-        console.log(file);
-      }
-    }
-
-    this.scrollToBottom()
   }
+
+
 
   getChatMessageFromDb(start=100000,limit=30){
     this.db.loadMessages(this.params.chat_jid,start, limit)
@@ -364,13 +322,8 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     this.openCameraPicker(this.camera.PictureSourceType.CAMERA)
   }
 
-  ionViewWillEnter() {
-    this.mainFunc.clearUnreadChat(this.params.chat_jid)
-  }
-
   goBack() {
     this.navCtrl.navigateBack(["/tabs/safes/comwechat"]);
-
   }
 
   typeInput(){
@@ -449,7 +402,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     }
     console.log('发送消息')
     // chatBox消息内容
-    console.log(this.jid)
+    console.log('jid',this.jid)
     console.log(this.chatBox.length)
     if (this.chatBox.length <= 0) {
       return true
@@ -492,9 +445,8 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
   /**
    * 发送消息
    */
-  async sendMessage(messagegType='text') {
-        await this.doSendMessage(messagegType,this.dataService.chatState)
-
+  async sendMessage(messagegType = 'text') {
+    await this.doSendMessage(messagegType, this.dataService.chatState)
   }
 
   genID(length) {
