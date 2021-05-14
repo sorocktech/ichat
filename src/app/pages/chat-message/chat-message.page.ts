@@ -142,6 +142,13 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
   }
 
   async ngOnInit() {
+    this.route.queryParams
+      .subscribe(params => {
+        console.log(params)
+        this.currentChatType = params.type
+        console.log('current type',this.currentChatType)
+      }
+      );
 
     this.uid = this.route.snapshot.params['id'];
 
@@ -154,7 +161,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
       this.params.chat_jid = this.params.chat_jid
       this.dataService.isShowNewMessageTotast = false
       this.dataService.currentChatAccountNo = this.params.chat_jid
-      this.currentChatType = this.params.type
+      console.log('当前消息类型',this.params.type)
       this.jid = this.params.chat_jid + CHAT_HOST;
       console.log('jid',this.jid)
       if (this.params.type === GROUPCHAT) {
