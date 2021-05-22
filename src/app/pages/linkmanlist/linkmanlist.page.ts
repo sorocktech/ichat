@@ -56,6 +56,7 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
     var that = this
     this.pouchdb.get('contacts').then(function (doc) {
       console.log(doc)
+            that.linkmanList = doc.list
     }).catch(function (err) {
       console.log(err);
       if (err.status === 404) {
@@ -63,7 +64,10 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
         that.http.get(that.api.safesList.linkmanList, {}, (res) => {
           if (res.code == 200) {
             that.linkmanList = res.data.items
-            that.pouchdb.bulkDocs(res.data.items).then(function (result) {
+            that.pouchdb.put({
+              _id: 'contacts',
+              list:res.data.items
+            }).then(function (result) {
               // handle result
               console.log(result)
             }).catch(function (err) {
