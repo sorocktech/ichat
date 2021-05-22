@@ -6,6 +6,7 @@ import { HttpService } from "../../sevices/http.service";
 import { apiList } from "../../api/app.api"; // 引入
 import { DataService } from "../../sevices/data.service";
 import { contactsItem } from 'src/app/interfaces/chat';
+import PouchDB from 'node_modules/pouchdb';
 
 @Component({
   selector: 'app-linkmanlist',
@@ -21,6 +22,7 @@ import { contactsItem } from 'src/app/interfaces/chat';
   ]
 })
 export class LinkmanlistPage extends BaseUI implements OnInit {
+  pouchdb: any;
   public linkmanList: Array<contactsItem> = [];
   public orgid: string = "";
   public search: string = "";//搜索
@@ -31,12 +33,16 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
     public api: apiList,
     public loadingCtrl: LoadingController,
     public activeRoute: ActivatedRoute,
-    public dataService: DataService,) {
+    public dataService: DataService,
+
+    ) {
     super();
     this.activeRoute.queryParams.subscribe((params: Params) => {
       this.orgid = params.orgid;
       this.checktype = params.checktype;
     });
+
+    this.pouchdb = new PouchDB("http://chao:apple@127.0.0.1:5984/userdb-6368616f");
   }
 
   ngOnInit() {
@@ -47,9 +53,26 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
    * 获取联系人列表
    */
   getList() {
-    this.http.get(this.api.safesList.linkmanList, {}, (res) => {
-      if (res.code == 200) {
-        this.linkmanList = res.data.items
+    var that = this
+    this.pouchdb.get('contacts').then(function (doc) {
+      console.log(doc)
+    }).catch(function (err) {
+      console.log(err);
+      if (err.status === 404) {
+        console.log('不存在')
+        that.http.get(that.api.safesList.linkmanList, {}, (res) => {
+          if (res.code == 200) {
+            that.linkmanList = res.data.items
+            that.pouchdb.bulkDocs(res.data.items).then(function (result) {
+              // handle result
+              console.log(result)
+            }).catch(function (err) {
+              console.log(err);
+            });
+
+          }
+        });
+
       }
     });
   }
