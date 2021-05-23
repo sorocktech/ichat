@@ -21,6 +21,7 @@ import {BehaviorSubject,of, Observable, Subject} from "rxjs";
 import {connectableObservableDescriptor} from "rxjs/internal/observable/ConnectableObservable";
 import {DataService} from "../sevices/data.service";
 import { concatMap } from 'rxjs/operators';
+import PouchDB from 'node_modules/pouchdb';
 
 var _ = require('lodash')
 
@@ -36,6 +37,7 @@ export class Chat  implements OnInit,OnDestroy{
 
   public userinfo: any = null;
   public xmpp: any = null
+  public pouchdb:any
 
     chatItem = new BehaviorSubject(null);
     messagesItems = new BehaviorSubject([])
@@ -68,6 +70,7 @@ export class Chat  implements OnInit,OnDestroy{
       public http: HttpService,
   ) {
         console.log(this.dataService.userinfo)
+        this.pouchdb = new PouchDB("http://chao:apple@127.0.0.1:5984/userdb-6368616f");
   }
 
      ngOnInit() {
@@ -113,45 +116,6 @@ export class Chat  implements OnInit,OnDestroy{
         let list = await this.storage.get(this.dataService.CHATLIST)
         this.chatList.next(list)
     }
-  // 日期格式化方法
-  dateFormat(fmt, date) {
-    let ret;
-    let opt = {
-      "Y+": date.getFullYear().toString(), // 年
-      "m+": (date.getMonth() + 1).toString(), // 月
-      "d+": date.getDate().toString(), // 日
-      "H+": date.getHours().toString(), // 时
-      "M+": date.getMinutes().toString(), // 分
-      "S+": date.getSeconds().toString(), // 秒
-      // 有其他格式化字符需求可以继续添加，必须转化成字符串
-    };
-    for (let k in opt) {
-      ret = new RegExp("(" + k + ")").exec(fmt);
-      if (ret) {
-        fmt = fmt.replace(
-          ret[1],
-          ret[1].length == 1 ? opt[k] : opt[k].padStart(ret[1].length, "0")
-        );
-      }
-    }
-    return fmt;
-  }
-  // 过滤html标签
-  filterHTMLTag(msg) {
-    var msg = msg.replace(/<\/?[^>]*>/g, ""); //去除HTML Tag
-    msg = msg.replace(/[|]*\n/, ""); //去除行尾空格
-    msg = msg.replace(/&nbsp;/gi, ""); //去掉nbsp
-    return msg;
-  }
-  // 排序
-  campareDown(prop) {
-    return function (a, b) {
-      let t1 = a[prop];
-      let t2 = b[prop];
-      return t2 - t1;
-    };
-  }
-
     async sendLocation(latLon:string,groupName:string){
         let groupJid = groupName.split("@")[0].toLowerCase() + GROUPCHAT_HOST
         let userBareJid = this.dataService.userinfo.chat_jid
@@ -213,7 +177,7 @@ export class Chat  implements OnInit,OnDestroy{
       account_no = MessageItem.from
     }
       console.log(i)
-      console.log(account_no)
+      console.log('发消息的账号',account_no)
     return account_no
   }
 
@@ -223,9 +187,9 @@ export class Chat  implements OnInit,OnDestroy{
    */
   async messageTransChat(MessageItem: MessageItem) {
       let i = this.dataService.userinfo.chat_jid
+      console.log('i',i)
       let account_no = this.getChatAccountNo(MessageItem)
       let ChatItem:ChatItem
-
       let val = await this.storage.get(this.dataService.CHATLIST)
       if (val === null) {
           val = []
@@ -234,7 +198,7 @@ export class Chat  implements OnInit,OnDestroy{
       let index = _.findIndex(val, (o) => {
           return o.account_no === account_no;
       })
-
+      console.log('石佛创建聊天')
       if (index != -1 ) {
           console.log('存在')
           val[index].text = MessageItem.text
@@ -334,43 +298,46 @@ export class Chat  implements OnInit,OnDestroy{
               return true
           }
 
-          this.http.post(this.api.safesList.linkmanList, {
-              uid: this.dataService.userinfo.uid,
-              id: "",
-              nick: "",
-              jid:account_no
-          }, async(res) => {
-              if (res.retcode === 0) {
+          let contacts = await this.pouchdb.get('contacts')
+          console.log('get contacts',contacts)
 
-                  ChatItem = {
-                      account_no: account_no,
-                      i: i,
-                      account_nick: res.resp.list.account_nick,
-                      pic_url: res.resp.list.pic_url.includes('http') ?  res.resp.list.pic_url :this.api.picurl + res.resp.list.pic_url ,
-                      text: MessageItem.text,
-                      type: CHAT,
-                      count: 0,
-                      message: MessageItem,
-                      time: new Date(MessageItem.time),
-                      unix_time:new Date(MessageItem.time).getTime()
-                  }
-
-                  ChatItem.message.member.member_no = ChatItem.account_no
-                  ChatItem.message.member.member_nick = ChatItem.account_nick
-                  ChatItem.message.member.member_avatar = ChatItem.pic_url
-
-                  if(ChatItem.message.from === this.dataService.userinfo.openfire_no.toLowerCase()){
-                      ChatItem.message.member.member_nick =this.dataService.userinfo.nick
-                    ChatItem.count = 0
-                  }
-
-                  val.unshift(ChatItem)
-                  await this.storage.set(this.dataService.CHATLIST, val)
-                  await this.chatListUpdate(ChatItem)
-                  this.newMessage.next(ChatItem)
-              }
-
+          let contactsIndex = _.findIndex(contacts.list, (o) => {
+              return o.chat_jid === account_no;
           })
+          if(contactsIndex === -1){
+              console.log('联系人不存在')
+              return true
+          }
+
+          let contactsOne = contacts.list[contactsIndex]
+
+
+          ChatItem = {
+              account_no: account_no,
+              i: i,
+              account_nick:contactsOne.remark,
+              pic_url: '',
+              text: MessageItem.text,
+              type: CHAT,
+              count: 0,
+              message: MessageItem,
+              time: new Date(MessageItem.time),
+              unix_time: new Date(MessageItem.time).getTime()
+          }
+
+          ChatItem.message.member.member_no = ChatItem.account_no
+          ChatItem.message.member.member_nick = ChatItem.account_nick
+          ChatItem.message.member.member_avatar = ChatItem.pic_url
+
+          if (ChatItem.message.from === this.dataService.userinfo.chat_jid) {
+              ChatItem.message.member.member_nick = this.dataService.userinfo.nick
+              ChatItem.count = 0
+          }
+
+          val.unshift(ChatItem)
+          await this.storage.set(this.dataService.CHATLIST, val)
+          await this.chatListUpdate(ChatItem)
+          this.newMessage.next(ChatItem)
       }
 
       // 如果已删除聊天
@@ -461,7 +428,7 @@ export class Chat  implements OnInit,OnDestroy{
           item.message = ChatItem.message
 
           // 自己发出的私聊 或者 群聊
-          if (ChatItem.message.from === that.dataService.userinfo.openfire_no.toLowerCase() || ChatItem.message.member.member_no === that.dataService.userinfo.openfire_no.toLowerCase()) {
+          if (ChatItem.message.from === that.dataService.userinfo.chat_jid || ChatItem.message.member.member_no === that.dataService.userinfo.chat_jid) {
               needAdd = false
               that.subUnreadCount(ChatItem.count)
               item.count = 0

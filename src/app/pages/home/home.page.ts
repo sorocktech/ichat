@@ -258,7 +258,7 @@ export class HomePage extends BaseUI {
             await this.getGroupChatMembers(chat.account_no);
           }
         }
-          await this.router.navigate(["/tabs/safes/comwechat/chat-message"]);
+          await this.router.navigate(["/chat/3"]);
       }
       // 弹框建群
       showToggle() {

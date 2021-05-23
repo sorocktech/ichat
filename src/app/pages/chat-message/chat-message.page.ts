@@ -58,6 +58,7 @@ import {debounce} from "rxjs/operators";
 import {DbService} from "../../sevices/db.service";
 import {AndroidPermissions} from "@ionic-native/android-permissions/ngx";
 import { USERINFO } from "src/app/interfaces/storage";
+import { userInfo } from "src/app/interfaces/app";
 var _ = require('lodash')
 
 
@@ -68,7 +69,7 @@ var _ = require('lodash')
 })
 
 export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
-  public userinfo: any;
+  public userinfo: userInfo;
 
 
   public type: string = ""; //区分图片还是音频
@@ -216,7 +217,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
                   // 群聊
                   let chatMessageitem ={ChatItem:ChatItem,site:this.userinfo.openfire_no.split('@')[0].toLowerCase() === ChatItem.message.member.member_no ? 'right' : 'left'}
                   chatMessageitem.ChatItem.count = 0
-                  chatMessageitem.ChatItem.pic_url = this.params.chat_jid === ChatItem.message.member.member_no ? this.api.picurl + this.userinfo.picture : this.api.picurl + ChatItem.message.member.member_avatar
+                  chatMessageitem.ChatItem.pic_url = this.params.chat_jid === ChatItem.message.member.member_no ? this.api.picurl + this.userinfo.picUrl : this.api.picurl + ChatItem.message.member.member_avatar
                   this.chatHistory.unshift(chatMessageitem)
                 }
               }
@@ -294,13 +295,16 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     }
 
     let chatMessageItem = {ChatItem:ChatItem,site:site}
-    chatMessageItem.ChatItem.pic_url = site == 'right' ? this.getPicUrl(this.userinfo.picture) : this.getPicUrl(this.params.pic_url)
+    chatMessageItem.ChatItem.pic_url = site == 'right' ? this.getPicUrl(this.userinfo.picUrl) : this.getPicUrl(this.params.pic_url)
     this.chatHistory.push(chatMessageItem)
 
     this.scrollToBottom()
   }
 
   getPicUrl(url:string):string{
+    if(!url){
+      return '';
+    }
     return url.includes('http') ? url : this.api.picurl + url
   }
   ngOnDestroy() {
