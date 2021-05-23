@@ -7,15 +7,13 @@ import { HomePage } from "./home.page";
 import { HomePageRoutingModule } from "./home-routing.module";
 import { ShareModule } from '../../modules/share/share.module';
 
-import { WarnlistComponentModule } from "../../components/warnlist/warnlist.module";
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
     ShareModule,
-    HomePageRoutingModule,
-    WarnlistComponentModule,
+    HomePageRoutingModule
   ],
   declarations: [HomePage],
 })
