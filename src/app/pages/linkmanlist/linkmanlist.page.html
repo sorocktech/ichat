@@ -12,7 +12,7 @@
       (keypress)="goSearch($event)" (ionChange)="searchChange()">
     </ion-searchbar>
   </form>
-  <ion-list>
+  <ion-list class="contacts">
     <ion-item *ngFor="let user of linkmanList" [routerLink]="['/contact',user.info.id]">
       <ion-thumbnail slot="start">
         <img  src="assets/images/xearth.jpeg">

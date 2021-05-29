@@ -1,9 +1,5 @@
 ion-header{
   box-shadow: none;
-  .more_icon{
-    font-size: 2.4rem;
-    margin-right: 5px;
-  }
 }
 .bar-footer {
   overflow: visible !important;
@@ -200,7 +196,7 @@ a.autolinker {
     word-break: break-word;
     border-radius: 2px;
     padding: 10px;
-    margin: 0 1em;
+    margin: 0 .2em;
     margin-left: 4em;
     font-weight: 400;
     font-size: 1.6em;
@@ -284,4 +280,16 @@ ion-item {
 }
 .underline {
   text-decoration: underline;
+}
+.username {
+    width: 3em;
+    height: 3em;
+    margin-right: 0.5em;
+    img {
+        border-radius: 50%;
+    }
+
+}
+.username_text{
+font-size: 1.5em;
 }

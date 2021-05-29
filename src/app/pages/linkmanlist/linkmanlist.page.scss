@@ -3,15 +3,8 @@ ion-header{
     box-shadow: none;
 }
 
-ion-item {
-    //--border-color: #efefef;
-    line-height: 2.4em;
-    .jian_icon {
-        color: #bfbaba;
-        font-size: 2rem;
-    }
-}
-ion-thumbnail {
+.contacts{
+    ion-thumbnail {
     width: 2.6em;
     height: 2.6em;
     margin-top: 6px;
@@ -19,6 +12,15 @@ ion-thumbnail {
     img {
         border-radius: 50%;
     }
+    }
+    ion-item {
+    //--border-color: #efefef;
+    line-height: 2.4em;
+    .jian_icon {
+        color: #bfbaba;
+        font-size: 2rem;
+    }
+}
 }
 .navigate {
     display: flex;
