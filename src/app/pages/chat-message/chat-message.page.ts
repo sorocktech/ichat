@@ -35,7 +35,6 @@ import {
 import { Keyboard } from "@ionic-native/keyboard/ngx";
 import * as $ from "jquery";
 declare var wcPop: any;
-import "../../../assets/js/previewImage.js";
 import {
   CHAT,
   GROUPCHAT,

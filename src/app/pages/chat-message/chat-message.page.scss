@@ -64,6 +64,14 @@ img.profile-pic.left {
   margin-bottom: 10px;
 }
 
+.chatinput{
+  display: flex;
+  align-items: center;
+  ion-textarea{
+    margin-right: 15px;
+  }
+}
+
 .chat-bubble {
   border-radius: 5px;
   display: inline-block;
@@ -277,30 +285,3 @@ ion-item {
 .underline {
   text-decoration: underline;
 }
-// ul {
-//   padding: 0;
-//   display: flex;
-//   justify-content: space-around;
-//   li {
-//     list-style: none;
-//     input {
-//       display: none;
-//     }
-//     a {
-//       text-decoration: none;
-//       color: #666;
-//       font-style: normal;
-//       display: flex;
-//       flex-direction: column;
-//       align-items: center;
-//       em {
-//         font-style: normal;
-//       }
-//     }
-//     img {
-//       width: 3.5em;
-//       height: 3.5em;
-//       margin-bottom: 7px;
-//     }
-//   }
-// }
