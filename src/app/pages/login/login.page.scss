@@ -31,14 +31,10 @@ ion-ripple-effect {
 }
 
 .login_btn {
-  width: 94%;
-  height: 3em;
-  margin: 1em 3%;
   color: #888;
   --background: #ddd;
   --background-activated: #ddd;
   --background-focused: #ddd;
-  font-size: 1.5rem;
   opacity: 1;
 }
 .htitle {
@@ -104,4 +100,9 @@ ion-item{
   right: 0;
   bottom: 6px;
   z-index: 999;
+}
+
+.signup-btn{
+    margin-left: 15px;
+    margin-right: 15px;
 }

@@ -1,15 +1,5 @@
-@import "../../../assets/fonts/iconfont.css";
-@import "../../../assets/css/reset.css";
-@import "../../../assets/js/wcPop/skin/wcPop.css";
-@import "swiper/dist/css/swiper.css";
-@import "../../../assets/css/layout.css";
-@import "../../../assets/js/wcPop/skin/wcPop.css";
 ion-header{
   box-shadow: none;
-  .more_icon{
-    font-size: 2.4rem;
-    margin-right: 5px;
-  }
 }
 .bar-footer {
   overflow: visible !important;
@@ -68,6 +58,14 @@ img.profile-pic.left {
 
 .message-wrapper:last-child {
   margin-bottom: 10px;
+}
+
+.chatinput{
+  display: flex;
+  align-items: center;
+  ion-textarea{
+    margin-right: 15px;
+  }
 }
 
 .chat-bubble {
@@ -198,7 +196,7 @@ a.autolinker {
     word-break: break-word;
     border-radius: 2px;
     padding: 10px;
-    margin: 0 1em;
+    margin: 0 .2em;
     margin-left: 4em;
     font-weight: 400;
     font-size: 1.6em;
@@ -283,30 +281,15 @@ ion-item {
 .underline {
   text-decoration: underline;
 }
-// ul {
-//   padding: 0;
-//   display: flex;
-//   justify-content: space-around;
-//   li {
-//     list-style: none;
-//     input {
-//       display: none;
-//     }
-//     a {
-//       text-decoration: none;
-//       color: #666;
-//       font-style: normal;
-//       display: flex;
-//       flex-direction: column;
-//       align-items: center;
-//       em {
-//         font-style: normal;
-//       }
-//     }
-//     img {
-//       width: 3.5em;
-//       height: 3.5em;
-//       margin-bottom: 7px;
-//     }
-//   }
-// }
+.username {
+    width: 3em;
+    height: 3em;
+    margin-right: 0.5em;
+    img {
+        border-radius: 50%;
+    }
+
+}
+.username_text{
+font-size: 1.5em;
+}

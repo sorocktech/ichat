@@ -6,12 +6,15 @@
         <ion-badge *ngIf="unreadCount>0 " color="light" slot="start">{{unreadCount}}</ion-badge>
       </ion-button>
     </ion-buttons>
-    <ion-title>{{params?.account_nick}}</ion-title>
+      <ion-thumbnail class="username" slot="start">
+        <img  src="assets/images/xearth.jpeg">
+      </ion-thumbnail>
+    <ion-text class="username_text">{{params?.remark}}</ion-text>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <ion-refresher slot="fixed" pullMin="30" pullMax="80" (ionRefresh)="getMoreMessage($event)">
-    <ion-refresher-content pullingIcon="arrow-dropdown-outline" pullingText="下拉刷新" refreshingSpinner="circles"
+    <ion-refresher-content pullingIcon="arrow-down-outline" pullingText="下拉刷新" refreshingSpinner="circles"
                            refreshingText="刷新中">
     </ion-refresher-content>
   </ion-refresher>
@@ -63,57 +66,11 @@
 
 </ion-content>
 
-<!-- 底部固定的输入框 -->
 <ion-footer>
-  <div class="wc__footToolbar">
     <ion-item lines="none" class="chatinput">
-      <ion-textarea (click)="typeInput"  rows="1" [(ngModel)]="chatBox" placeholder="">
-      </ion-textarea>
-      <div>
-      <ion-button fill="clear" class="btn-panel btn-choose">
-        <i class="iconfont icon-choose"></i>
+      <ion-textarea (click)="typeInput"  rows="1" [(ngModel)]="chatBox" placeholder=""></ion-textarea>
+      <ion-button   (click)="sendMessage()" item-end>
+        发送
       </ion-button>
-      <ion-button  (click)="sendMessage()" item-end>
-        <!-- <ion-icon class="footer-btn" name="send"></ion-icon> -->
-        <span class="footer-btn">发送</span>
-      </ion-button>
-      </div>
     </ion-item>
-    <div class="wc__choose-panel wcim__borT" style="display: none;">
-      <div class="wrap-choose" style="display: none;">
-        <div class="choose__cells">
-          <ul class="clearfix">
-            <li>
-              <a (click)="openImagePicker()" class="J__wchatZp">
-                <span class="img">
-                  <img src="../../assets/img/wchat/icon__choose-zp.png" />
-                </span><em>图片</em></a>
-            </li>
-            <li (click)="openCamera()">
-              <a class="J__wchatDs" >
-                <span class="img">
-                  <img src="../../assets/img/wchat/icon__choose-sp.png" />
-                </span><em>拍照</em>
-              </a>
-            </li>
-            <li (click)="doVideo()">
-              <a class="J__wchatSp" href="javascript:;"><span class="img">
-                  <img src="../../assets/img/wchat/icon__choose-sp.png" />
-              </span><em>视频</em></a>
-            </li>
-
-            <li>
-              <a class="J__wchatWj" href="javascript:;">
-                <span class="img">
-                  <img src="../../assets/img/wchat/icon__choose-wj.png" />
-                  <!-- doc、docx、pdf、excel、json -->
-                  <input type="file" id="chooseFile"
-                    accept="application/json,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf,application/vnd.ms-excel" />
-                </span><em>文件</em></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
 </ion-footer>

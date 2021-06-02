@@ -36,10 +36,11 @@
       >
       </ion-input>
     </ion-item>
-    <p class="states">
-    </p>
+  </ion-list>
+
     <ion-button
-      class="login_btn"
+      class="login_btn signup-btn"
+      expand="block"
       appDebounceClick
       [debounceTime]="500"
       (debounceClick)="goLogin()"
@@ -47,7 +48,9 @@
       >登 录
       <ion-ripple-effect Description="unbounded"></ion-ripple-effect>
     </ion-button>
-  </ion-list>
-
+    <ion-button  routerLink='/signup' class="signup-btn" fill="outline">
+      注册    
+        <ion-icon  name="arrow-forward-outline"></ion-icon>
+    </ion-button>
 </ion-content>
 

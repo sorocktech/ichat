@@ -35,7 +35,6 @@ import {
 import { Keyboard } from "@ionic-native/keyboard/ngx";
 import * as $ from "jquery";
 declare var wcPop: any;
-import "../../../assets/js/previewImage.js";
 import {
   CHAT,
   GROUPCHAT,
@@ -156,7 +155,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     this.http.get(this.api.safesList.linkmanCard + '/' + this.uid, {}, (res) => {
       console.log(res)
       this.params = res.data
-      console.log('params', this.params)
+      console.log('当前聊天对象', this.params)
       this.userinfo = this.dataService.userinfo
 
       this.params.chat_jid = this.params.chat_jid
