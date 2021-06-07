@@ -34,8 +34,18 @@ export class SignupPage implements OnInit {
   }
   // 登录
   async signup() {
+    if(this.password != this.password_repeat){
+      this.message('两次输入密码不一致')
+      return false 
+    }
+    if(!this.username){
+      this.message('用户名不能为空')
+      return false
+    }
 
     let req = {
+      username:this.username,
+      password:this.password,
     };
 
     this.http.post(this.api.loginList.signup, req, async(res) => {
