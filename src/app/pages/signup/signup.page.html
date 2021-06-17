@@ -1,28 +1,29 @@
 <ion-content>
+  <h5 class="htitle">加入iChat</h5>
+  <div [formGroup]="signForm">
 
   <ion-list class="signup-form"  lines="full" class="ion-no-margin">
     <ion-list-header>
       <ion-label>用户名</ion-label>
     </ion-list-header>
     <ion-item>
-      <ion-input placeholder="username"></ion-input>
+      <ion-input formControlName="username"  placeholder="username"></ion-input>
     </ion-item>
 
     <ion-list-header>
       <ion-label>密码</ion-label>
     </ion-list-header>
     <ion-item>
-      <ion-input placeholder="password"></ion-input>
+      <ion-input  formControlName="password" placeholder="password"></ion-input>  
     </ion-item>
-    <ion-list-header>
+   <ion-list-header>
       <ion-label>重复密码</ion-label>
     </ion-list-header>
     <ion-item>
-      <ion-input placeholder="password"></ion-input>
+      <ion-input  formControlName="confirmPassword" placeholder="repeat password"></ion-input>
     </ion-item>
   </ion-list>
-    <ion-button  class="signup-btn" expand="block">注册    </ion-button>
-    <ion-button class="back_login"  routerLink="/login" fill="outline">
-        <ion-icon  name="arrow-back-outline"></ion-icon>
-      返回登录  </ion-button>
+    <ion-button    (click)="signup()" class="signup-btn" expand="block">注册    </ion-button>
+  </div>
+    <ion-button class="back_login"  routerLink="/login" fill="outline"><ion-icon  name="arrow-back-outline"></ion-icon> 返回登录  </ion-button>
 </ion-content>

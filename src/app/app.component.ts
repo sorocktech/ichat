@@ -25,7 +25,6 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';//权
 
 import { JPush } from '@jiguang-ionic/jpush/ngx';
 import { JPushService } from './sevices/jpush.service';
-import {computeStartOfLinePositions} from "@angular/compiler-cli/ngcc/src/sourcemaps/source_file";
 import {Setting} from "./interfaces/setting";
 import {SETTING, USERINFO} from "./interfaces/storage";
 import {THEME_DARK, THEME_DARK_STATUS_BAR_COLOR, THEME_LIGHT, THEME_LIGHT_STATUS_BAR_COLOR} from "./interfaces/app";

@@ -31,6 +31,7 @@ export class apiList implements OnInit {
     };
     this.loginList = {
       gologin: `${this.baseurl}user/login`,
+      signup: `${this.baseurl}user/signup`,
       loginForToken: `${this.baseurl}tihal/user/login-for-token`,
       pcQrcodeLogin: `${this.baseurl}tihal/user/scan-code-login`,
     };
