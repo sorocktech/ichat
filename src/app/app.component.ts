@@ -27,7 +27,9 @@ import { JPush } from '@jiguang-ionic/jpush/ngx';
 import { JPushService } from './sevices/jpush.service';
 import {Setting} from "./interfaces/setting";
 import {SETTING, USERINFO} from "./interfaces/storage";
-import {THEME_DARK, THEME_DARK_STATUS_BAR_COLOR, THEME_LIGHT, THEME_LIGHT_STATUS_BAR_COLOR} from "./interfaces/app";
+import {THEME_DARK, THEME_DARK_STATUS_BAR_COLOR, THEME_LIGHT, THEME_LIGHT_STATUS_BAR_COLOR, userInfo} from "./interfaces/app";
+import { DbService } from "./sevices/db.service";
+import { Chat } from "./providers/chat";
 
 declare var codePush;
 @Component({
@@ -42,10 +44,12 @@ export class AppComponent extends BaseUI {
   public appPages = [
     { title: '消息', url: '/home', icon: 'mail' },
     { title: '联系人', url: '/contacts', icon: 'paper-plane' },
-    { title: '发消息', url: '/send-message', icon: 'heart' }
+    { title: '发消息', url: '/send-message', icon: 'heart' },
+    { title: '设置', url: '/setting', icon: 'mail' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   public permissionName = this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION
+  public userinfo:userInfo
   constructor(
     private sqlite: SQLite,
     private themeDetection: ThemeDetection,
@@ -61,12 +65,13 @@ export class AppComponent extends BaseUI {
     private router: Router,
     private appVersion: AppVersion,
     public http: HttpService,
+    private db: DbService,
     public api: apiList,
+    public chat: Chat,
     public alertController: AlertController,
     public androidPermissions: AndroidPermissions,
     public jPushService: JPushService,
     public jPush: JPush
-    // private diagnostic: Diagnostic
   ) {
     super();
      this.initializeApp();
@@ -79,7 +84,7 @@ export class AppComponent extends BaseUI {
         this.nav.navigateRoot('/login')
       }
       this.dataService.userinfo = JSON.parse(userinfo)
-      console.log('userinfo', userinfo)
+      this.userinfo =this.dataService.userinfo
       this.router.events.subscribe(async (event: Event) => {
         if (event instanceof NavigationStart) {
           if (event.url != 'home' && event.url != 'tabs/safes') {
@@ -96,6 +101,10 @@ export class AppComponent extends BaseUI {
       this.registerBackButtonAction();
       this.darkMode()
       this.initRouterListen();
+
+    await this.db.createDb(this.dataService.userinfo.chat_jid)
+    this.dataService.CHATLIST = this.dataService.userinfo.chat_jid + '-chatList'
+    await this.chat.startChat()
 
     });
   }

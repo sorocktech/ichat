@@ -198,7 +198,6 @@ export class Chat  implements OnInit,OnDestroy{
       let index = _.findIndex(val, (o) => {
           return o.account_no === account_no;
       })
-      console.log('石佛创建聊天')
       if (index != -1 ) {
           console.log('存在')
           val[index].text = MessageItem.text
@@ -667,10 +666,10 @@ export class Chat  implements OnInit,OnDestroy{
             alert('no user info object ')
             return false;
         }
-        let chat_jid = this.dataService.userinfo.chat_jid + '@dhchatdev.tihal.cn'
+        let chat_jid = this.dataService.userinfo.chat_jid + '@chat.100100.li'
         console.log(chat_jid)
         this.xmpp = client({
-            service: "wss://dhchatdev.tihal.cn:7070/ws",
+            service: "wss://chat.100100.li:5443/ws",
             //resource: "risk-app",
             username: chat_jid,
             password: this.dataService.userinfo.chat_password,

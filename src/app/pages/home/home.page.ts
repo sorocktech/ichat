@@ -121,9 +121,6 @@ export class HomePage extends BaseUI {
     }
     this.platform.ready().then(async () => {
     })
-    await this.db.createDb(this.userinfo.chat_jid)
-    this.dataService.CHATLIST = this.userinfo.chat_jid + '-chatList'
-    await this.mainFunc.startChat()
 
 
     this.dataService.isShowNewMessageTotast = false

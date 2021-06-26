@@ -3,8 +3,8 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>Chao</ion-list-header>
-          <ion-note>chao@server.com</ion-note>
+          <ion-list-header>{{userinfo?.username}}</ion-list-header>
+          <ion-note>{{userinfo?.chat_jid}}</ion-note>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
@@ -14,6 +14,11 @@
           </ion-menu-toggle>
         </ion-list>
       </ion-content>
+        <ion-footer>
+          <p>
+          iChat@2021
+          </p>
+        </ion-footer>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
