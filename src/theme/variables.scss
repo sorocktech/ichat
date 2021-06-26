@@ -1,6 +1,9 @@
 @import '../themes';
 
 @import '~@nebular/theme/styles/globals';
+// @import "noto-sans";
+
+@import "bootstrap";
 
 @include nb-install() {
   @include nb-theme-global();
