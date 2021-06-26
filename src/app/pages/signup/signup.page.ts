@@ -21,6 +21,7 @@ export class SignupPage implements OnInit {
     public toast:ToastController
   ) { 
     this.signForm= this.formBuilder.group({
+      nick: ['', Validators.required],
       username: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
