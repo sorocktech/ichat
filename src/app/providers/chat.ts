@@ -297,6 +297,11 @@ export class Chat  implements OnInit,OnDestroy{
               return true
           }
 
+          if (MessageItem.from === 'chat-helper') {
+              console.log('收到好友消息')
+              return true
+          }
+
           let contacts = await this.pouchdb.get('contacts')
           console.log('get contacts',contacts)
 
