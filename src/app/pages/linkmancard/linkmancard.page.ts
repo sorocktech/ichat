@@ -13,7 +13,7 @@ import { contactsItemPerson } from "src/app/interfaces/chat";
   styleUrls: ["./linkmancard.page.scss"],
 })
 export class LinkmancardPage extends BaseUI implements OnInit {
-  public manMsg: contactsItemPerson =null;
+  public info: contactsItemPerson =null;
   public uid: string = "";
   constructor(
     public http: HttpService,
@@ -25,16 +25,13 @@ export class LinkmancardPage extends BaseUI implements OnInit {
     super();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.uid= this.route.snapshot.params['id'];
-    this.getInfo(this.uid)
+    await this.getInfo(this.uid)
   }
 
-  getInfo(id){
-    this.http.get(this.api.safesList.linkmanCard + '/' + id, {}, (res) => {
-      console.log(res)
-      this.manMsg = res.data
-      console.log(this.manMsg)
-    });
+  async getInfo(id){
+    let doc = await this.dataService.db.get('contacts')
+    this.info = doc.list[id]
   }
 }

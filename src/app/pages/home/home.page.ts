@@ -111,9 +111,21 @@ export class HomePage extends BaseUI {
     public mainFun: Chat,
   ) {
     super();
+
+    this.dataService.prepareDb()
+
   }
 
   async ngOnInit() {
+
+    this.dataService.db.get('chat-list').then(function (doc) {
+      console.log(doc)
+    }).catch(function (err) {
+    this.dataService.db.put({
+      _id: 'chat-list',
+      list: []
+    })
+    })
     this.userinfo = await this.dataService.userinfo
     console.log('testUser', this.userinfo)
     if(!this.userinfo){
@@ -255,7 +267,7 @@ export class HomePage extends BaseUI {
             await this.getGroupChatMembers(chat.account_no);
           }
         }
-          await this.router.navigate(["/chat/3"]);
+          await this.router.navigate(["/chat/"+chat.account_no]);
       }
       // 弹框建群
       showToggle() {

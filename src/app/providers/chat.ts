@@ -299,7 +299,22 @@ export class Chat  implements OnInit,OnDestroy{
 
           if (MessageItem.from === 'chat-helper') {
               console.log('收到好友消息')
-              return true
+
+                  ChatItem ={
+                      account_no: 'chat-helper',
+                      account_nick: '系统消息',
+                      message: MessageItem,
+                      time: MessageItem.time,
+                      unix_time:new Date(MessageItem.time).getTime(),
+                      pic_url: '77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg',
+                      count:0 ,
+                      type: CHAT
+                  }
+                  val.unshift(ChatItem)
+                  await this.storage.set(this.dataService.CHATLIST, val)
+                  await this.chatListUpdate(ChatItem)
+                  this.newMessage.next(ChatItem)
+                  return true
           }
 
           let contacts = await this.pouchdb.get('contacts')

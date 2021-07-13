@@ -43,7 +43,7 @@ export class AppComponent extends BaseUI {
   url;
   public appPages = [
     { title: '消息', url: '/home', icon: 'mail' },
-    { title: '联系人', url: '/contacts', icon: 'paper-plane' },
+    { title: '联系人', url: '/contacts', icon: 'people' },
     { title: '发消息', url: '/send-message', icon: 'heart' },
     { title: '设置', url: '/setting', icon: 'mail' }
   ];
@@ -83,6 +83,7 @@ export class AppComponent extends BaseUI {
       if (!userinfo) {
         this.nav.navigateRoot('/login')
       }
+      this.dataService.prepareDb()
       this.dataService.userinfo = JSON.parse(userinfo)
       this.userinfo =this.dataService.userinfo
       this.router.events.subscribe(async (event: Event) => {
