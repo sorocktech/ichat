@@ -48,6 +48,14 @@ const routes: Routes = [
     path: 'signup',
     loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupPageModule)
   },
+  {
+    path: 'search',
+    loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
+  },
+  {
+    path: 'add-contact',
+    loadChildren: () => import('./pages/add-contact/add-contact.module').then( m => m.AddContactPageModule)
+  },
 ];
 @NgModule({
   imports: [

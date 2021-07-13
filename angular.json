@@ -41,6 +41,9 @@
                 "input": "src/theme/variables.scss"
               },
               {
+                "input":"node_modules/@nebular/theme/styles/prebuilt/default.css"
+              },
+              {
                 "input": "src/global.scss"
               }
             ],

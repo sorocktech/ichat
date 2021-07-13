@@ -113,15 +113,17 @@ export class SettingPage extends BaseUI implements OnInit {
         await toast.present();
     }
 
-  //返回上一页
-  async goBack() {
-    await this.nav.navigateBack('/tabs/safes');
-  }
 
   //推送设置
   onPush() {
     this.setting.open('application_details');
     
+  }
+
+  logout(){
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('userinfo')
+    this.nav.navigateForward('/login')
   }
 
   //定位设置

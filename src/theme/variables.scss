@@ -1,10 +1,7 @@
-@import '../themes';
+// @import "noto-sans";
 
-@import '~@nebular/theme/styles/globals';
+@import "bootstrap";
 
-@include nb-install() {
-  @include nb-theme-global();
-};
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/theming/
 
