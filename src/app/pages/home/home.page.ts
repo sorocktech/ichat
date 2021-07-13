@@ -112,7 +112,6 @@ export class HomePage extends BaseUI {
   ) {
     super();
 
-    this.dataService.prepareDb()
 
   }
 
@@ -121,16 +120,13 @@ export class HomePage extends BaseUI {
     this.dataService.db.get('chat-list').then(function (doc) {
       console.log(doc)
     }).catch(function (err) {
-    this.dataService.db.put({
-      _id: 'chat-list',
-      list: []
+
     })
-    })
+
     this.userinfo = await this.dataService.userinfo
-    console.log('testUser', this.userinfo)
     if(!this.userinfo){
-      console.log('user','登录问题')
     }
+
     this.platform.ready().then(async () => {
     })
 
@@ -164,23 +160,23 @@ export class HomePage extends BaseUI {
     this.chatStateSub.unsubscribe()
   }
 
+
+  ionViewWillEnter() {
+    // this.getChatList();
+  }
     
-      ionViewWillEnter() {
-        // this.getChatList();
-      }
-    
-    
-    
-      ionViewDidEnter() {
-        this.showOperAreaFlg = false;
-      }
-    
-      /**
-       * 从消息列表中删除一个聊天
-       */
-      async  deleteChat(item){
-          await this.mainFun.deleteChat(item)
-      }
+
+
+  ionViewDidEnter() {
+    this.showOperAreaFlg = false;
+  }
+
+  /**
+   * 从消息列表中删除一个聊天
+   */
+  async deleteChat(item) {
+    await this.mainFun.deleteChat(item)
+  }
     
       /**
        *
@@ -249,10 +245,6 @@ export class HomePage extends BaseUI {
       //   });
       // }
       // 返回安全系统页面
-      goBack() {
-        this.dataService.isShowNewMessageTotast = true
-        this.nav.navigateRoot(["/tabs/safes"]);
-      }
     
       // 界面跳转并且传值
       async viewMessages(chat) {

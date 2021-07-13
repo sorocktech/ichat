@@ -74,6 +74,8 @@ export class AppComponent extends BaseUI {
     public jPush: JPush
   ) {
     super();
+
+      this.dataService.prepareDb('chat')
      this.initializeApp();
   }
 
@@ -83,7 +85,8 @@ export class AppComponent extends BaseUI {
       if (!userinfo) {
         this.nav.navigateRoot('/login')
       }
-      this.dataService.prepareDb()
+
+
       this.dataService.userinfo = JSON.parse(userinfo)
       this.userinfo =this.dataService.userinfo
       this.router.events.subscribe(async (event: Event) => {

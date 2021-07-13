@@ -55,8 +55,9 @@ export class DataService {
   unreadRiskCount  = new BehaviorSubject(0)
   ngOnInit() {}
 
-  prepareDb(){
-    this.db = new PouchDB("http://chao:apple@127.0.0.1:5984/userdb-6368616f");
+  prepareDb(chat_jid){
+    // this.db = new PouchDB("http://chao:apple@127.0.0.1:5984/userdb-6368616f");
+    this.db = new PouchDB(chat_jid);
   }
 
   getUnreadRiskCount(){
