@@ -108,6 +108,17 @@ export interface contactsItemPerson
   pic_url?:string
 }
 
+/**
+ * 系统消息 
+ */
+export const chatHelper:contactsItemPerson = 
+{
+  id:0,
+  name:'系统消息',
+  chat_jid:'chat-helper',
+  type:'chat',
+  pic_url:'assets/images/xearth.jpeg'
+}
 export interface contacts
 {
   orgs:Array<contactsOrg> | []

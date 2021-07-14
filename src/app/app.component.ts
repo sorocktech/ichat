@@ -74,9 +74,8 @@ export class AppComponent extends BaseUI {
     public jPush: JPush
   ) {
     super();
-
-      this.dataService.prepareDb('chat')
-     this.initializeApp();
+    this.dataService.prepareDb('chat')
+    this.initializeApp();
   }
 
   async initializeApp() {

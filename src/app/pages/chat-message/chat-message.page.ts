@@ -48,7 +48,8 @@ import {
   ChatItem,
   CHAT_TYPE_FILE,
   CHAT_TYPE_VIDEO,
-  contactsItemPerson
+  contactsItemPerson,
+  chatHelper
 } from "../../interfaces/chat";
 
 declare var previewImage: any;
@@ -89,7 +90,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
   public params: contactsItemPerson = null;
 
-  public uid:number = null
+  public uid:string = null
   public modelData: string = ""
   public curChatPerson: any = {}
   public currentChatType :ChatType = null
@@ -152,22 +153,30 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
     this.uid = this.route.snapshot.params['id'];
 
-
-    let doc = await this.dataService.db.get('contacts')
-    this.params = doc.list[this.uid]
+    if(this.uid == 'chat-helper'){
+      console.log('chat helper message')
+      this.params = chatHelper;
+    } else {
+      let doc = await this.dataService.db.get('contacts')
+      this.params = doc.list[this.uid]
       console.log('当前聊天对象', this.params)
       this.userinfo = this.dataService.userinfo
+
 
       this.params.chat_jid = this.params.chat_jid
 
       this.dataService.isShowNewMessageTotast = false
       this.dataService.currentChatAccountNo = this.params.chat_jid
-      console.log('当前消息类型',this.params.type)
+      console.log('当前消息类型', this.params.type)
       this.jid = this.params.chat_jid + CHAT_HOST;
-      console.log('jid',this.jid)
+      console.log('jid', this.jid)
       if (this.params.type === GROUPCHAT) {
         this.jid = this.params.chat_jid + GROUPCHAT_HOST;
       }
+
+
+    }
+
 
       this.getChatMessageFromDb();
 
