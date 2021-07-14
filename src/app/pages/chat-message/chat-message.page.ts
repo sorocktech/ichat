@@ -144,7 +144,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
   async ngOnInit() {
     this.route.queryParams
       .subscribe(params => {
-        console.log(params)
+        console.log('params',params)
         this.currentChatType = params.type
         console.log('current type',this.currentChatType)
       }
@@ -152,13 +152,14 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
     this.uid = this.route.snapshot.params['id'];
 
-    this.http.get(this.api.safesList.linkmanCard + '/' + this.uid, {}, (res) => {
-      console.log(res)
-      this.params = res.data
+
+    let doc = await this.dataService.db.get('contacts')
+    this.params = doc.list[this.uid]
       console.log('当前聊天对象', this.params)
       this.userinfo = this.dataService.userinfo
 
       this.params.chat_jid = this.params.chat_jid
+
       this.dataService.isShowNewMessageTotast = false
       this.dataService.currentChatAccountNo = this.params.chat_jid
       console.log('当前消息类型',this.params.type)
@@ -172,7 +173,6 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
       this.mainFunc.clearUnreadChat(this.params.chat_jid)
 
-    });
 
     this._unreadCount = this.mainFunc.getUnreadCount().subscribe((count: number) => {
       this.unreadCount = count

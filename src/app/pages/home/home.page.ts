@@ -111,14 +111,22 @@ export class HomePage extends BaseUI {
     public mainFun: Chat,
   ) {
     super();
+
+
   }
 
   async ngOnInit() {
+
+    this.dataService.db.get('chat-list').then(function (doc) {
+      console.log(doc)
+    }).catch(function (err) {
+
+    })
+
     this.userinfo = await this.dataService.userinfo
-    console.log('testUser', this.userinfo)
     if(!this.userinfo){
-      console.log('user','登录问题')
     }
+
     this.platform.ready().then(async () => {
     })
 
@@ -152,23 +160,23 @@ export class HomePage extends BaseUI {
     this.chatStateSub.unsubscribe()
   }
 
+
+  ionViewWillEnter() {
+    // this.getChatList();
+  }
     
-      ionViewWillEnter() {
-        // this.getChatList();
-      }
-    
-    
-    
-      ionViewDidEnter() {
-        this.showOperAreaFlg = false;
-      }
-    
-      /**
-       * 从消息列表中删除一个聊天
-       */
-      async  deleteChat(item){
-          await this.mainFun.deleteChat(item)
-      }
+
+
+  ionViewDidEnter() {
+    this.showOperAreaFlg = false;
+  }
+
+  /**
+   * 从消息列表中删除一个聊天
+   */
+  async deleteChat(item) {
+    await this.mainFun.deleteChat(item)
+  }
     
       /**
        *
@@ -237,10 +245,6 @@ export class HomePage extends BaseUI {
       //   });
       // }
       // 返回安全系统页面
-      goBack() {
-        this.dataService.isShowNewMessageTotast = true
-        this.nav.navigateRoot(["/tabs/safes"]);
-      }
     
       // 界面跳转并且传值
       async viewMessages(chat) {
@@ -255,7 +259,7 @@ export class HomePage extends BaseUI {
             await this.getGroupChatMembers(chat.account_no);
           }
         }
-          await this.router.navigate(["/chat/3"]);
+          await this.router.navigate(["/chat/"+chat.account_no]);
       }
       // 弹框建群
       showToggle() {

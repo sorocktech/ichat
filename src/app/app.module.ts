@@ -65,7 +65,9 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
   imports: [
     BrowserModule,
 
-    IonicModule.forRoot(),
+    IonicModule.forRoot({
+      mode: "ios",
+    }),
 
     AppRoutingModule,
     IonicStorageModule.forRoot(),

@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import {BehaviorSubject} from "rxjs";
 import {userInfo} from "../interfaces/app";
 import { contactsItemPerson } from "../interfaces/chat";
+import PouchDB from 'node_modules/pouchdb';
 @Injectable({
   providedIn: "root",
 })
@@ -40,6 +41,7 @@ export class DataService {
 
   public areaList: any = []; //区域总部
   public industryList: any = []; //行业类别
+  public db:any = null
   public deviceMsg: any = {
     os_version: "8.0.0", //操作系统版本
     platform: "android", //操作系统名称
@@ -47,11 +49,16 @@ export class DataService {
     uuid: "", //设备识别码（如果获取不到系统识别码，可以每次安装APP自己生成一串随机字符串即可）
   }; //设备信息
 
-  public pdfMessage: any = {};//pdf信息
 
-  constructor() {}
+  constructor() {
+  }
   unreadRiskCount  = new BehaviorSubject(0)
   ngOnInit() {}
+
+  prepareDb(chat_jid){
+    // this.db = new PouchDB("http://chao:apple@127.0.0.1:5984/userdb-6368616f");
+    this.db = new PouchDB(chat_jid);
+  }
 
   getUnreadRiskCount(){
     return this.unreadRiskCount.asObservable()

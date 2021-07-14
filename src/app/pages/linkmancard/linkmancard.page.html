@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button routerLink="/contacts">
-        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
-      </ion-button>
+      <ion-back-button text="" icon="chevron-back-outline" defaultHref="/contacts"></ion-back-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -15,7 +13,7 @@
         <ion-img class="touxiang"  src="assets/images/xearth.jpeg"></ion-img>
       </ion-thumbnail>
       <ion-text>
-        <ion-label>{{manMsg?.remark}}</ion-label>
+        <ion-label>{{info?.remark}}</ion-label>
       </ion-text>
     </ion-item>
   <!-- <ion-item>
@@ -24,5 +22,5 @@
     </ion-label>
   </ion-item> -->
   </ion-list>
-  <ion-button class="chat_btn" expand="full" color="primary" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:manMsg?.chat_jid}">发消息</ion-button>
+  <ion-button class="chat_btn" expand="full" color="primary" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:info?.chat_jid}">发消息</ion-button>
 </ion-content>
