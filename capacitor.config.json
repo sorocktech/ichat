@@ -1,6 +1,6 @@
 {
-  "appId": "io.commonrisksystems.starter",
-  "appName": "risk",
+  "appId": "ichat.sorocktech.com",
+  "appName": "ichat",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "www",
