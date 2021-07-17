@@ -1,15 +1,20 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button text="" defaultHref="home" icon="arrow-back-outline"></ion-back-button>
-    </ion-buttons>
+      <ion-menu-button></ion-menu-button>
+      </ion-buttons>
     <ion-title>
       应用设置
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="setting">
+<ion-content  [fullscreen]="true" class="setting">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">应用设置</ion-title>
+    </ion-toolbar>
+  </ion-header>
   <ion-list>
     <ion-item (click)="onPush()">
       <ion-text>
@@ -33,8 +38,9 @@
       </ion-text>
     </ion-item>
 
-  <ion-button class="logout_btn" expand="block" (click)="logout()" color="danger">登出</ion-button>
-
+  <div class="d-grid gap-2 logout_btn">
+    <button class="btn btn-danger" (click)="logout()" type="button">登出</button>
+  </div>
   </ion-list>
 
 </ion-content>
