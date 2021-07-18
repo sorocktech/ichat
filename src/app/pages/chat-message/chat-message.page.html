@@ -45,7 +45,6 @@
           <span *ngIf="item.ChatItem.message.isShowTime">{{item.ChatItem.message.time | moment:"ago" | lowercase}}</span>
         </p>
         <div class="chat-bubble-left">
-          <img  class="profile-pic right" [src]="item.ChatItem.pic_url" />
             <div>
               <div class="account-nick-right">{{item.ChatItem.message.member.member_nick}}</div>
               <div *ngIf="item.ChatItem.message.msgType === 'text' || item.ChatItem.message.msgType === 'file' " (click)="presentModal(item.ChatItem.message)" class="message chat-bubble-right_message isText" [innerHTML]="item.ChatItem.message.text" autolinker></div>

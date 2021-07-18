@@ -65,7 +65,6 @@ export class AppComponent extends BaseUI {
     public androidPermissions: AndroidPermissions,
   ) {
     super();
-
     this.dataService.prepareDb('chat')
     this.initializeApp();
   }
