@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { DataService } from "../../sevices/data.service";
 import { HttpService } from "../../sevices/http.service";
-import { HttpClient, HttpParams } from "@angular/common/http";
 import { apiList } from "../../api/app.api"; // 引入
 import { BaseUI } from "../../api/baseui";
 import { LoadingController, ToastController, AlertController, NavController ,Platform} from "@ionic/angular";
@@ -10,7 +9,6 @@ import { NoticeService } from "../../sevices/notice.service";
 import { Storage } from "@ionic/storage";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { Router } from "@angular/router";
-import { AppVersion } from "@ionic-native/app-version/ngx";
 import { JsonUtil } from "../../api/jsonutil.class";
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx'
 import { StatusBar } from "@ionic-native/status-bar/ngx";
@@ -18,13 +16,8 @@ import { Device } from "@ionic-native/device/ngx";
 import { JPush } from '@jiguang-ionic/jpush/ngx';
 import {MessageItem, ChatItem, GroupMember, GROUPCHAT, GroupItem, GROUPCHAT_HOST,CHATLIST,CHAT_HOST} from '../../interfaces/chat'
 import {DbService} from "../../sevices/db.service";
-import {Observable} from "rxjs";
-import {USERINFO} from "../../interfaces/storage";
-import {badge, Version} from "../../interfaces/app";
 import {Badge} from "@ionic-native/badge/ngx";
 import { PopoverController } from '@ionic/angular';
-import { PopoverPage } from 'src/app/components/popover/popover.page';
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
 
 
 
@@ -43,8 +36,6 @@ export class HomePage extends BaseUI {
     public searchManager: any;
     public map: any = null;
     public locationCompleted = false
-    public permissionName = this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION
-
 
     public  isPresence:Boolean = false
 
@@ -85,7 +76,6 @@ export class HomePage extends BaseUI {
     public messages = [];//消息记录
     public userMessage: any = {};//聊天用户信息
   constructor(
-    private qrScanner: QRScanner,
     public popoverController: PopoverController,
     public platform: Platform,
     public dataService: DataService,
@@ -101,7 +91,6 @@ export class HomePage extends BaseUI {
     public geolocation: Geolocation,
     public alertController: AlertController,
     public router: Router,
-    private appVersion: AppVersion,
     private nav: NavController,
     public jsonUtil: JsonUtil,
     private statusBar: StatusBar,
@@ -161,9 +150,6 @@ export class HomePage extends BaseUI {
   }
 
 
-  ionViewWillEnter() {
-    // this.getChatList();
-  }
     
 
 
@@ -232,21 +218,6 @@ export class HomePage extends BaseUI {
         return Math.random().toString(36).slice(-12)
       }
     
-      // 获取聊天列表
-      // getChatList() {
-      //   super.show(this.loadingCtrl);
-      //   this.storage.get("chatList").then((value) => {
-      //     super.hide(this.loadingCtrl);
-      //     this.messages = value;
-      //     this.messages = value === null ? [] : value;
-      //     if (this.messages.length == 0) {
-      //       return;
-      //     }
-      //   });
-      // }
-      // 返回安全系统页面
-    
-      // 界面跳转并且传值
       async viewMessages(chat) {
     
         this.dataService.curClickMessage = chat
@@ -256,36 +227,9 @@ export class HomePage extends BaseUI {
           if(groupItem){
             this.dataService.memberList = groupItem.members;
           }else{
-            await this.getGroupChatMembers(chat.account_no);
           }
         }
           await this.router.navigate(["/chat/"+chat.account_no]);
-      }
-      // 弹框建群
-      showToggle() {
-        this.showOperAreaFlg = !this.showOperAreaFlg;
-      }
-      // 新建群聊页面
-      groupChatPage() {
-        this.router.navigate(["/creat-group-chat"]);
-      }
-      // 获取群成员信息
-      async getGroupChatMembers(roomid) {
-        this.http.post(
-          `${this.api.safesList.getGroupMembersMessage}`,
-          {
-            room_name:
-              roomid.indexOf("@") === -1
-                ? roomid
-                : roomid.substring(0, roomid.indexOf("@")),
-          },
-          (res) => {
-            if (res.retcode == 0) {
-              this.dataService.memberList = res.resp.data.members;
-              this.router.navigate(["/tabs/safes/comwechat/chat-message"]);
-            }
-          }
-        );
       }
 
 }

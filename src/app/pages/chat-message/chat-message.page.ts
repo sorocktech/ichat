@@ -127,19 +127,11 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     public loadingCtrl: LoadingController,
     private camera: Camera,
     private mediaCapture: MediaCapture,
-    private notice: NoticeService,
     private transfer: FileTransfer,
     public fileChooser: FileOpener,
     public toast: ToastController,
-    private keyboard: Keyboard
   ) {
     super();
-
-    // this.notice.get().subscribe((message) => {
-    //   if (message.messages) {
-    //     this.chatList = message.messages;
-    //   }
-    // });
   }
 
   async ngOnInit() {
