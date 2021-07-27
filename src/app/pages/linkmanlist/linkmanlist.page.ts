@@ -42,7 +42,7 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
       this.checktype = params.checktype;
     });
 
-    this.pouchdb = new PouchDB("http://chao:apple@127.0.0.1:5984/userdb-6368616f");
+    this.pouchdb = this.dataService.db
   }
 
   ngOnInit() {

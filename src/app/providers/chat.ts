@@ -9,7 +9,7 @@ import {
     GroupInfo,
     CHAT,
     GroupItem,
-    GROUPCHAT_HOST, Member, GroupMember
+    GROUPCHAT_HOST, Member, GroupMember, CHATLIST
 } from '../interfaces/chat'
 import {Storage} from "@ionic/storage";
 import {HttpService} from "../sevices/http.service";
@@ -69,19 +69,17 @@ export class Chat  implements OnInit,OnDestroy{
       public api: apiList,
       public http: HttpService,
   ) {
-        console.log(this.dataService.userinfo)
-        this.pouchdb = new PouchDB("http://chao:apple@127.0.0.1:5984/userdb-6368616f");
+         this.pouchdb = this.dataService.db
   }
 
      ngOnInit() {
-
     }
 
-  ngOnDestroy() {
-        if(this.newMessageSub){
+    ngOnDestroy() {
+        if (this.newMessageSub) {
             this.newMessageSub.unsubscribe()
         }
-  }
+    }
 
 
     getChatState(){
@@ -190,21 +188,17 @@ export class Chat  implements OnInit,OnDestroy{
       console.log('i',i)
       let account_no = this.getChatAccountNo(MessageItem)
       let ChatItem:ChatItem
-      let val = await this.storage.get(this.dataService.CHATLIST)
-      if (val === null) {
-          val = []
-      }
+      let val = await this.dataService.db.get('chatlist_'+account_no).catch(e=>{
+          console.log(e)
+          return false
+       })
 
-      let index = _.findIndex(val, (o) => {
-          return o.account_no === account_no;
-      })
-      if (index != -1 ) {
-          console.log('存在')
-          val[index].text = MessageItem.text
-          val[index].message = MessageItem
-          val[index].time = MessageItem.time
-          val[index].unix_time = new Date(MessageItem.time).getTime()
-          val[index].dateparse = 0
+       if(val){
+          val.text = MessageItem.text
+          val.message = MessageItem
+          val.time = MessageItem.time
+          val.unix_time = new Date(MessageItem.time).getTime()
+          val.dateparse = 0
 
           // 群聊处理
 
@@ -222,8 +216,8 @@ export class Chat  implements OnInit,OnDestroy{
                   MessageItem.member.member_avatar = user.member_avatar
                   ChatItem = {
                       pic_url: '77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg',
-                      account_no: val[index].account_no,
-                      account_nick: val[index].account_nick,
+                      account_no: val.account_no,
+                      account_nick: val.account_nick,
                       i: i,
                       unix_time:new Date(MessageItem.time).getTime(),
                       time: new Date(MessageItem.time),
@@ -233,7 +227,7 @@ export class Chat  implements OnInit,OnDestroy{
                       type: GROUPCHAT
                   }
 
-                  this.newMessage.next(val[index])
+                  this.newMessage.next(val)
 
                   await this.chatListUpdate(ChatItem)
                   }catch (e){
@@ -243,20 +237,20 @@ export class Chat  implements OnInit,OnDestroy{
 
 
           }else{
-              if(val[index].account_no ===val[index].message.from ){
-                  val[index].message.member.member_no = val[index].account_no
-                  val[index].message.member.member_nick = val[index].account_nick
-                  val[index].message.member.member_avatar = val[index].pic_url
+              if(val.account_no ===val.message.from ){
+                  val.message.member.member_no = val.account_no
+                  val.message.member.member_nick = val.account_nick
+                  val.message.member.member_avatar = val.pic_url
               }
 
 
-              this.newMessage.next(val[index])
-              await this.chatListUpdate(val[index])
+              this.newMessage.next(val)
+              await this.chatListUpdate(val)
           }
       }
 
 
-      if (index === -1 && MessageItem.type === CHAT) {
+      if (!val && MessageItem.type === CHAT) {
           // 单聊处理
           // 机器人消息
           if (MessageItem.from === "chathelper") {
@@ -360,7 +354,7 @@ export class Chat  implements OnInit,OnDestroy{
       }
 
       // 如果已删除聊天
-      if (index === -1 && MessageItem.type === GROUPCHAT) {
+      if (!val && MessageItem.type === GROUPCHAT) {
           let account_no = this.getChatAccountNo(MessageItem)
           this.http.post(
               `${this.api.safesList.getGroupMembersMessage}`,
