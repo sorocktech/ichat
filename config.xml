@@ -3,7 +3,7 @@
     <name>iChat</name>
     <description>chat with friends</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://localhost:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -58,6 +58,19 @@
         <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
+
+        <splash density="land-night-ldpi" src="resources/android/splash/drawable-land-night-ldpi-screen.png" />
+        <splash density="land-night-mdpi" src="resources/android/splash/drawable-land-night-mdpi-screen.png" />
+        <splash density="land-night-hdpi" src="resources/android/splash/drawable-land-night-hdpi-screen.png" />
+        <splash density="land-night-xhdpi" src="resources/android/splash/drawable-land-night-xhdpi-screen.png" />
+        <splash density="land-night-xxhdpi" src="resources/android/splash/drawable-land-night-xxhdpi-screen.png" />
+        <splash density="land-night-xxxhdpi" src="resources/android/splash/drawable-land-night-xxxhdpi-screen.png" />
+        <splash density="port-night-ldpi" src="resources/android/splash/drawable-port-night-ldpi-screen.png" />
+        <splash density="port-night-mdpi" src="resources/android/splash/drawable-port-night-mdpi-screen.png" />
+        <splash density="port-night-hdpi" src="resources/android/splash/drawable-port-night-hdpi-screen.png" />
+        <splash density="port-night-xhdpi" src="resources/android/splash/drawable-port-night-xhdpi-screen.png" />
+        <splash density="port-night-xxhdpi" src="resources/android/splash/drawable-port-night-xxhdpi-screen.png" />
+        <splash density="port-night-xxxhdpi" src="resources/android/splash/drawable-port-night-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
