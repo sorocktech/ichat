@@ -52,9 +52,20 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
   /**
    * 获取联系人列表
    */
-  getList() {
+  async getList() {
+    try {
+      var result = await this.pouchdb.find({
+        selector: { type: 'contacts' },
+        sort: ['name']
+      });
+      console.log(result)
+    } catch (err) {
+      console.log(err);
+    }
+    return false;
     var that = this
-    this.pouchdb.get('contacts').then(function (doc) {
+    this.pouchdb.find({
+    }).then(function (doc) {
       console.log(doc)
             that.linkmanList = doc.list
     }).catch(function (err) {
