@@ -109,7 +109,14 @@ export class HomePage extends BaseUI {
       let res = await this.dataService.db.find({
         selector: { data_type: 1 },
       });
+
       console.log('res', res)
+
+      let chatList = await this.dataService.db.find({
+        selector: { data_type: 2 },
+      });
+      this.ChatList = chatList.docs
+
       if (res.docs.length == 0) {
         let doc = await this.dataService.db.get(chatHelper._id);
         await this.dataService.db.put({ ...chatHelper, __rev: doc.rev })

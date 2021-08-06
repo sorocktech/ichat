@@ -15,6 +15,9 @@ export type ChatType = "chat" | "groupchat"
 export type MsgType = "text" | "image" | "video" | "file"
 
 /**
+ * 1 contact 2 message list
+ */
+/**
  * 聊天项，聊天列表渲染不区分单聊群聊
  * 消息记录渲染，不区分群聊单聊
  */
