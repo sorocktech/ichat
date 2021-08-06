@@ -3,6 +3,8 @@ import {BehaviorSubject} from "rxjs";
 import {userInfo} from "../interfaces/app";
 import { contactsItemPerson } from "../interfaces/chat";
 import PouchDB from 'node_modules/pouchdb';
+import PouchFind from 'pouchdb-find';
+PouchDB.plugin(PouchFind);
 @Injectable({
   providedIn: "root",
 })

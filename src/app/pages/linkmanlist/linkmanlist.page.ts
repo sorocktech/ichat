@@ -54,42 +54,13 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
    */
   async getList() {
     try {
-      var result = await this.pouchdb.find({
-        selector: { type: 'contacts' },
-        sort: ['name']
+      let res = await this.pouchdb.find({
+        selector: { data_type: 1 },
       });
-      console.log(result)
+      this.linkmanList = res.docs
     } catch (err) {
       console.log(err);
     }
-    return false;
-    var that = this
-    this.pouchdb.find({
-    }).then(function (doc) {
-      console.log(doc)
-            that.linkmanList = doc.list
-    }).catch(function (err) {
-      console.log(err);
-      if (err.status === 404) {
-        console.log('不存在')
-        that.http.get(that.api.safesList.linkmanList, {}, (res) => {
-          if (res.code == 200) {
-            that.linkmanList = res.data.items
-            that.pouchdb.put({
-              _id: 'contacts',
-              list:res.data.items
-            }).then(function (result) {
-              // handle result
-              console.log(result)
-            }).catch(function (err) {
-              console.log(err);
-            });
-
-          }
-        });
-
-      }
-    });
   }
 
   goChange(title, inx) {

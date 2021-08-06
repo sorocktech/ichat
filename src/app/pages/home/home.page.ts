@@ -14,7 +14,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx'
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { Device } from "@ionic-native/device/ngx";
 import { JPush } from '@jiguang-ionic/jpush/ngx';
-import {MessageItem, ChatItem, GroupMember, GROUPCHAT, GroupItem, GROUPCHAT_HOST,CHATLIST,CHAT_HOST} from '../../interfaces/chat'
+import {MessageItem, ChatItem, GroupMember, GROUPCHAT, GroupItem, GROUPCHAT_HOST,CHATLIST,CHAT_HOST, chatHelper} from '../../interfaces/chat'
 import {DbService} from "../../sevices/db.service";
 import {Badge} from "@ionic-native/badge/ngx";
 import { PopoverController } from '@ionic/angular';
@@ -80,7 +80,6 @@ export class HomePage extends BaseUI {
     public platform: Platform,
     public dataService: DataService,
     public http: HttpService,
-    private db: DbService,
     public api: apiList,
     public loadingCtrl: LoadingController,
     public toast: ToastController,
@@ -106,11 +105,20 @@ export class HomePage extends BaseUI {
 
   async ngOnInit() {
 
-    this.dataService.db.get('chat-list').then(function (doc) {
-      console.log(doc)
-    }).catch(function (err) {
+    try {
+      let res = await this.dataService.db.find({
+        selector: { data_type: 1 },
+      });
+      console.log('res', res)
+      if (res.docs.length == 0) {
+        let doc = await this.dataService.db.get(chatHelper._id);
+        await this.dataService.db.put({ ...chatHelper, __rev: doc.rev })
+      }
 
-    })
+    } catch (err) {
+      await this.dataService.db.put(chatHelper)
+      console.log(err)
+    }
 
     this.userinfo = await this.dataService.userinfo
     if(!this.userinfo){

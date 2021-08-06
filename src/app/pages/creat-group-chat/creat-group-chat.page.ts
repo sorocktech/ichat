@@ -12,7 +12,6 @@ import { apiList } from "../../api/app.api"; // 引入
 import { DataService } from "../../sevices/data.service";
 import { NoticeService } from "../../sevices/notice.service";
 import { Storage } from "@ionic/storage";
-import { contacts } from "src/app/interfaces/chat";
 
 const { client, xml, jid } = require("@xmpp/client");
 
@@ -36,7 +35,7 @@ export class CreatGroupChatPage extends BaseUI implements OnInit {
   
   public messages: Array<any> = [];
   public chatroom: any = {};
-  public linkmanList: contacts = null;
+  public linkmanList: any = null;
   public search: string = "";//搜索
   constructor(
     public nav: NavController,

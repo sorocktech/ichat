@@ -101,11 +101,13 @@ export interface contactsItem
 export interface contactsItemPerson
 {
   id:number
+  _id?:string
   name:string
   chat_jid:string
   created_at?:string
   type?:ChatType
   pic_url?:string
+  data_type?:number
 }
 
 /**
@@ -114,14 +116,11 @@ export interface contactsItemPerson
 export const chatHelper:contactsItemPerson = 
 {
   id:0,
+  _id:'contacts_chat-helper',
   name:'系统消息',
   chat_jid:'chat-helper',
   type:'chat',
-  pic_url:'assets/images/xearth.jpeg'
-}
-export interface contacts
-{
-  orgs:Array<contactsOrg> | []
-  users:Array<contactsItem> | []
+  pic_url:'assets/images/xearth.jpeg',
+  data_type:1
 }
 

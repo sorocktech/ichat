@@ -192,6 +192,15 @@ export class Chat  implements OnInit,OnDestroy{
           console.log(e)
           return false
        })
+       try {
+        let result = await this.dataService.db.find({
+          selector: {account_no:account_no},
+          limit:1
+        });
+        console.log('find',result)
+      } catch (err) {
+        console.log('find',err);
+      }
 
        if(val){
           val.text = MessageItem.text

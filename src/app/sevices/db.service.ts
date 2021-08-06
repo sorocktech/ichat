@@ -49,7 +49,10 @@ export class DbService {
                     this.storage = db;
                     this.dbname = account_no
                     this.seedDatabase();
-                });
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
         });
     }
 
