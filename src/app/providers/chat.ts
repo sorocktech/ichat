@@ -194,19 +194,26 @@ export class Chat  implements OnInit,OnDestroy{
       let account_no = this.getChatAccountNo(MessageItem);
       let ChatItem: ChatItem;
 
-      let val;
+      let res;
       try {
-        val = await this.dataService.db.find({
-          selector: { data_type: 1,_id:'contacts_'+account_no },
+        res = await this.dataService.db.find({
+          selector: { data_type: 1, _id: "contacts_" + account_no },
           limit: 1,
         });
-        console.log("find", val);
+        console.log("find", res);
       } catch (err) {
-        console.log("find", err)
+        console.log("find", err);
       }
 
-      val = val.docs[0]
-       if(val){
+      let messageListExist;
+      let val;
+      if (res.docs.length === 0) {
+        messageListExist = false;
+      } else {
+        messageListExist = true;
+        val = res.docs[0];
+      }
+       if(messageListExist){
           val.text = MessageItem.text
           val.message = MessageItem
           val.time = MessageItem.time
@@ -301,41 +308,6 @@ export class Chat  implements OnInit,OnDestroy{
               }
               return true
           }
-
-
-          if (MessageItem.from === "chat-helper") {
-            console.log("收到系统消息");
-            ChatItem = {
-              account_no: chatHelper.chat_jid,
-              account_nick: "系统消息",
-              _id: chatHelper._id,
-              message: MessageItem,
-              time: MessageItem.time,
-              unix_time: new Date(MessageItem.time).getTime(),
-              pic_url: "77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",
-              count: 0,
-              type: CHAT,
-            };
-
-            let doc = await this.dataService.db.get(chatHelper._id);
-            await this.dataService.db.put({ ...chatHelper, __rev: doc.rev });
-
-            await this.chatListUpdate(ChatItem);
-            this.newMessage.next(ChatItem);
-            return true;
-          }
-
-          let contacts = await this.pouchdb.get('contacts')
-          console.log('get contacts',contacts)
-
-          let contactsIndex = _.findIndex(contacts.list, (o) => {
-              return o.chat_jid === account_no;
-          })
-          if(contactsIndex === -1){
-              console.log('联系人不存在')
-              return true
-          }
-
           ChatItem.message.member.member_no = ChatItem.account_no
           ChatItem.message.member.member_nick = ChatItem.account_nick
           ChatItem.message.member.member_avatar = ChatItem.pic_url
@@ -345,10 +317,13 @@ export class Chat  implements OnInit,OnDestroy{
               ChatItem.count = 0
           }
 
-          val.unshift(ChatItem)
-          await this.storage.set(this.dataService.CHATLIST, val)
-          await this.chatListUpdate(ChatItem)
-          this.newMessage.next(ChatItem)
+            let doc = await this.dataService.db.get(chatHelper._id);
+            await this.dataService.db.put({ ...chatHelper, __rev: doc.rev });
+
+            await this.chatListUpdate(ChatItem);
+            this.newMessage.next(ChatItem);
+            return true;
+
       }
 
       // 如果已删除聊天
@@ -367,6 +342,7 @@ export class Chat  implements OnInit,OnDestroy{
                           account_no: group.group_id.split("@")[0].toLowerCase(),
                           account_nick: group.group_name,
                           message: MessageItem,
+                          _id:MESSAGE_LIST_PRE +group.group_id.split("@")[0].toLowerCase(),
                           time: MessageItem.time,
                           unix_time:new Date(MessageItem.time).getTime(),
                           pic_url: '77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg',
