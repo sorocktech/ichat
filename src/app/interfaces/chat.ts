@@ -10,6 +10,7 @@ export const CHAT_TYPE_FILE ='file'
 export const CHAT_TYPE_TEXT ='text'
 export const CHAT_TYPE_IMAGE ='image'
 export const CHAT_TYPE_VIDEO ='video'
+export const MESSAGE_LIST_PRE ='msg_'
 
 export type ChatType = "chat" | "groupchat"
 export type MsgType = "text" | "image" | "video" | "file"
@@ -25,6 +26,7 @@ export type MsgType = "text" | "image" | "video" | "file"
 // 聊天项目，群聊单聊公用
 export interface ChatItem {
   account_no: string; // 对方的账号，如果是群聊 则是群的JID
+  _id: string; // 对方的账号，如果是群聊 则是群的JID
   account_nick: string;
   i?:string,
   time: any;

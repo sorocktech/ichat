@@ -2,15 +2,20 @@ import {Injectable, OnDestroy, OnInit} from "@angular/core";
 import { HttpClient} from "@angular/common/http";
 const { client, xml, jid } = require("@xmpp/client");
 import {
-    MessageItem,
-    ChatItem,
-    UNREADCOUNT,
-    GROUPCHAT,
-    GroupInfo,
-    CHAT,
-    GroupItem,
-    GROUPCHAT_HOST, Member, GroupMember, CHATLIST
-} from '../interfaces/chat'
+  MessageItem,
+  ChatItem,
+  UNREADCOUNT,
+  GROUPCHAT,
+  GroupInfo,
+  CHAT,
+  GroupItem,
+  MESSAGE_LIST_PRE,
+  GROUPCHAT_HOST,
+  Member,
+  GroupMember,
+  CHATLIST,
+  chatHelper,
+} from "../interfaces/chat";
 import {Storage} from "@ionic/storage";
 import {HttpService} from "../sevices/http.service";
 import {DbService} from "../sevices/db.service";
@@ -197,9 +202,10 @@ export class Chat  implements OnInit,OnDestroy{
         });
         console.log("find", val);
       } catch (err) {
-        console.log("find", err);
+        console.log("find", err)
       }
 
+      val = val.docs[0]
        if(val){
           val.text = MessageItem.text
           val.message = MessageItem
@@ -217,30 +223,33 @@ export class Chat  implements OnInit,OnDestroy{
                       group_id = MessageItem.to
                   }
               try {
-                  let groupItem = _.find(groups, {'group_id': group_id});
-                  let user = _.find(groupItem.members, {'member_no': MessageItem.member.member_no.toLowerCase()});
-                  MessageItem.member.member_nick = user.member_nick
-                  MessageItem.member.member_avatar = user.member_avatar
-                  ChatItem = {
-                      pic_url: '77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg',
-                      account_no: val.account_no,
-                      account_nick: val.account_nick,
-                      i: i,
-                      unix_time:new Date(MessageItem.time).getTime(),
-                      time: new Date(MessageItem.time),
-                      text: MessageItem.text,
-                      message: MessageItem,
-                      count: 1,
-                      type: GROUPCHAT
-                  }
+                let groupItem = _.find(groups, { group_id: group_id });
+                let user = _.find(groupItem.members, {
+                  member_no: MessageItem.member.member_no.toLowerCase(),
+                });
+                MessageItem.member.member_nick = user.member_nick;
+                MessageItem.member.member_avatar = user.member_avatar;
+                ChatItem = {
+                  pic_url: "77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",
+                  account_no: val.account_no,
+                  _id: MESSAGE_LIST_PRE+val.account_no,
+                  account_nick: val.account_nick,
+                  i: i,
+                  unix_time: new Date(MessageItem.time).getTime(),
+                  time: new Date(MessageItem.time),
+                  text: MessageItem.text,
+                  message: MessageItem,
+                  count: 1,
+                  type: GROUPCHAT,
+                };
 
-                  this.newMessage.next(val)
+                this.newMessage.next(val);
 
-                  await this.chatListUpdate(ChatItem)
-                  }catch (e){
-                      console.log(groups)
-                  console.log(MessageItem.from)
-                  }
+                await this.chatListUpdate(ChatItem);
+              } catch (e) {
+                console.log(groups);
+                console.log(MessageItem.from);
+              }
 
 
           }else{
@@ -258,10 +267,8 @@ export class Chat  implements OnInit,OnDestroy{
 
 
       if (!val && MessageItem.type === CHAT) {
-          // 单聊处理
-          // 机器人消息
+          //TODO 拉群处理
           if (MessageItem.from === "chathelper") {
-              console.log('被拉进群')
               let group = JSON.parse(MessageItem.text)
               await this.sendPresenceToXmpp(group);
               let groupItem =  await  this.saveGroup(group)
@@ -272,6 +279,7 @@ export class Chat  implements OnInit,OnDestroy{
               if(index === -1){
                   ChatItem ={
                       account_no: group.group_id.split("@")[0].toLowerCase(),
+                      _id:group.group_id.split("@")[0].toLowerCase(),
                       account_nick: group.group_name,
                       message: MessageItem,
                       time: MessageItem.time,
@@ -282,40 +290,39 @@ export class Chat  implements OnInit,OnDestroy{
                   }
 
                   val.unshift(ChatItem)
+
                   await this.storage.set(this.dataService.CHATLIST, val)
                   await this.chatListUpdate(ChatItem)
               }else{
-                  val[index].account_nick = groupItem.group_name
+                  val.account_nick = groupItem.group_name
                   await this.storage.set(this.dataService.CHATLIST, val)
+
                   await this.chatListUpdate(val[index])
               }
               return true
           }
 
-          // 报警消息
-          if (MessageItem.from === 'sos') {
-              console.log('收到报警消息')
-              return true
-          }
 
-          if (MessageItem.from === 'chat-helper') {
-              console.log('收到好友消息')
+          if (MessageItem.from === "chat-helper") {
+            console.log("收到系统消息");
+            ChatItem = {
+              account_no: chatHelper.chat_jid,
+              account_nick: "系统消息",
+              _id: chatHelper._id,
+              message: MessageItem,
+              time: MessageItem.time,
+              unix_time: new Date(MessageItem.time).getTime(),
+              pic_url: "77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",
+              count: 0,
+              type: CHAT,
+            };
 
-                  ChatItem ={
-                      account_no: 'chat-helper',
-                      account_nick: '系统消息',
-                      message: MessageItem,
-                      time: MessageItem.time,
-                      unix_time:new Date(MessageItem.time).getTime(),
-                      pic_url: '77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg',
-                      count:0 ,
-                      type: CHAT
-                  }
-                  val.unshift(ChatItem)
-                  await this.storage.set(this.dataService.CHATLIST, val)
-                  await this.chatListUpdate(ChatItem)
-                  this.newMessage.next(ChatItem)
-                  return true
+            let doc = await this.dataService.db.get(chatHelper._id);
+            await this.dataService.db.put({ ...chatHelper, __rev: doc.rev });
+
+            await this.chatListUpdate(ChatItem);
+            this.newMessage.next(ChatItem);
+            return true;
           }
 
           let contacts = await this.pouchdb.get('contacts')
@@ -327,22 +334,6 @@ export class Chat  implements OnInit,OnDestroy{
           if(contactsIndex === -1){
               console.log('联系人不存在')
               return true
-          }
-
-          let contactsOne = contacts.list[contactsIndex]
-
-
-          ChatItem = {
-              account_no: account_no,
-              i: i,
-              account_nick:contactsOne.remark,
-              pic_url: '',
-              text: MessageItem.text,
-              type: CHAT,
-              count: 0,
-              message: MessageItem,
-              time: new Date(MessageItem.time),
-              unix_time: new Date(MessageItem.time).getTime()
           }
 
           ChatItem.message.member.member_no = ChatItem.account_no
@@ -425,6 +416,7 @@ export class Chat  implements OnInit,OnDestroy{
   // 只更新和排序
   // 不添加 不删除
   async chatListUpdate (ChatItem:ChatItem){
+      return true
       if(!ChatItem){
           return true
       }
