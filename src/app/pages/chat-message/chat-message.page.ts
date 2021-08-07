@@ -149,8 +149,8 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
       console.log('chat helper message')
       this.params = chatHelper;
     } else {
-      let doc = await this.dataService.db.get('contacts')
-      this.params = doc.list[this.uid]
+      let doc = await this.dataService.db.get(this.uid)
+      this.params = doc
       console.log('当前聊天对象', this.params)
       this.userinfo = this.dataService.userinfo
 

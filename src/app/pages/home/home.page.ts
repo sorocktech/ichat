@@ -108,14 +108,10 @@ export class HomePage extends BaseUI {
     try {
       let res = await this.dataService.db.find({
         selector: { data_type: 1 },
-      });
+      })
 
       console.log('res', res)
 
-      let chatList = await this.dataService.db.find({
-        selector: { data_type: 2 },
-      });
-      this.ChatList = chatList.docs
 
       if (res.docs.length == 0) {
         let doc = await this.dataService.db.get(chatHelper._id);
@@ -136,7 +132,12 @@ export class HomePage extends BaseUI {
 
 
     this.dataService.isShowNewMessageTotast = false
-    await this.mainFun.initChatList()
+
+      let chatList = await this.dataService.db.find({
+        selector: { data_type: 2 },
+      })
+      console.log('chatList',chatList)
+      this.ChatList = chatList
     this.newMessageSub = this.mainFun.getChatList().subscribe((ChatList: Array<ChatItem>) => {
       this.ChatList = ChatList
     })

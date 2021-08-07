@@ -11,6 +11,7 @@ export const CHAT_TYPE_TEXT ='text'
 export const CHAT_TYPE_IMAGE ='image'
 export const CHAT_TYPE_VIDEO ='video'
 export const MESSAGE_LIST_PRE ='msg_'
+export const CONTACTS_PRE ='contacts_'
 
 export type ChatType = "chat" | "groupchat"
 export type MsgType = "text" | "image" | "video" | "file"
@@ -37,6 +38,7 @@ export interface ChatItem {
   count ?:number;
   text ?:string;
   message:MessageItem;
+  data_type?:number;
   account_no_lower ?:string;
 }
 

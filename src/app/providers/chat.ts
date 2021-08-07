@@ -10,11 +10,14 @@ import {
   CHAT,
   GroupItem,
   MESSAGE_LIST_PRE,
+  CONTACTS_PRE,
   GROUPCHAT_HOST,
   Member,
   GroupMember,
   CHATLIST,
   chatHelper,
+  contactsItem,
+  contactsItemPerson,
 } from "../interfaces/chat";
 import {Storage} from "@ionic/storage";
 import {HttpService} from "../sevices/http.service";
@@ -116,8 +119,8 @@ export class Chat  implements OnInit,OnDestroy{
     }
 
     async initChatList(){
-        let list = await this.storage.get(this.dataService.CHATLIST)
-        this.chatList.next(list)
+
+
     }
     async sendLocation(latLon:string,groupName:string){
         let groupJid = groupName.split("@")[0].toLowerCase() + GROUPCHAT_HOST
@@ -197,7 +200,7 @@ export class Chat  implements OnInit,OnDestroy{
       let res;
       try {
         res = await this.dataService.db.find({
-          selector: { data_type: 1, _id: "contacts_" + account_no },
+          selector: { data_type: 2, _id: MESSAGE_LIST_PRE + account_no },
           limit: 1,
         });
         console.log("find", res);
@@ -213,6 +216,10 @@ export class Chat  implements OnInit,OnDestroy{
         messageListExist = true;
         val = res.docs[0];
       }
+
+      console.log('chat exsit',messageListExist)
+
+        // 聊天消息已在列表已存在更新消息内容
        if(messageListExist){
           val.text = MessageItem.text
           val.message = MessageItem
@@ -220,60 +227,64 @@ export class Chat  implements OnInit,OnDestroy{
           val.unix_time = new Date(MessageItem.time).getTime()
           val.dateparse = 0
 
-          // 群聊处理
 
-          if (MessageItem.type === GROUPCHAT) {
-             let groups = await this.storage.get('groups')
-                 let  group_id = MessageItem.from
-                  if(MessageItem.from.toLowerCase() === this.dataService.userinfo.openfire_no.toLowerCase()){
-                      // 自己发出的群消息，from是自己，to是群的jid
-                      group_id = MessageItem.to
-                  }
-              try {
-                let groupItem = _.find(groups, { group_id: group_id });
-                let user = _.find(groupItem.members, {
-                  member_no: MessageItem.member.member_no.toLowerCase(),
-                });
-                MessageItem.member.member_nick = user.member_nick;
-                MessageItem.member.member_avatar = user.member_avatar;
-                ChatItem = {
-                  pic_url: "77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",
-                  account_no: val.account_no,
-                  _id: MESSAGE_LIST_PRE+val.account_no,
-                  account_nick: val.account_nick,
-                  i: i,
-                  unix_time: new Date(MessageItem.time).getTime(),
-                  time: new Date(MessageItem.time),
-                  text: MessageItem.text,
-                  message: MessageItem,
-                  count: 1,
-                  type: GROUPCHAT,
-                };
+          // 单聊
+          if (MessageItem.type === CHAT) {
+            if (val.account_no === val.message.from) {
+              val.message.member.member_no = val.account_no;
+              val.message.member.member_nick = val.account_nick;
+              val.message.member.member_avatar = val.pic_url;
+            }
 
-                this.newMessage.next(val);
-
-                await this.chatListUpdate(ChatItem);
-              } catch (e) {
-                console.log(groups);
-                console.log(MessageItem.from);
-              }
-
-
-          }else{
-              if(val.account_no ===val.message.from ){
-                  val.message.member.member_no = val.account_no
-                  val.message.member.member_nick = val.account_nick
-                  val.message.member.member_avatar = val.pic_url
-              }
-
-
-              this.newMessage.next(val)
-              await this.chatListUpdate(val)
+            this.newMessage.next(val);
+            await this.chatListUpdate(val);
           }
+
+          // 群聊处理
+          if (MessageItem.type === GROUPCHAT) {
+            let groups = await this.storage.get("groups");
+            let group_id = MessageItem.from;
+            if (
+              MessageItem.from.toLowerCase() ===
+              this.dataService.userinfo.openfire_no.toLowerCase()
+            ) {
+              // 自己发出的群消息，from是自己，to是群的jid
+              group_id = MessageItem.to;
+            }
+            try {
+              let groupItem = _.find(groups, { group_id: group_id });
+              let user = _.find(groupItem.members, {
+                member_no: MessageItem.member.member_no.toLowerCase(),
+              });
+              MessageItem.member.member_nick = user.member_nick;
+              MessageItem.member.member_avatar = user.member_avatar;
+              ChatItem = {
+                pic_url: "77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",
+                account_no: val.account_no,
+                _id: MESSAGE_LIST_PRE + val.account_no,
+                account_nick: val.account_nick,
+                i: i,
+                unix_time: new Date(MessageItem.time).getTime(),
+                time: new Date(MessageItem.time),
+                text: MessageItem.text,
+                message: MessageItem,
+                count: 1,
+                type: GROUPCHAT,
+              };
+
+              this.newMessage.next(val);
+
+              await this.chatListUpdate(ChatItem);
+            } catch (e) {
+              console.log(groups);
+              console.log(MessageItem.from);
+            }
+          } 
       }
 
 
-      if (!val && MessageItem.type === CHAT) {
+      // 不在列表中存在的消息 且是单聊
+      if (!messageListExist && MessageItem.type === CHAT) {
           //TODO 拉群处理
           if (MessageItem.from === "chathelper") {
               let group = JSON.parse(MessageItem.text)
@@ -308,17 +319,36 @@ export class Chat  implements OnInit,OnDestroy{
               }
               return true
           }
-          ChatItem.message.member.member_no = ChatItem.account_no
-          ChatItem.message.member.member_nick = ChatItem.account_nick
-          ChatItem.message.member.member_avatar = ChatItem.pic_url
+          // 单聊消息
+            let doc: contactsItemPerson = await this.dataService.db.get(
+              CONTACTS_PRE + account_no
+            );
+
+            console.log("从联系人列表中找到联系人 并显示到聊天列表中");
+
+            ChatItem = {
+              account_no: account_no,
+              _id: MESSAGE_LIST_PRE + account_no,
+              account_nick: doc.name,
+              message: MessageItem,
+              time: MessageItem.time,
+              unix_time: new Date(MessageItem.time).getTime(),
+              pic_url: doc.pic_url,
+              count: 0,
+              data_type: 2,
+              type: CHAT,
+            };
+
+            ChatItem.message.member.member_no = ChatItem.account_no;
+            ChatItem.message.member.member_nick = ChatItem.account_nick;
+            ChatItem.message.member.member_avatar = ChatItem.pic_url;
 
           if (ChatItem.message.from === this.dataService.userinfo.chat_jid) {
               ChatItem.message.member.member_nick = this.dataService.userinfo.nick
               ChatItem.count = 0
           }
 
-            let doc = await this.dataService.db.get(chatHelper._id);
-            await this.dataService.db.put({ ...chatHelper, __rev: doc.rev });
+            await this.dataService.db.put(ChatItem)
 
             await this.chatListUpdate(ChatItem);
             this.newMessage.next(ChatItem);
@@ -326,8 +356,8 @@ export class Chat  implements OnInit,OnDestroy{
 
       }
 
-      // 如果已删除聊天
-      if (!val && MessageItem.type === GROUPCHAT) {
+      // 不在列表中存在的消息 且是群聊
+      if (!messageListExist && MessageItem.type === GROUPCHAT) {
           let account_no = this.getChatAccountNo(MessageItem)
           this.http.post(
               `${this.api.safesList.getGroupMembersMessage}`,
