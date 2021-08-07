@@ -184,22 +184,20 @@ export class Chat  implements OnInit,OnDestroy{
    * @param MessageItem
    */
   async messageTransChat(MessageItem: MessageItem) {
-      let i = this.dataService.userinfo.chat_jid
-      console.log('i',i)
-      let account_no = this.getChatAccountNo(MessageItem)
-      let ChatItem:ChatItem
-      let val = await this.dataService.db.get('chatlist_'+account_no).catch(e=>{
-          console.log(e)
-          return false
-       })
-       try {
-        let result = await this.dataService.db.find({
-          selector: {account_no:account_no},
-          limit:1
+      let i = this.dataService.userinfo.chat_jid;
+      console.log("i", i);
+      let account_no = this.getChatAccountNo(MessageItem);
+      let ChatItem: ChatItem;
+
+      let val;
+      try {
+        val = await this.dataService.db.find({
+          selector: { data_type: 1,_id:'contacts_'+account_no },
+          limit: 1,
         });
-        console.log('find',result)
+        console.log("find", val);
       } catch (err) {
-        console.log('find',err);
+        console.log("find", err);
       }
 
        if(val){
