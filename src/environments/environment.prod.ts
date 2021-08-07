@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://silkroad.tihal.cn:6012/'
+  apiUrl: 'https://chat.100100.li:9100/'
 
 };
