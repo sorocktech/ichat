@@ -124,20 +124,9 @@ export class HomePage extends BaseUI {
     }
 
     this.userinfo = await this.dataService.userinfo
-    if(!this.userinfo){
-    }
-
-    this.platform.ready().then(async () => {
-    })
-
 
     this.dataService.isShowNewMessageTotast = false
 
-      let chatList = await this.dataService.db.find({
-        selector: { data_type: 2 },
-      })
-      console.log('chatList',chatList)
-      this.ChatList = chatList
     this.newMessageSub = this.mainFun.getChatList().subscribe((ChatList: Array<ChatItem>) => {
       this.ChatList = ChatList
     })
@@ -149,6 +138,8 @@ export class HomePage extends BaseUI {
     this.netReadySub = this.mainFun.netReady.subscribe(res => {
       this.netStat = res
     })
+
+    this.mainFun.initChatList()
 
   }
 
