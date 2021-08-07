@@ -13,14 +13,9 @@
         <ion-img class="touxiang"  src="assets/images/xearth.jpeg"></ion-img>
       </ion-thumbnail>
       <ion-text>
-        <ion-label>{{info?.remark}}</ion-label>
+        <ion-label>{{info?.name}}</ion-label>
       </ion-text>
     </ion-item>
-  <!-- <ion-item>
-    <ion-label>
-      <span>性别</span> {{manMsg?.sex_name}}
-    </ion-label>
-  </ion-item> -->
   </ion-list>
   <ion-button class="chat_btn" expand="full" color="primary" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:info?.chat_jid}">发消息</ion-button>
 </ion-content>

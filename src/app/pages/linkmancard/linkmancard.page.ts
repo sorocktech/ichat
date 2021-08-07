@@ -31,7 +31,7 @@ export class LinkmancardPage extends BaseUI implements OnInit {
   }
 
   async getInfo(id){
-    let doc = await this.dataService.db.get('contacts')
-    this.info = doc.list[id]
+    let doc = await this.dataService.db.get(id)
+    this.info = doc
   }
 }
