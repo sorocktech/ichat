@@ -49,7 +49,8 @@ import {
   CHAT_TYPE_FILE,
   CHAT_TYPE_VIDEO,
   contactsItemPerson,
-  chatHelper
+  chatHelper,
+  CONTACTS_PRE
 } from "../../interfaces/chat";
 
 declare var previewImage: any;
@@ -145,13 +146,10 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
     this.uid = this.route.snapshot.params['id'];
 
-    if(this.uid == 'chat-helper'){
-      console.log('chat helper message')
-      this.params = chatHelper;
-    } else {
-      let doc = await this.dataService.db.get(this.uid)
+      let doc = await this.dataService.db.get(CONTACTS_PRE+this.uid)
       this.params = doc
       console.log('当前聊天对象', this.params)
+      console.log('userinfo', this.dataService.userinfo)
       this.userinfo = this.dataService.userinfo
 
 
@@ -165,9 +163,6 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
       if (this.params.type === GROUPCHAT) {
         this.jid = this.params.chat_jid + GROUPCHAT_HOST;
       }
-
-
-    }
 
 
       this.getChatMessageFromDb();
@@ -418,6 +413,8 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     if (this.chatBox.length <= 0) {
       return true
     }
+
+    console.log('userinfo',this.userinfo)
 
     let MessageItem:MessageItem= {
       from:this.userinfo.chat_jid,

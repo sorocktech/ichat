@@ -109,6 +109,7 @@ export class DbService {
                         items.push({
                             account_no: res.rows.item(i).account_no,
                             text: res.rows.item(i).body,
+                            _id:'',
                             account_nick: res.rows.item(i).nick,
                             time: new Date(res.rows.item(i).date),
                             unix_time:new Date(res.rows.item(i).date).getTime(),
