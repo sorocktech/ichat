@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
  * urlList
  */
 export class apiList implements OnInit {
-  public picurl = "https://yjglpt-dh.oss-cn-beijing.aliyuncs.com/"; //图片路径
+  public picurl = "https://filmhot-images.oss-cn-beijing.aliyuncs.com/"; //图片路径
   baseurl: any = "";
   otherurl: any = "";
   regeo: any = "";

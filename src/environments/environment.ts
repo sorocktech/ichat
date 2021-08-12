@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   // apiUrl: 'https://chat.100100.li:9100/'
   // apiUrl: 'https://localhost:9100/'
-  apiUrl: 'http://192.168.1.102:9100/'
+  apiUrl: "http://192.168.1.106:9100/",
 };
 
 /*

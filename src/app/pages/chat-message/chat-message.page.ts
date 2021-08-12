@@ -146,7 +146,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
     this.uid = this.route.snapshot.params['id'];
 
-      let doc = await this.dataService.db.get(CONTACTS_PRE+this.uid)
+      let doc = await this.dataService.db.get(this.uid)
       this.params = doc
       console.log('当前聊天对象', this.params)
       console.log('userinfo', this.dataService.userinfo)
@@ -304,8 +304,8 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
   }
   ngOnDestroy() {
     console.log('销毁了聊天页面')
-    this.newMessageSub.unsubscribe()
-    this._unreadCount.unsubscribe()
+    this.newMessageSub?.unsubscribe()
+    this._unreadCount?.unsubscribe()
     if(this._chatSub){
       this._chatSub.unsubscribe()
     }

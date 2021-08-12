@@ -1,6 +1,6 @@
 export const CHAT='chat'
 export const GROUPCHAT='groupchat'
-export const CHAT_HOST = '@dhchatdev.tihal.cn'
+export const CHAT_HOST = '@chat.100100.li'
 export const GROUPCHAT_HOST = '@conference.dhchatdev.tihal.cn'
 export const CHATLIST = 'chatList'
 export const UNREADCOUNT='unreadCount' // 未读消息总数
@@ -127,7 +127,7 @@ export const chatHelper:contactsItemPerson =
   name:'系统消息',
   chat_jid:'chat-helper',
   type:'chat',
-  pic_url:'assets/images/xearth.jpeg',
+  pic_url:'xearth.jpeg',
   data_type:1
 }
 
