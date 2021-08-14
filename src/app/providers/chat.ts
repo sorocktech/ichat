@@ -195,12 +195,13 @@ export class Chat  implements OnInit,OnDestroy{
       let i = this.dataService.userinfo.chat_jid;
       console.log("i", i);
       let account_no = this.getChatAccountNo(MessageItem);
-      let ChatItem: ChatItem;
+      let ChatItem: ChatItem
+      console.log('chat_account_no',account_no)
 
       let res;
       try {
         res = await this.dataService.db.find({
-          selector: { data_type: 1, _id: "contacts_" + account_no },
+          selector: { data_type: 1, _id: MESSAGE_LIST_PRE + account_no },
           limit: 1,
         });
         console.log("find", res);
@@ -217,7 +218,8 @@ export class Chat  implements OnInit,OnDestroy{
         val = res.docs[0];
       }
        if(messageListExist){
-          val.text = MessageItem.text
+        console.log('联系人在列表中存在') 
+        val.text = MessageItem.text
           val.message = MessageItem
           val.time = MessageItem.time
           val.unix_time = new Date(MessageItem.time).getTime()
@@ -241,7 +243,7 @@ export class Chat  implements OnInit,OnDestroy{
                 MessageItem.member.member_avatar = user.member_avatar;
                 ChatItem = {
                   pic_url: "77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",
-                  account_no: val.account_no,
+                  account_no: account_no,
                   _id: MESSAGE_LIST_PRE+val.account_no,
                   account_nick: val.account_nick,
                   i: i,
@@ -278,6 +280,8 @@ export class Chat  implements OnInit,OnDestroy{
 
       if (!val && MessageItem.type === CHAT) {
           //TODO 拉群处理
+
+        console.log('联系人不存在') 
           if (MessageItem.from === "chathelper") {
               let group = JSON.parse(MessageItem.text)
               await this.sendPresenceToXmpp(group);
@@ -311,6 +315,9 @@ export class Chat  implements OnInit,OnDestroy{
               }
               return true
           }
+          // find concat from concats 
+
+
           ChatItem.message.member.member_no = ChatItem.account_no
           ChatItem.message.member.member_nick = ChatItem.account_nick
           ChatItem.message.member.member_avatar = ChatItem.pic_url
@@ -323,6 +330,7 @@ export class Chat  implements OnInit,OnDestroy{
             let doc = await this.dataService.db.get(chatHelper._id);
             await this.dataService.db.put({ ...chatHelper, __rev: doc.rev });
 
+            console.log('最后的chatitem',ChatItem)
             await this.chatListUpdate(ChatItem);
             this.newMessage.next(ChatItem);
             return true;
