@@ -152,9 +152,6 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
       console.log('userinfo', this.dataService.userinfo)
       this.userinfo = this.dataService.userinfo
 
-
-      this.params.chat_jid = this.params.chat_jid
-
       this.dataService.isShowNewMessageTotast = false
       this.dataService.currentChatAccountNo = this.params.chat_jid
       console.log('当前消息类型', this.params.type)
@@ -196,9 +193,11 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
 
   getChatMessageFromDb(start=100000,limit=30){
+    console.log('get chat message')
+    console.log('current chat jid',this.params.chat_jid)
     this.db.loadMessages(this.params.chat_jid,start, limit)
         .then(res => {
-          console.log(res)
+          console.log('res',res)
           if (res.length > 0) {
             res.map((ChatItem) => {
               if (this.params.chat_jid === ChatItem.account_no) {
@@ -217,7 +216,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
                 }
               }
             })
-              console.log(this.chatHistory)
+              console.log('chat message',this.chatHistory)
           }
         })
 
@@ -414,8 +413,6 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
       return true
     }
 
-    console.log('userinfo',this.userinfo)
-
     let MessageItem:MessageItem= {
       from:this.userinfo.chat_jid,
       to:this.jid.split('@')[0],
@@ -440,6 +437,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     console.log('====raw send====')
     console.log(message.toString())
     console.log('====raw send====')
+    console.log('messageItem',MessageItem)
     await this.mainFunc.xmpp.send(message);
     await this.mainFunc.messageTransChat(MessageItem)
 

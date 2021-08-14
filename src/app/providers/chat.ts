@@ -15,6 +15,9 @@ import {
   GroupMember,
   CHATLIST,
   chatHelper,
+  CONTACTS_PRE,
+  contactsItem,
+  contactsItemPerson,
 } from "../interfaces/chat";
 import {Storage} from "@ionic/storage";
 import {HttpService} from "../sevices/http.service";
@@ -203,7 +206,7 @@ export class Chat implements OnInit, OnDestroy {
     }
 
     let messageListExist;
-    let val;
+    let val:ChatItem; 
     if (res.docs.length === 0) {
       messageListExist = false;
     } else {
@@ -270,7 +273,7 @@ export class Chat implements OnInit, OnDestroy {
       }
     }
 
-    if (!val && MessageItem.type === CHAT) {
+    if (!messageListExist && MessageItem.type === CHAT) {
       //TODO 拉群处理
 
       console.log("联系人不存在");
@@ -295,7 +298,7 @@ export class Chat implements OnInit, OnDestroy {
             type: GROUPCHAT,
           };
 
-          val.unshift(ChatItem);
+        //   val.unshift(ChatItem);
 
           await this.storage.set(this.dataService.CHATLIST, val);
           await this.chatListUpdate(ChatItem);
@@ -309,16 +312,29 @@ export class Chat implements OnInit, OnDestroy {
       }
       // find concat from concats
 
-      let res;
+      let result
       try {
-        res = await this.dataService.db.find({
-          selector: { data_type: 1, _id: MESSAGE_LIST_PRE + account_no },
+       result = await this.dataService.db.find({
+          selector: { data_type: 1, _id: CONTACTS_PRE + account_no },
           limit: 1,
         });
-        console.log("find", res);
       } catch (err) {
         console.log("find", err);
       }
+
+      let contactsTarget:contactsItemPerson = result.docs[0];
+      console.log('contactsTarget',contactsTarget)
+      ChatItem = {
+        account_no: account_no,
+        _id: MESSAGE_LIST_PRE+account_no,
+        account_nick: contactsTarget.name,
+        message: MessageItem,
+        time: MessageItem.time,
+        unix_time: new Date(MessageItem.time).getTime(),
+        pic_url: "77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",
+        count: 0,
+        type: CHAT,
+      };
 
       ChatItem.message.member.member_no = ChatItem.account_no;
       ChatItem.message.member.member_nick = ChatItem.account_nick;
@@ -328,9 +344,6 @@ export class Chat implements OnInit, OnDestroy {
         ChatItem.message.member.member_nick = this.dataService.userinfo.nick;
         ChatItem.count = 0;
       }
-
-      let doc = await this.dataService.db.get(chatHelper._id);
-      await this.dataService.db.put({ ...chatHelper, __rev: doc.rev });
 
       console.log("最后的chatitem", ChatItem);
       await this.chatListUpdate(ChatItem);
