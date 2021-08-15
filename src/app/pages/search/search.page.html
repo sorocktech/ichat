@@ -1,12 +1,16 @@
-
-<ion-header translucent>
+<ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home" text="返回" icon="arrow-back-outline"></ion-back-button>
+    </ion-buttons>
     <ion-title>添加好友</ion-title>
   </ion-toolbar>
-  <ion-toolbar>
-    <ion-searchbar placeholder="对方账号"  (ionCancel)="cancel()" animated showCancelButton="always" cancelButtonText="取消"></ion-searchbar>
-  </ion-toolbar>
 </ion-header>
-
 <ion-content>
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">添加好友</ion-title>
+    </ion-toolbar>
+    <ion-searchbar placeholder="对方账号"  (ionCancel)="cancel()" animated  cancelButtonText="取消"></ion-searchbar>
+  </ion-header>
 </ion-content>
