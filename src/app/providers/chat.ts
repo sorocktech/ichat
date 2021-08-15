@@ -116,7 +116,8 @@ export class Chat implements OnInit, OnDestroy {
   async initChatList() {
     let list = await this.dataService.db.find({
       selector: { data_type: 2 },
-    });
+    })
+    console.log('message list',list)
     this.chatList.next(list.docs);
   }
   async sendLocation(latLon: string, groupName: string) {
@@ -331,8 +332,9 @@ export class Chat implements OnInit, OnDestroy {
         message: MessageItem,
         time: MessageItem.time,
         unix_time: new Date(MessageItem.time).getTime(),
-        pic_url: "77ea4c86-b213-11ea-94f2-0242f326aa85.jpeg",
+        pic_url: contactsTarget.pic_url,
         count: 0,
+        data_type:2,
         type: CHAT,
       };
 
@@ -344,6 +346,9 @@ export class Chat implements OnInit, OnDestroy {
         ChatItem.message.member.member_nick = this.dataService.userinfo.nick;
         ChatItem.count = 0;
       }
+      // 添加message list TODO
+      this.dataService.db.put(ChatItem)
+
 
       console.log("最后的chatitem", ChatItem);
       await this.chatListUpdate(ChatItem);
@@ -387,7 +392,7 @@ export class Chat implements OnInit, OnDestroy {
 
             this.newMessage.next(ChatItem);
 
-            val.unshift(ChatItem);
+            // val.unshift(ChatItem);
             await this.storage.set(this.dataService.CHATLIST, val);
             await this.chatListUpdate(ChatItem);
           }

@@ -129,6 +129,7 @@ export class HomePage extends BaseUI {
 
     this.newMessageSub = this.mainFun.getChatList().subscribe((ChatList: Array<ChatItem>) => {
       this.ChatList = ChatList
+      console.log('chat list new ',this.ChatList)
     })
 
     this.chatStateSub = this.mainFun.getChatState().subscribe((state) => {
