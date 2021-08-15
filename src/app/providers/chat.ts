@@ -18,6 +18,8 @@ import {
   CONTACTS_PRE,
   contactsItem,
   contactsItemPerson,
+  TypeMessageList,
+  TypeContacts,
 } from "../interfaces/chat";
 import {Storage} from "@ionic/storage";
 import {HttpService} from "../sevices/http.service";
@@ -115,7 +117,7 @@ export class Chat implements OnInit, OnDestroy {
 
   async initChatList() {
     let list = await this.dataService.db.find({
-      selector: { data_type: 2 },
+      selector: { data_type: TypeMessageList },
     })
     console.log('message list',list)
     this.chatList.next(list.docs);
@@ -316,7 +318,7 @@ export class Chat implements OnInit, OnDestroy {
       let result
       try {
        result = await this.dataService.db.find({
-          selector: { data_type: 1, _id: CONTACTS_PRE + account_no },
+          selector: { data_type: TypeContacts, _id: CONTACTS_PRE + account_no },
           limit: 1,
         });
       } catch (err) {
@@ -334,7 +336,7 @@ export class Chat implements OnInit, OnDestroy {
         unix_time: new Date(MessageItem.time).getTime(),
         pic_url: contactsTarget.pic_url,
         count: 0,
-        data_type:2,
+        data_type:TypeMessageList,
         type: CHAT,
       };
 

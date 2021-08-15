@@ -15,6 +15,9 @@ export const CONTACTS_PRE ='contacts_'
 
 export type ChatType = "chat" | "groupchat"
 export type MsgType = "text" | "image" | "video" | "file"
+export const TypeMessageList = 1
+export const TypeContacts = 2
+export type PouchdbType = 1|2
 
 /**
  * 1 contact 2 message list
@@ -114,7 +117,7 @@ export interface contactsItemPerson
   created_at?:string
   type?:ChatType
   pic_url?:string
-  data_type?:number
+  data_type?:PouchdbType
 }
 
 /**
@@ -128,6 +131,6 @@ export const chatHelper:contactsItemPerson =
   chat_jid:'chat-helper',
   type:'chat',
   pic_url:'xearth.jpeg',
-  data_type:1
+  data_type:TypeContacts
 }
 

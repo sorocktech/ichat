@@ -76,7 +76,7 @@ export class AppComponent extends BaseUI {
         this.nav.navigateRoot('/login')
       }
 
-      this.dataService.userinfo = JSON.parse(userinfo)
+      this.dataService.userinfo = JSON.parse(userinfo) || null
       this.userinfo =this.dataService.userinfo
       this.router.events.subscribe(async (event: Event) => {
         if (event instanceof NavigationStart) {

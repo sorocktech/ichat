@@ -5,7 +5,7 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { HttpService } from "../../sevices/http.service";
 import { apiList } from "../../api/app.api"; // 引入
 import { DataService } from "../../sevices/data.service";
-import { contactsItem } from 'src/app/interfaces/chat';
+import { contactsItem, TypeContacts } from 'src/app/interfaces/chat';
 import PouchDB from 'node_modules/pouchdb';
 
 @Component({
@@ -55,7 +55,7 @@ export class LinkmanlistPage extends BaseUI implements OnInit {
   async getList() {
     try {
       let res = await this.pouchdb.find({
-        selector: { data_type: 1 },
+        selector: { data_type: TypeContacts },
       });
       this.linkmanList = res.docs
     } catch (err) {
