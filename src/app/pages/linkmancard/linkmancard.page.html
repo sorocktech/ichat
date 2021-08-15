@@ -10,7 +10,7 @@
   <ion-list class="bord_btm">
     <ion-item >
       <ion-thumbnail slot="start">
-        <ion-img class="touxiang"  src="assets/images/xearth.jpeg"></ion-img>
+        <ion-img  class="touxiang" [src]="api?.picurl+info?.pic_url"></ion-img>
       </ion-thumbnail>
       <ion-text>
         <ion-label>{{info?.name}}</ion-label>
