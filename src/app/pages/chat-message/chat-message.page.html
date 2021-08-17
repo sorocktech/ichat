@@ -6,10 +6,12 @@
         <ion-badge *ngIf="unreadCount>0 " color="light" slot="start">{{unreadCount}}</ion-badge>
       </ion-button>
     </ion-buttons>
+    <div class="user-avatar" [routerLink]="'/contact/'+params?._id">
       <ion-thumbnail class="username" slot="start">
         <img  src="assets/images/xearth.jpeg">
       </ion-thumbnail>
     <ion-text class="username_text">{{params?.name}}</ion-text>
+    </div>
   </ion-toolbar>
 </ion-header>
 <ion-content>
