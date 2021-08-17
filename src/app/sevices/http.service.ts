@@ -107,9 +107,7 @@ export class HttpService extends BaseUI {
           cb(res);
         },
         async (err) => {
-          if (err.status == 400) {
             cb(err)
-          }
         }
     );
   }

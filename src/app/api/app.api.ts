@@ -49,7 +49,7 @@ export class apiList implements OnInit {
       changePicImg: `${this.baseurl}tihal/app-tenant/app-photo-save`, //更换图像
       getDataCodeByParam: `${this.baseurl}tihal/app-code/get-data-code-by-param`, //血型
       appTenantUserModify: `${this.baseurl}tihal/app-tenant/app-tenant-user-modify`, //提交修改
-      avatarModify: `${this.baseurl}tihal/app-tenant/app-photo-save`, //提交修改
+      search: `${this.baseurl}user/search`, 
     };
     this.safesList = {
       // 企业微信

@@ -11,6 +11,8 @@
     <ion-toolbar>
       <ion-title size="large">添加好友</ion-title>
     </ion-toolbar>
-    <ion-searchbar placeholder="对方账号"  (ionCancel)="cancel()" animated  cancelButtonText="取消"></ion-searchbar>
   </ion-header>
+    <ion-searchbar (ionBlur)="search()" enterkeyhint="搜索"  placeholder="对方账号"
+      [(ngModel)]="value"
+     (ionCancel)="cancel()" animated  cancelButtonText="取消"></ion-searchbar>
 </ion-content>
