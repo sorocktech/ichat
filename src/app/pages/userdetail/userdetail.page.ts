@@ -118,7 +118,7 @@ export class UserdetailPage extends BaseUI implements OnInit {
         this.submitData = res.resp.tenantUser;
         console.log(res.resp.user.nick);
       } else {
-        super.showToast(this.toast, res.message);
+        super.showToast(this.toast, res.message,'top');
       }
     });
   }
@@ -212,7 +212,7 @@ export class UserdetailPage extends BaseUI implements OnInit {
         if (res.retcode == 0 && res.retmsg.includes('成功')) {
           super.showLoading(this.loadingCtrl, "修改成功");
         } else {
-          super.showToast(this.toast, res.message);
+          super.showToast(this.toast, res.message,'top');
         }
       }
     );

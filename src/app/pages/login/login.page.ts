@@ -100,7 +100,7 @@ export class LoginPage extends BaseUI  implements OnInit{
 
     this.http.post(this.api.loginList.gologin, req, res => {
       if (res.status) {
-        return super.showToast(this.toast, '密码或账号错误');
+        return super.showToast(this.toast, '密码或账号错误','top');
       }
       localStorage.setItem("access_token", res.data.access_token);
       localStorage.setItem("userinfo", JSON.stringify(res.data))

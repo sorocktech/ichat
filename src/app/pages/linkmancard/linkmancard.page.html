@@ -8,14 +8,17 @@
 
 <ion-content>
   <ion-list class="bord_btm">
-    <ion-item >
-      <ion-thumbnail slot="start">
-        <ion-img  class="touxiang" [src]="api?.picurl+info?.pic_url"></ion-img>
-      </ion-thumbnail>
-      <ion-text>
-        <ion-label>{{info?.name}}</ion-label>
-      </ion-text>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img [src]="api?.picurl+info?.pic_url">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{info?.name}}</h2>
+        <h3>I'm a big deal</h3>
+        <p>Listen, I've had a pretty messed up day...</p>
+      </ion-label>
     </ion-item>
   </ion-list>
-  <ion-button class="chat_btn" expand="full" color="primary" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:info?.chat_jid}">发消息</ion-button>
+  <ion-button class="chat_btn" expand="full" color="primary" [routerLink]="['/chat',uid]"
+    [queryParams]="{type:'chat',jid:info?.chat_jid}">发消息</ion-button>
 </ion-content>

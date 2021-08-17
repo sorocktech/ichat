@@ -88,9 +88,7 @@ export class HttpService extends BaseUI {
       (err) => {
         if (err.status == 401) {
           this.nav.navigateRoot(["/login"]);
-          super.showToast(this.toast, "身份已失效，请重新登录～");
         } else {
-          super.showToast(this.toast, this.status[err.status]);
         }
       }
     );
@@ -107,7 +105,12 @@ export class HttpService extends BaseUI {
           cb(res);
         },
         async (err) => {
+          if(err.status === 401){
+            return this.nav.navigateRoot('/login')
+          }
             cb(err)
+
+            console.log('err',err)
         }
     );
   }
@@ -164,7 +167,7 @@ export class HttpService extends BaseUI {
           this.post(url,data,cb)
         },1000)
       }else {
-        super.showToast(this.toast, res.retmsg);
+        super.showToast(this.toast, res.retmsg,'top')
          this.nav.navigateRoot(["/login"])
       }
     })
