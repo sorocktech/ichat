@@ -3,6 +3,7 @@ import { apiList } from 'src/app/api/app.api';
 import { HttpService } from 'src/app/sevices/http.service';
 import { Component, OnInit } from '@angular/core';
 import {ToastController, NavController } from '@ionic/angular';
+import { DataService } from 'src/app/sevices/data.service';
 
 @Component({
   selector: "app-search",
@@ -11,13 +12,14 @@ import {ToastController, NavController } from '@ionic/angular';
 })
 export class SearchPage extends BaseUI implements OnInit {
   public value: string;
-  public targetUser:any
+  public targetUser: any;
 
   constructor(
     public nav: NavController,
     public http: HttpService,
     public api: apiList,
-    public toast: ToastController
+    public toast: ToastController,
+    public data: DataService
   ) {
     super();
   }
@@ -37,9 +39,11 @@ export class SearchPage extends BaseUI implements OnInit {
           if (res.error.code === 404) {
             super.showToast(this.toast, "搜索内容不存在", "top");
           }
-          this.targetUser = res.data
-          console.log(res);
         }
+        this.targetUser = res.data;
+        this.data.currentSearchedUser = res.data;
+        this.nav.navigateForward("/contact/search");
+        console.log(res);
       }
     );
   }

@@ -5,7 +5,7 @@ import { Router, ActivatedRoute, Params } from "@angular/router";
 import { BaseUI } from "../../api/baseui";
 import { NavController, LoadingController } from "@ionic/angular";
 import { DataService } from "../../sevices/data.service";
-import { contactsItemPerson } from "src/app/interfaces/chat";
+import { contactsItemPerson, searchedUser } from "src/app/interfaces/chat";
 
 @Component({
   selector: "app-linkmancard",
@@ -13,9 +13,10 @@ import { contactsItemPerson } from "src/app/interfaces/chat";
   styleUrls: ["./linkmancard.page.scss"],
 })
 export class LinkmancardPage extends BaseUI implements OnInit {
-  public info: contactsItemPerson =null;
+  public info: contactsItemPerson = undefined
   public uid: string = "";
   public isContacts: boolean = false;
+  public searchedUser: searchedUser = undefined
 
   constructor(
     public http: HttpService,
@@ -28,6 +29,10 @@ export class LinkmancardPage extends BaseUI implements OnInit {
   }
 
   async ngOnInit() {
+    if(this.dataService.currentSearchedUser){
+      this.searchedUser = this.dataService.currentSearchedUser
+      return true
+    }
     this.isContacts = true
     this.uid= this.route.snapshot.params['id'];
     await this.getInfo(this.uid)

@@ -134,3 +134,11 @@ export const chatHelper:contactsItemPerson =
   data_type:TypeContacts
 }
 
+export interface searchedUser 
+{
+  avatar:string
+  chat_jid:string
+  created_at:string
+  id?: number
+  name: string
+}
