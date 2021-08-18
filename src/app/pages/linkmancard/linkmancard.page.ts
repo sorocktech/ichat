@@ -15,6 +15,8 @@ import { contactsItemPerson } from "src/app/interfaces/chat";
 export class LinkmancardPage extends BaseUI implements OnInit {
   public info: contactsItemPerson =null;
   public uid: string = "";
+  public isContacts: boolean = false;
+
   constructor(
     public http: HttpService,
     public api: apiList,
@@ -26,6 +28,7 @@ export class LinkmancardPage extends BaseUI implements OnInit {
   }
 
   async ngOnInit() {
+    this.isContacts = true
     this.uid= this.route.snapshot.params['id'];
     await this.getInfo(this.uid)
   }
@@ -33,5 +36,6 @@ export class LinkmancardPage extends BaseUI implements OnInit {
   async getInfo(id){
     let doc = await this.dataService.db.get(id)
     this.info = doc
+    console.log('userinfo',this.info)
   }
 }
