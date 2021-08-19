@@ -50,6 +50,7 @@ export class apiList implements OnInit {
       getDataCodeByParam: `${this.baseurl}tihal/app-code/get-data-code-by-param`, //血型
       appTenantUserModify: `${this.baseurl}tihal/app-tenant/app-tenant-user-modify`, //提交修改
       search: `${this.baseurl}user/search`, 
+      addContacts: `${this.baseurl}contacts/add`, 
     };
     this.safesList = {
       // 企业微信

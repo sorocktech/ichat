@@ -10,10 +10,12 @@
   <ion-list>
     <ion-item>
       <ion-avatar slot="start">
-        <img [src]="api?.picurl+info?.pic_url">
+        <img *ngIf="isContacts" [src]="api?.picurl+info?.pic_url">
+        <img *ngIf="!isContacts" [src]="api?.picurl+searchedUser?.avatar">
       </ion-avatar>
       <ion-label>
-        <h2>{{info?.name}}</h2>
+        <h2 *ngIf="isContacts">{{info?.name}}</h2>
+        <h2 *ngIf="!isContacts">{{searchedUser?.name}}</h2>
         <h3></h3>
         <p></p>
       </ion-label>
@@ -21,7 +23,7 @@
   </ion-list>
 
   <section class="full-width">
-    <ion-button *ngIf="!isContacts" expand="block" color="primary">添加到通讯录</ion-button>
+    <ion-button *ngIf="!isContacts" expand="block" (click)="add()" color="primary">添加到通讯录</ion-button>
     <ion-button *ngIf="isContacts" expand="block" color="primary" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:info?.chat_jid}">发消息
     </ion-button>
   </section>
