@@ -14,12 +14,30 @@
     </div>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+
+<ion-content fullscreen>
+
   <ion-refresher slot="fixed" pullMin="30" pullMax="80" (ionRefresh)="getMoreMessage($event)">
     <ion-refresher-content pullingIcon="arrow-down-outline" pullingText="下拉刷新" refreshingSpinner="circles"
                            refreshingText="刷新中">
     </ion-refresher-content>
   </ion-refresher>
+
+ <ion-card>
+  <ion-card-header>
+    <ion-card-subtitle>2021-08-21 12:21</ion-card-subtitle>
+    <ion-card-title>好友申请</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    杨疆龙请求添加您为好友
+  </ion-card-content>
+  <ion-item lines="full">
+    <!-- <ion-icon name="arrow-forward-outline" slot="start"></ion-icon> -->
+     <ion-label></ion-label>
+    <ion-button fill="outline" slot="end">查看</ion-button>
+  </ion-item>
+</ion-card>
   <div *ngFor="let item of chatHistory" class="message-wrapper">
     <!-- 判断消息是发送 -->
     <div class="sends" *ngIf="item.site == 'right';else otherMessage">
@@ -39,7 +57,6 @@
         </div>
       </div>
     </div>
-    <!-- 判断消息是接收 -->
     <ng-template #otherMessage>
       <div class="resive">
         <p  class="message-detail">
@@ -48,7 +65,17 @@
         </p>
         <div class="chat-bubble-left">
             <div>
-              <div class="account-nick-right">{{item.ChatItem.message.member.member_nick}}</div>
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+                  <ion-card-title>Card Title</ion-card-title>
+                </ion-card-header>
+            
+                <ion-card-content>
+                  Keep close to Nature's heart... and break clear away, once in awhile,
+                  and climb a mountain or spend a week in the woods. Wash your spirit clean.
+                </ion-card-content>
+              </ion-card>
               <div *ngIf="item.ChatItem.message.msgType === 'text' || item.ChatItem.message.msgType === 'file' " (click)="presentModal(item.ChatItem.message)" class="message chat-bubble-right_message isText" [innerHTML]="item.ChatItem.message.text" autolinker></div>
 
               <div *ngIf="item.ChatItem.message.msgType === 'image'"  class="message">

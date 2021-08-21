@@ -42,7 +42,8 @@ const routes: Routes = [
 
   {
     path: 'setting',
-    loadChildren: () => import('./pages/setting/setting.module').then(m => m.SettingPageModule)
+    loadChildren: () => import('./pages/setting/setting.module').then(m => m.SettingPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'signup',
@@ -50,11 +51,13 @@ const routes: Routes = [
   },
   {
     path: 'search',
-    loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule)
+    loadChildren: () => import('./pages/search/search.module').then( m => m.SearchPageModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'add-contact',
-    loadChildren: () => import('./pages/add-contact/add-contact.module').then( m => m.AddContactPageModule)
+    loadChildren: () => import('./pages/add-contact/add-contact.module').then( m => m.AddContactPageModule),
+    canActivate: [AuthGuard]
   },
 ];
 @NgModule({

@@ -233,22 +233,10 @@ a.autolinker {
     border-radius: 2px;
     word-break: break-word;
     padding: 10px;
-    margin: 0 1em;
+    margin: 0 0.2em;
     margin-right: 4em;
     font-weight: 400;
-    font-size: 1.6em;
     color: #333333;
-  }
-  .isText::before {
-    position: absolute;
-    content: "";
-    width: 0;
-    height: 0;
-    right: -8px;
-    top: 3px;
-    border-top: 7px solid transparent;
-    border-left: 8px solid #efefef;
-    border-bottom: 7px solid transparent;
   }
 }
 
