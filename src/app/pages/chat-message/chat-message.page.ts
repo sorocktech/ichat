@@ -236,6 +236,17 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     }
   }
 
+  viewContactsReq(){
+    this.dataService.currentSearchedUser ={
+      avatar:'',
+      name:'',
+      chat_jid:'',
+      created_at:'',
+    }
+    this.dataService.currentSearchedUser.isRequest = true
+    this.navCtrl.navigateForward('/contact/')
+  }
+
 
   // 获取聊天记录
     // this.mainFunc.xmpp.send(message);

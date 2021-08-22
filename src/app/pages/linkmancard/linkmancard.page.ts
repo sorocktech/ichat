@@ -16,6 +16,7 @@ export class LinkmancardPage extends BaseUI implements OnInit,OnDestroy {
   public info: contactsItemPerson = undefined;
   public uid: string = "";
   public isContacts: boolean = false;
+  public isContactsReq: boolean = false;
   public searchedUser: searchedUser = undefined;
 
   constructor(
@@ -36,6 +37,9 @@ export class LinkmancardPage extends BaseUI implements OnInit,OnDestroy {
   async ngOnInit() {
     if (this.dataService.currentSearchedUser) {
       this.searchedUser = this.dataService.currentSearchedUser;
+      if(this.searchedUser.isRequest){
+        this.isContactsReq = true
+      }
       return true;
     }
     this.isContacts = true;

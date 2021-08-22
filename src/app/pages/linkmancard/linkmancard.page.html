@@ -23,9 +23,9 @@
   </ion-list>
 
   <section class="full-width">
-    <ion-button *ngIf="!isContacts" expand="block" (click)="add()" color="primary">添加到通讯录</ion-button>
-    <ion-button *ngIf="isContacts" expand="block" color="primary" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:info?.chat_jid}">发消息
-    </ion-button>
+    <ion-button *ngIf="!isContacts && !isContactsReq" expand="block" (click)="add()" color="primary">添加到通讯录</ion-button>
+    <ion-button *ngIf="isContacts" expand="block" color="primary" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:info?.chat_jid}">发消息</ion-button>
+    <ion-button *ngIf="isContactsReq" expand="block" color="danger" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:info?.chat_jid}">通过请求</ion-button>
   </section>
 
 </ion-content>
