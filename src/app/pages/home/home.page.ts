@@ -14,7 +14,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx'
 import { StatusBar } from "@ionic-native/status-bar/ngx";
 import { Device } from "@ionic-native/device/ngx";
 import { JPush } from '@jiguang-ionic/jpush/ngx';
-import {MessageItem, ChatItem, GroupMember, GROUPCHAT, GroupItem, GROUPCHAT_HOST,CHATLIST,CHAT_HOST, chatHelper} from '../../interfaces/chat'
+import {MessageItem, ChatItem, GroupMember, GROUPCHAT, GroupItem, GROUPCHAT_HOST,CHATLIST,CHAT_HOST, chatHelper, TypeContacts} from '../../interfaces/chat'
 import {DbService} from "../../sevices/db.service";
 import {Badge} from "@ionic-native/badge/ngx";
 import { PopoverController } from '@ionic/angular';
@@ -107,38 +107,26 @@ export class HomePage extends BaseUI {
 
     try {
       let res = await this.dataService.db.find({
-        selector: { data_type: 1 },
+        selector: { data_type: TypeContacts },
       });
-
-      console.log('res', res)
-
-      let chatList = await this.dataService.db.find({
-        selector: { data_type: 2 },
-      });
-      this.ChatList = chatList.docs
-
+      console.log("res", res);
       if (res.docs.length == 0) {
-        let doc = await this.dataService.db.get(chatHelper._id);
-        await this.dataService.db.put({ ...chatHelper, __rev: doc.rev })
+        // let doc = await this.dataService.db.get(chatHelper._id);
+         await this.dataService.db.put(chatHelper);
+        // await this.dataService.db.put({ ...chatHelper, __rev: doc.rev });
       }
-
     } catch (err) {
-      await this.dataService.db.put(chatHelper)
-      console.log(err)
+      await this.dataService.db.put(chatHelper);
+      console.log('get error',err);
     }
 
     this.userinfo = await this.dataService.userinfo
-    if(!this.userinfo){
-    }
-
-    this.platform.ready().then(async () => {
-    })
-
 
     this.dataService.isShowNewMessageTotast = false
-    await this.mainFun.initChatList()
+
     this.newMessageSub = this.mainFun.getChatList().subscribe((ChatList: Array<ChatItem>) => {
       this.ChatList = ChatList
+      console.log('chat list new ',this.ChatList)
     })
 
     this.chatStateSub = this.mainFun.getChatState().subscribe((state) => {
@@ -148,6 +136,8 @@ export class HomePage extends BaseUI {
     this.netReadySub = this.mainFun.netReady.subscribe(res => {
       this.netStat = res
     })
+
+    this.mainFun.initChatList()
 
   }
 

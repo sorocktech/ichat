@@ -233,22 +233,10 @@ a.autolinker {
     border-radius: 2px;
     word-break: break-word;
     padding: 10px;
-    margin: 0 1em;
+    margin: 0 0.2em;
     margin-right: 4em;
     font-weight: 400;
-    font-size: 1.6em;
     color: #333333;
-  }
-  .isText::before {
-    position: absolute;
-    content: "";
-    width: 0;
-    height: 0;
-    right: -8px;
-    top: 3px;
-    border-top: 7px solid transparent;
-    border-left: 8px solid #efefef;
-    border-bottom: 7px solid transparent;
   }
 }
 
@@ -263,7 +251,6 @@ a.autolinker {
 
 .message-detail {
   color: #8e8d8d;
-  font-size: 1.4rem;
   text-align: center;
   margin: 1.2em;
 }
@@ -282,8 +269,8 @@ ion-item {
   text-decoration: underline;
 }
 .username {
-    width: 3em;
-    height: 3em;
+    width: 2.5em;
+    height: 2.5em;
     margin-right: 0.5em;
     img {
         border-radius: 50%;
@@ -291,5 +278,9 @@ ion-item {
 
 }
 .username_text{
-font-size: 1.5em;
+font-size: 1.1em;
+}
+.user-avatar{
+  display: flex;
+  align-items: center;
 }

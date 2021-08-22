@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import {BehaviorSubject} from "rxjs";
 import {userInfo} from "../interfaces/app";
-import { contactsItemPerson } from "../interfaces/chat";
+import { contactsItemPerson, searchedUser } from "../interfaces/chat";
 import PouchDB from 'node_modules/pouchdb';
 import PouchFind from 'pouchdb-find';
 PouchDB.plugin(PouchFind);
@@ -15,6 +15,7 @@ export class DataService {
   public  chatState:string = 'offline'
   public locate: any = {};
   public bingAnswer: any = null;
+  public currentSearchedUser:searchedUser = undefined
 
   public themeMode = null;
 

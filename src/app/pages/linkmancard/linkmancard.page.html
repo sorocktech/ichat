@@ -7,20 +7,25 @@
 </ion-header>
 
 <ion-content>
-  <ion-list class="bord_btm">
-    <ion-item >
-      <ion-thumbnail slot="start">
-        <ion-img class="touxiang"  src="assets/images/xearth.jpeg"></ion-img>
-      </ion-thumbnail>
-      <ion-text>
-        <ion-label>{{info?.remark}}</ion-label>
-      </ion-text>
+  <ion-list>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img *ngIf="isContacts" [src]="api?.picurl+info?.pic_url">
+        <img *ngIf="!isContacts" [src]="api?.picurl+searchedUser?.avatar">
+      </ion-avatar>
+      <ion-label>
+        <h2 *ngIf="isContacts">{{info?.name}}</h2>
+        <h2 *ngIf="!isContacts">{{searchedUser?.name}}</h2>
+        <h3></h3>
+        <p></p>
+      </ion-label>
     </ion-item>
-  <!-- <ion-item>
-    <ion-label>
-      <span>性别</span> {{manMsg?.sex_name}}
-    </ion-label>
-  </ion-item> -->
   </ion-list>
-  <ion-button class="chat_btn" expand="full" color="primary" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:info?.chat_jid}">发消息</ion-button>
+
+  <section class="full-width">
+    <ion-button *ngIf="!isContacts" expand="block" (click)="add()" color="primary">添加到通讯录</ion-button>
+    <ion-button *ngIf="isContacts" expand="block" color="primary" [routerLink]="['/chat',uid]" [queryParams]="{type:'chat',jid:info?.chat_jid}">发消息
+    </ion-button>
+  </section>
+
 </ion-content>

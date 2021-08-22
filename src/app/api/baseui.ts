@@ -30,11 +30,11 @@ export abstract class BaseUI {
    * @returns {toast}
    * @memberof BaseUI
    */
-  protected async showToast(toastCtrl: ToastController, message: string) {
+  protected async showToast(toastCtrl: ToastController, message: string,position:any) {
     const toast = await toastCtrl.create({
       message: message,
       duration: 2000, // 默认展示的时长
-      position: "top",
+      position: position,
     });
     await toast.present();
     return toast;

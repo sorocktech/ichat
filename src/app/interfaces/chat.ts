@@ -1,6 +1,6 @@
 export const CHAT='chat'
 export const GROUPCHAT='groupchat'
-export const CHAT_HOST = '@dhchatdev.tihal.cn'
+export const CHAT_HOST = '@chat.100100.li'
 export const GROUPCHAT_HOST = '@conference.dhchatdev.tihal.cn'
 export const CHATLIST = 'chatList'
 export const UNREADCOUNT='unreadCount' // 未读消息总数
@@ -10,9 +10,14 @@ export const CHAT_TYPE_FILE ='file'
 export const CHAT_TYPE_TEXT ='text'
 export const CHAT_TYPE_IMAGE ='image'
 export const CHAT_TYPE_VIDEO ='video'
+export const MESSAGE_LIST_PRE ='msg_'
+export const CONTACTS_PRE ='contacts_'
 
 export type ChatType = "chat" | "groupchat"
 export type MsgType = "text" | "image" | "video" | "file"
+export const TypeMessageList = 1
+export const TypeContacts = 2
+export type PouchdbType = 1|2
 
 /**
  * 1 contact 2 message list
@@ -25,6 +30,7 @@ export type MsgType = "text" | "image" | "video" | "file"
 // 聊天项目，群聊单聊公用
 export interface ChatItem {
   account_no: string; // 对方的账号，如果是群聊 则是群的JID
+  _id: string; // 对方的账号，如果是群聊 则是群的JID
   account_nick: string;
   i?:string,
   time: any;
@@ -35,6 +41,7 @@ export interface ChatItem {
   count ?:number;
   text ?:string;
   message:MessageItem;
+  data_type?:number;
   account_no_lower ?:string;
 }
 
@@ -110,7 +117,7 @@ export interface contactsItemPerson
   created_at?:string
   type?:ChatType
   pic_url?:string
-  data_type?:number
+  data_type?:PouchdbType
 }
 
 /**
@@ -123,7 +130,15 @@ export const chatHelper:contactsItemPerson =
   name:'系统消息',
   chat_jid:'chat-helper',
   type:'chat',
-  pic_url:'assets/images/xearth.jpeg',
-  data_type:1
+  pic_url:'xearth.jpeg',
+  data_type:TypeContacts
 }
 
+export interface searchedUser 
+{
+  avatar:string
+  chat_jid:string
+  created_at:string
+  id?: number
+  name: string
+}

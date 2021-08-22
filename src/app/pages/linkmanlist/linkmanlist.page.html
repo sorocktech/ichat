@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title></ion-title>
+    <ion-title>联系人</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -12,12 +12,15 @@
       (keypress)="goSearch($event)" (ionChange)="searchChange()">
     </ion-searchbar>
   </form>
-  <ion-list class="contacts">
-    <ion-item *ngFor="let user of linkmanList;let i = index" [routerLink]="['/contact',i]">
-      <ion-thumbnail slot="start">
-        <img  src="assets/images/xearth.jpeg">
-      </ion-thumbnail>
-      <ion-label class="hightText" [innerHTML]="user.name">
+  <ion-list>
+    <ion-item  *ngFor="let user of linkmanList;let i = index" [routerLink]="['/contact',user._id]">
+      <ion-avatar slot="start">
+        <img [src]="api?.picurl+user?.pic_url">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{user?.name}}</h2>
+        <h3></h3>
+        <p></p>
       </ion-label>
     </ion-item>
   </ion-list>

@@ -1,10 +1,8 @@
 <ion-header>
   <ion-toolbar>
-
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-
     <ion-title>{{chatState}}</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/search">
@@ -14,7 +12,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true"  class="chats">
+<ion-content [fullscreen]="true" class="chats">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">{{chatState}}</ion-title>
@@ -26,26 +24,25 @@
         <ion-item-options side="end">
           <ion-item-option color="danger" (click)="deleteChat(item)">删除</ion-item-option>
         </ion-item-options>
-      <ion-item (click)="viewMessages(item)">
-        <ion-avatar slot="start">
-          <img *ngIf="item.pic_url&&(!item.pic_url.includes('http'))" [src]="api.picurl+item?.pic_url" />
-          <img *ngIf="item.pic_url&&(item.pic_url.includes('http'))" [src]="item?.pic_url" />
-        </ion-avatar>
-        <ion-label>
-          <h2>{{item?.account_nick}}</h2>
-          <p *ngIf="item.text&&item?.text?.includes('<img')">图片</p>
-          <p *ngIf="item.text&&item?.text?.includes('<video')">视频</p>
-          <p *ngIf="item.text&&item?.text?.includes('<a')">文件</p>
-          <p
-            *ngIf="(!item?.text?.includes('<img')) && (!item?.text?.includes('<video')) && (!item?.text?.includes('<a'))">
-            {{item?.text}}</p>
+        <ion-item [routerLink]="['/chat','contacts_'+item?.account_no]" [queryParams]="{type:'chat',jid:item?.account_no}">
+          <ion-avatar slot="start">
+            <img [src]="api.picurl+item?.pic_url" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{item?.account_nick}}</h2>
+            <p *ngIf="item.text&&item?.text?.includes('<img')">图片</p>
+            <p *ngIf="item.text&&item?.text?.includes('<video')">视频</p>
+            <p *ngIf="item.text&&item?.text?.includes('<a')">文件</p>
+            <p
+              *ngIf="(!item?.text?.includes('<img')) && (!item?.text?.includes('<video')) && (!item?.text?.includes('<a'))">
+              {{item?.text}}</p>
             <!-- <p>{{item.time}}</p>
             <p>{{item.dateparse}}</p> -->
-        </ion-label>
-        <ion-note slot="end" *ngIf="item?.time">{{item?.time | moment:"ago" | lowercase}}</ion-note>
-       <ion-badge *ngIf="item.count && item.count > 0" slot="end" color="danger">{{item.count}}</ion-badge>
-      </ion-item>
-        </ion-item-sliding>
+          </ion-label>
+          <ion-note slot="end" *ngIf="item?.time">{{item?.time | moment:"ago" | lowercase}}</ion-note>
+          <ion-badge *ngIf="item.count && item.count > 0" slot="end" color="danger">{{item.count}}</ion-badge>
+        </ion-item>
+      </ion-item-sliding>
     </ion-list>
     <div class="nodata" *ngIf="noMessage">
       <img src="assets/images/nodata.jpg" alt="" />

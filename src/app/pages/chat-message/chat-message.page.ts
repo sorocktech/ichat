@@ -49,7 +49,8 @@ import {
   CHAT_TYPE_FILE,
   CHAT_TYPE_VIDEO,
   contactsItemPerson,
-  chatHelper
+  chatHelper,
+  CONTACTS_PRE
 } from "../../interfaces/chat";
 
 declare var previewImage: any;
@@ -145,17 +146,11 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
     this.uid = this.route.snapshot.params['id'];
 
-    if(this.uid == 'chat-helper'){
-      console.log('chat helper message')
-      this.params = chatHelper;
-    } else {
-      let doc = await this.dataService.db.get('contacts')
-      this.params = doc.list[this.uid]
+      let doc = await this.dataService.db.get(this.uid)
+      this.params = doc
       console.log('当前聊天对象', this.params)
+      console.log('userinfo', this.dataService.userinfo)
       this.userinfo = this.dataService.userinfo
-
-
-      this.params.chat_jid = this.params.chat_jid
 
       this.dataService.isShowNewMessageTotast = false
       this.dataService.currentChatAccountNo = this.params.chat_jid
@@ -165,9 +160,6 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
       if (this.params.type === GROUPCHAT) {
         this.jid = this.params.chat_jid + GROUPCHAT_HOST;
       }
-
-
-    }
 
 
       this.getChatMessageFromDb();
@@ -201,9 +193,11 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
 
 
   getChatMessageFromDb(start=100000,limit=30){
+    console.log('get chat message')
+    console.log('current chat jid',this.params.chat_jid)
     this.db.loadMessages(this.params.chat_jid,start, limit)
         .then(res => {
-          console.log(res)
+          console.log('res',res)
           if (res.length > 0) {
             res.map((ChatItem) => {
               if (this.params.chat_jid === ChatItem.account_no) {
@@ -222,7 +216,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
                 }
               }
             })
-              console.log(this.chatHistory)
+              console.log('chat message',this.chatHistory)
           }
         })
 
@@ -309,8 +303,8 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
   }
   ngOnDestroy() {
     console.log('销毁了聊天页面')
-    this.newMessageSub.unsubscribe()
-    this._unreadCount.unsubscribe()
+    this.newMessageSub?.unsubscribe()
+    this._unreadCount?.unsubscribe()
     if(this._chatSub){
       this._chatSub.unsubscribe()
     }
@@ -443,6 +437,7 @@ export class ChatMessagePage extends BaseUI implements OnInit,OnDestroy {
     console.log('====raw send====')
     console.log(message.toString())
     console.log('====raw send====')
+    console.log('messageItem',MessageItem)
     await this.mainFunc.xmpp.send(message);
     await this.mainFunc.messageTransChat(MessageItem)
 
