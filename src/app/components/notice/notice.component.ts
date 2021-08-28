@@ -6,10 +6,10 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ["./notice.component.scss"],
 })
 export class NoticeComponent implements OnInit {
-  @Input() hero?;
+  @Input() hero;
   constructor() {}
 
   ngOnInit() {
-    console.log('hero',hero)
+    console.log('hero',this.hero)
   }
 }
