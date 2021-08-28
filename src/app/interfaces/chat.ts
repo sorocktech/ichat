@@ -143,4 +143,19 @@ export interface searchedUser
   name: string
   isRequest?:boolean
 }
+
+export interface contactsInfoObj {
+  id?: number;
+  name: string;
+  avatar: string;
+  chat_jid: string;
+  created_at: string;
+}
+
+export interface contactsReq {
+  type: string;
+  message: string;
+  param: contactsInfoObj;
+}
+
          
