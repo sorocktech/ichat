@@ -14,7 +14,7 @@ export const MESSAGE_LIST_PRE ='msg_'
 export const CONTACTS_PRE ='contacts_'
 
 export type ChatType = "chat" | "groupchat"
-export type MsgType = "text" | "image" | "video" | "file"
+export type MsgType = "text" | "image" | "video" | "file" | "notice"
 export const TypeMessageList = 1
 export const TypeContacts = 2
 export type PouchdbType = 1|2
@@ -154,6 +154,7 @@ export interface contactsInfoObj {
 
 export interface contactsReq {
   type: string;
+  template: string;
   message: string;
   param: contactsInfoObj;
 }

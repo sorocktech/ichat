@@ -752,7 +752,9 @@ export class Chat implements OnInit, OnDestroy {
       }
 
       let x = messageRaw.getChild("x");
-      let MessageItem: MessageItem;
+      let MessageItem: MessageItem
+
+    
       let id;
       let time;
       let msgType;
@@ -781,13 +783,18 @@ export class Chat implements OnInit, OnDestroy {
         text: messageRaw.getChild("body").text(),
       };
 
-      if (MessageItem.type === GROUPCHAT) {
-        MessageItem.member.member_no = messageRaw.attrs.from
-          .split("/")[1]
-          .toLowerCase();
-      }
+    let msgObj = JSON.parse(MessageItem.text) || false;
+    if (msgObj && msgObj.type === "notice") {
+      MessageItem.msgType = "notice";
+    }
 
-      console.log("new message");
+    if (MessageItem.type === GROUPCHAT) {
+      MessageItem.member.member_no = messageRaw.attrs.from
+        .split("/")[1]
+        .toLowerCase();
+    }
+
+      console.log("new message",MessageItem)
 
       this.receiveNewMessage.next(MessageItem);
     });
