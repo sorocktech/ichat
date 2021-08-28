@@ -58,7 +58,7 @@ const routes: Routes = [
     path: 'add-contact',
     loadChildren: () => import('./pages/add-contact/add-contact.module').then( m => m.AddContactPageModule),
     canActivate: [AuthGuard]
-  },
+  }
 ];
 @NgModule({
   imports: [

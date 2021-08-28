@@ -9,6 +9,7 @@ import { ChatMessagePageRoutingModule } from './chat-message-routing.module';
 
 import { ChatMessagePage } from './chat-message.page';
 import { ShareModule } from "../../modules/share/share.module";
+import { NoticePageModule } from 'src/app/components/notice/notice.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { ShareModule } from "../../modules/share/share.module";
     ReactiveFormsModule,
     IonicModule,
     ChatMessagePageRoutingModule,
-    ShareModule
+    ShareModule,
+    NoticePageModule,
   ],
   declarations: [ChatMessagePage]
 })
