@@ -51,6 +51,7 @@ export class apiList implements OnInit {
       appTenantUserModify: `${this.baseurl}tihal/app-tenant/app-tenant-user-modify`, //提交修改
       search: `${this.baseurl}user/search`, 
       addContacts: `${this.baseurl}contacts/add`, 
+      approveContacts: `${this.baseurl}contacts/approve`, 
     };
     this.safesList = {
       // 企业微信
