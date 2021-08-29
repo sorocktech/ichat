@@ -25,7 +25,7 @@
 
 
   <div *ngFor="let item of chatHistory" class="message-wrapper">
-      <app-notice *ngIf="item.ChatItem.message.msgType ==='notice'" [MessageItem]="item.Chatitem.message" > </app-notice>
+      <app-notice  *ngIf="item.ChatItem.message.msgType ==='notice'" [ChatMessageItem]="item"> </app-notice>
     <!-- 判断消息是发送 -->
     <div class="sends" *ngIf="item.site == 'right';else otherMessage">
       <p  class="message-detail">
