@@ -59,8 +59,20 @@ export class LinkmancardPage extends BaseUI implements OnInit,OnDestroy {
       { username: this.searchedUser.chat_jid, reason: "" },
       async (res) => {
         if (res.code === 200) {
+          let message 
+          if(res.data.type ===1){
+            message ="好友请求已发出，等待对方确认"
+          }
+
+          if(res.data.type ===2){
+            message ="已同意"
+            // 添加到pouch db中
+            this.isContacts = true
+            this.isContactsReq = false
+          }
+
           const toast = await this.toast.create({
-            message: "好友请求已发出，等待对方确认",
+            message:message, 
             duration: 2500, // 默认展示的时长
             position: "top",
           });
