@@ -6,6 +6,7 @@ import { BaseUI } from "../../api/baseui";
 import { ToastController,NavController, LoadingController } from "@ionic/angular";
 import { DataService } from "../../sevices/data.service";
 import { contactsItemPerson, searchedUser } from "src/app/interfaces/chat";
+import { ChatWithDb } from "src/app/providers/chatWithDb";
 
 @Component({
   selector: "app-linkmancard",
@@ -23,6 +24,7 @@ export class LinkmancardPage extends BaseUI implements OnInit,OnDestroy {
     public http: HttpService,
     public api: apiList,
     public route: ActivatedRoute,
+    public chatDb: ChatWithDb,
     public toast: ToastController,
     public nav: NavController,
     public dataService: DataService
@@ -69,6 +71,7 @@ export class LinkmancardPage extends BaseUI implements OnInit,OnDestroy {
             // 添加到pouch db中
             this.isContacts = true
             this.isContactsReq = false
+            this.chatDb.addContacts(this.searchedUser)
           }
 
           const toast = await this.toast.create({

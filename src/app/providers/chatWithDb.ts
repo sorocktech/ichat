@@ -48,7 +48,7 @@ export class ChatWithDb implements OnInit, OnDestroy {
          name:params.name,
          chat_jig:params.chat_jid,
          type:'chat',
-         pic_url:'xearth.jpeg',
+         pic_url:params.avatar,
          data_type: TypeContacts,
       });
   }
