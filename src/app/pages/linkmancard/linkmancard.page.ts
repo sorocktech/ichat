@@ -84,4 +84,8 @@ export class LinkmancardPage extends BaseUI implements OnInit,OnDestroy {
       }
     );
   }
+
+  async delContact(){
+
+  }
 }

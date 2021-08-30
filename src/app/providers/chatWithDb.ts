@@ -65,4 +65,8 @@ export class ChatWithDb implements OnInit, OnDestroy {
     }
   }
 
+  async delContacts(){
+
+  }
+
 }
