@@ -86,6 +86,16 @@ export class LinkmancardPage extends BaseUI implements OnInit,OnDestroy {
   }
 
   async delContact(){
+    let chat_jid:string;
+    if(this.info){
+      chat_jid = this.info.chat_jid
+    }
+
+    console.log('chat_jid',chat_jid)
+    console.log('chat_jid2',this.info)
+    if (chat_jid) {
+      this.chatDb.delContacts(chat_jid);
+    }
 
   }
 }

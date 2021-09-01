@@ -45,7 +45,7 @@ export class ChatWithDb implements OnInit, OnDestroy {
     await this.pouchdb.put({
       _id: CONTACTS_PRE + params.chat_jid,
       name: params.name,
-      chat_jig: params.chat_jid,
+      chat_jid: params.chat_jid,
       type: "chat",
       pic_url: params.avatar,
       data_type: TypeContacts,
@@ -69,6 +69,7 @@ export class ChatWithDb implements OnInit, OnDestroy {
    * @param chat_jid 
    */
   async delContacts(chat_jid: string) {
+    console.log('chat_jid',chat_jid)
     await this.pouchdb.get(CONTACTS_PRE + chat_jid).then(function(doc) {
       return this.pouchdb.remove(doc);
     });
