@@ -71,8 +71,8 @@
 </ion-content>
 
 <ion-footer>
-    <ion-item lines="none" class="chatinput">
-      <ion-textarea (click)="typeInput"  rows="1" [(ngModel)]="chatBox" placeholder=""></ion-textarea>
+    <ion-item lines="none" class="chatinput"> 
+      <ion-textarea enterkeyhint="发送" (click)="typeInput"  rows="1" [(ngModel)]="chatBox" placeholder=""></ion-textarea>
       <ion-button   (click)="sendMessage()" item-end>
         发送
       </ion-button>
