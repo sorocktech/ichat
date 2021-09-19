@@ -2,7 +2,7 @@ import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.example.app',
-  appName: 'collect-app',
+  appName: 'iChat',
   webDir: 'www',
   bundledWebRuntime: false,
   cordova: {
