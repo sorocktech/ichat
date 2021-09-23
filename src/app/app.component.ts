@@ -37,8 +37,7 @@ export class AppComponent extends BaseUI {
   public appPages = [
     { title: '消息', url: '/home', icon: 'mail' },
     { title: '联系人', url: '/contacts', icon: 'people' },
-    { title: '发消息', url: '/send-message', icon: 'heart' },
-    { title: '设置', url: '/setting', icon: 'mail' }
+    { title: '设置', url: '/setting', icon: 'settings' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   public permissionName = this.androidPermissions.PERMISSION.ACCESS_COARSE_LOCATION
