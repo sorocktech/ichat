@@ -2,28 +2,26 @@
   <div *ngIf="showLogo" class="logo_img">
   </div>
   <h5 class="htitle">加入</h5>
-  <ion-list>
+  <div class="container">
     <div class="field">
       <label class="label">用户名/手机号</label>
       <div class="control">
-        <input
-              [(ngModel)]="account"
-         class="input" type="text" placeholder="用户名/手机号">
+        <input [(ngModel)]="account" class="input" type="text" placeholder="用户名/手机号">
       </div>
+    </div>
+    <div class="field">
       <label class="label">密码</label>
       <div class="control">
-        <input 
-              [(ngModel)]="password"
-         class="input" type="password" placeholder="Text input">
+        <input [(ngModel)]="password" class="input" type="password" placeholder="Text input">
       </div>
     </div>
-  </ion-list>
-  <div class="field is-grouped">
-    <div class="control">
-      <button (click)="goLogin()" class="button is-link">登录</button>
-    </div>
-    <div class="control">
-      <button routerLink='/signup' class="button is-link is-light">注册</button>
+    <div class="field is-grouped">
+      <div class="control">
+        <button (click)="goLogin()" class="button is-link">登录</button>
+      </div>
+      <div class="control">
+        <button routerLink='/signup' class="button is-link is-light">注册</button>
+      </div>
     </div>
   </div>
 </ion-content>
