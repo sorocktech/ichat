@@ -1,56 +1,30 @@
 <ion-content color="primary-contrast">
   <div *ngIf="showLogo" class="logo_img">
   </div>
-  <h5 class="htitle">iChat</h5>
+  <h5 class="htitle">加入</h5>
   <ion-list>
-    <ion-list-header>
-      <ion-label>用户名/手机号</ion-label>
-    </ion-list-header>
-    <ion-item>
-      <ion-input
-              class="text-input"
-              clearInput="false"
-              inputmode="text"
-              (ionFocus)="focus()"
-              (ionBlur)="blur()"
-              value="{{account}}"
+    <div class="field">
+      <label class="label">用户名/手机号</label>
+      <div class="control">
+        <input
               [(ngModel)]="account"
-              (ionChange)="accountCerty(account)"
-      >
-      </ion-input>
-    </ion-item>
-    <ion-list-header>
-      <ion-label>密码</ion-label>
-    </ion-list-header>
-    <ion-item>
-      <ion-input
-              class="text-input"
-              clearInput="false"
-              inputmode="text"
-              (ionFocus)="focus()"
-              (ionBlur)="blur()"
-              type="password"
-              value="{{password}}"
+         class="input" type="text" placeholder="用户名/手机号">
+      </div>
+      <label class="label">密码</label>
+      <div class="control">
+        <input 
               [(ngModel)]="password"
-              (ionChange)="codeCerty(password)"
-      >
-      </ion-input>
-    </ion-item>
+         class="input" type="password" placeholder="Text input">
+      </div>
+    </div>
   </ion-list>
-
-    <ion-button
-      class="login_btn signup-btn"
-      expand="block"
-      appDebounceClick
-      [debounceTime]="500"
-      (debounceClick)="goLogin()"
-      [ngClass]="{'corect':ajxaccount && ajxpwd}"
-      >登 录
-      <ion-ripple-effect Description="unbounded"></ion-ripple-effect>
-    </ion-button>
-    <ion-button  routerLink='/signup' class="signup-btn" fill="outline">
-      注册    
-        <ion-icon  name="arrow-forward-outline"></ion-icon>
-    </ion-button>
+  <div class="field is-grouped">
+    <div class="control">
+      <button (click)="goLogin()" class="button is-link">登录</button>
+    </div>
+    <div class="control">
+      <button routerLink='/signup' class="button is-link is-light">注册</button>
+    </div>
+  </div>
 </ion-content>
 
