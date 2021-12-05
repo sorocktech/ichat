@@ -17,12 +17,6 @@ export class apiList implements OnInit {
   common: any = {}; //公共
   constructor() {
     this.baseurl = environment.apiUrl;
-
-    // this.baseurl = "https://riskone.tihal.cn:8022/";
-    // this.baseurl = "https://crisisresponse.tihal.cn/";
-    // this.baseurl = "https://dhdev.tihal.cn:8022/";
-    // this.baseurl = "https://testing.tihal.cn:9082/";
-
     this.common = {
       doUpload: `${this.baseurl}file/file/upload`, //上传
       appVersionUpdate: `${this.baseurl}tihal/app/get-app-version`, //app版本号
@@ -52,6 +46,7 @@ export class apiList implements OnInit {
       search: `${this.baseurl}user/search`, 
       addContacts: `${this.baseurl}contacts/add`, 
       approveContacts: `${this.baseurl}contacts/approve`, 
+      notes: `${this.baseurl}note/view`, 
     };
     this.safesList = {
       // 企业微信

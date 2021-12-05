@@ -69,7 +69,7 @@ export class HttpService extends BaseUI {
     this.restServer = this.api.baseurl;
   }
 
-  public get(url, params?: Object, cb?: Function) {
+  public get(url, params?: any, cb?: Function) {
     this.msg(url);
     let httpParams = new HttpParams();
     const vm = this;
@@ -80,8 +80,7 @@ export class HttpService extends BaseUI {
         }
       }
     }
-    const commondata = { public: this.dataService.deviceMsg };
-    vm.http.get(url, { params: Object.assign(commondata, httpParams) }).subscribe(
+    vm.http.get(url, { params: httpParams}).subscribe(
       (data) => {
         cb(data);
       },
