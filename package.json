@@ -67,8 +67,8 @@
     "angular": "^1.8.2",
     "angular-tree-component": "^8.5.6",
     "bootstrap": "^5.1.0",
+    "cordova-browser": "6.0.0",
     "bulma": "^0.9.3",
-    "cordova-browser": "^5.0.4",
     "cordova-ios": "6.2.0",
     "cordova-open-native-settings": "^1.5.2",
     "cordova-plugin-advanced-http": "^3.1.0",
@@ -106,6 +106,7 @@
     "generate-avatar": "^1.4.10",
     "global": "^4.4.0",
     "html2canvas": "^1.0.0-rc.5",
+    "ionic": "^5.4.16",
     "ionic-angular": "^3.9.10",
     "jetifier": "^2.0.0",
     "jquery": "^3.5.1",
@@ -223,8 +224,8 @@
       "cordova-plugin-autostart": {}
     },
     "platforms": [
-      "browser",
-      "android"
+      "android",
+      "browser"
     ]
   }
 }
