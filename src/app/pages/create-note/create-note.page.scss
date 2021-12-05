@@ -1,13 +1,22 @@
-ion-textarea {
+textarea {
     font-family: 'Noto Serif SC';
     font-size: 1.4em;
     height: 100%;
+    width: 100%;
     color: white;
+    resize:none;
+    outline:none;
+    background: linear-gradient(to right, #8360c3, #2ebf91);
     .textarea-wrapper {
         height: 100%;
     }
 }
 
+
+        .native-textarea {
+         width: 100%;
+         height: 100vh;
+      }
 ion-content {
     --background: linear-gradient(to right, #8360c3, #2ebf91);
 
