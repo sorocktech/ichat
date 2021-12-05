@@ -1,0 +1,15 @@
+ion-textarea {
+    font-family: 'Noto Serif SC';
+    font-size: 1.4em;
+    height: 100%;
+    color: white;
+    .textarea-wrapper {
+        height: 100%;
+    }
+}
+
+ion-content {
+    --background: linear-gradient(to right, #8360c3, #2ebf91);
+
+    height: 100%;
+}

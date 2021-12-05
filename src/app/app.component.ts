@@ -36,7 +36,7 @@ export class AppComponent extends BaseUI {
   url;
   public appPages = [
     { title: '消息', url: '/home', icon: 'mail' },
-    { title: '联系人', url: '/contacts', icon: 'people' },
+    { title: '笔记', url: '/note', icon: 'mail' },
     { title: '设置', url: '/setting', icon: 'settings' }
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];

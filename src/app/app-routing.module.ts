@@ -58,6 +58,14 @@ const routes: Routes = [
     path: 'add-contact',
     loadChildren: () => import('./pages/add-contact/add-contact.module').then( m => m.AddContactPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'note',
+    loadChildren: () => import('./pages/note/note.module').then( m => m.NotePageModule)
+  },
+  {
+    path: 'create-note',
+    loadChildren: () => import('./pages/create-note/create-note.module').then( m => m.CreateNotePageModule)
   }
 ];
 @NgModule({
