@@ -12,6 +12,7 @@ import { HttpService } from 'src/app/sevices/http.service';
 })
 export class NotePage implements OnInit {
 
+  public list;
   constructor(
     public nav: NavController,
     public api: apiList,
@@ -29,6 +30,7 @@ export class NotePage implements OnInit {
   getList(){
     this.http.get(this.api.userList.notes, {}, res => {
       console.log(res)
+      this.list = res.data
     })
   }
 

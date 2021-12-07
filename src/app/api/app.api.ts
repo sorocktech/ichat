@@ -46,7 +46,8 @@ export class apiList implements OnInit {
       search: `${this.baseurl}user/search`, 
       addContacts: `${this.baseurl}contacts/add`, 
       approveContacts: `${this.baseurl}contacts/approve`, 
-      notes: `${this.baseurl}note/view`, 
+      notes: `${this.baseurl}note/list`, 
+      notesCreate: `${this.baseurl}note/add`, 
     };
     this.safesList = {
       // 企业微信

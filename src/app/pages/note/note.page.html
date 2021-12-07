@@ -10,6 +10,14 @@
 </ion-header>
 <ion-content>
 
+  <ion-item button *ngFor="let item of list" >
+    <div>
+      <h3>{{item.title}}</h3>
+      <div>
+      {{item.desc}}
+      </div>
+    </div>
+  </ion-item>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="create()" class="ion-color ion-color-light">
