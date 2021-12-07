@@ -10,8 +10,8 @@
 </ion-header>
 <ion-content>
 
-  <ion-item button *ngFor="let item of list" >
-    <div>
+  <ion-item  button *ngFor="let item of list" >
+    <div (click)="toView(item)">
       <h3>{{item.title}}</h3>
       <div>
       {{item.desc}}
