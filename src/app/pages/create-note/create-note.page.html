@@ -1,5 +1,5 @@
 <ion-content no-scroll>
-  <textarea [(ngModel)]="note"></textarea>
+  <textarea [ngClass]="background" [(ngModel)]="note"></textarea>
 
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
     <ion-fab-button (click)="close()" class="ion-color ion-color-light">

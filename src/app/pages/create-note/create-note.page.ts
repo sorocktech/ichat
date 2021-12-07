@@ -15,6 +15,10 @@ import { HttpService } from 'src/app/sevices/http.service';
 export class CreateNotePage implements OnInit {
 
   public note: string = "";
+  public background: string = "";
+  public backgroundArray = [
+  'BloodyMimosa','OoeyGooey','ShadyLane','KyeMeh','Amin','Ohhappiness','CherryBlossom'
+  ];
 
   constructor(
     public nav: NavController,
@@ -23,16 +27,20 @@ export class CreateNotePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    let randomIndex = Math.floor(Math.random() * 6);		// 返回 0 至 9 之间的数
+    this.background= this.backgroundArray[randomIndex] 
   }
 
   /**
    * 保存并关闭
    */
   async close() {
+    if(this.note.length > 1){
     let noteArr = this.note.split('\n');
     this.http.post(this.api.userList.notesCreate, {"keyword":noteArr}, res => {
       console.log(res)
     })
+    }
     await this.nav.navigateBack(["/note"]);
   }
 
