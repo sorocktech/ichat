@@ -2,6 +2,8 @@
 # http://git-scm.com/docs/gitignore
 
 *~
+.angular
+electron
 *.sw[mnpcod]
 .tmp
 *.tmp
