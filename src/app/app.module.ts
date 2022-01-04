@@ -41,7 +41,6 @@ import { File } from '@ionic-native/file/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 // md5加密
 import { CryptoService } from "./sevices/crypto.service";
-import { PdfViewerModule } from "ng2-pdf-viewer";
 // app 物理键退出
 import { AppMinimize } from '@ionic-native/app-minimize/ngx';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
@@ -71,7 +70,6 @@ import { NbEvaIconsModule } from '@nebular/eva-icons';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    PdfViewerModule,
     BrowserAnimationsModule,
     NbThemeModule.forRoot({ name: 'default' }),
     NbLayoutModule,
